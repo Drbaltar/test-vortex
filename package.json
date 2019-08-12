@@ -1,0 +1,23 @@
+{
+  "name": "test-vortex",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Drbaltar/test-vortex.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Drbaltar/test-vortex/issues"
+  },
+  "homepage": "https://github.com/Drbaltar/test-vortex#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "pdfmake": "^0.1.58"
+  }
+}
