@@ -18,6 +18,7 @@
   "homepage": "https://github.com/Drbaltar/test-vortex#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "mongoose": "^5.6.9",
     "pdfmake": "^0.1.58"
   }
 }
