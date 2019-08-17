@@ -6,14 +6,15 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-// // Connect to MongoDB
-// const mongoose = require('mongoose');
-// mongoose.connect(process.env.DB_CONNECT, {useNewUrlParser: true});
-// const db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'connection error:'))
-// db.once('open', () => {
-//     console.log('Successfully connected to MongoDB!');
-// });
+// Connect to MongoDB
+const mongoose = require('mongoose');
+mongoose.connect(process.env.DB_CONNECT, {useNewUrlParser: true})
+    .catch((error) => console.log("Unable to connect to MongoDB: " + error));
+const db = mongoose.connection;
+db.once('open', () => {
+    console.log('Successfully connected to MongoDB!');
+    db.on('error', console.error.bind(console, 'connection error:'))
+});
 
 // Allow express to parse incoming JSON files
 app.use(express.json());
