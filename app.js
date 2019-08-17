@@ -9,11 +9,14 @@ const port = 3000;
 // Connect to MongoDB
 const mongoose = require('mongoose');
 mongoose.connect(process.env.DB_CONNECT, {useNewUrlParser: true})
-    .catch((error) => console.log("Unable to connect to MongoDB: " + error));
+    .catch((error) => console.log('Unable to connect to MongoDB: ' + error));
 const db = mongoose.connection;
 db.once('open', () => {
     console.log('Successfully connected to MongoDB!');
-    db.on('error', console.error.bind(console, 'connection error:'))
+    db.on('error', console.error.bind(console, 'connection error:'));
+    
+    // Set port for app to listen and print start message
+    app.listen(port, () => console.log(`Test Vortex app listening on port ${port}`));
 });
 
 // Allow express to parse incoming JSON files
@@ -38,5 +41,3 @@ app.get('/', (req, res) => {
     res.send('<h>INDEX PAGE PLACEHOLDER</h>');
 });
 
-// Set port for app to listen and print start message
-app.listen(port, () => console.log(`Test Vortex app listening on port ${port}`));
