@@ -16,11 +16,11 @@ router.post('/', (req, res) => {
     newIssue.save()
         .then((result) => {
             console.log(result);
-            res.send("Thank you for your issue submission!");
+            res.send('Thank you for your issue submission!');
         })
         .catch((error) => {
-            console.log("Error: " + error);
-            res.send(error)
+            console.log('Error: ' + error);
+            res.send(error);
         });
 });
 
