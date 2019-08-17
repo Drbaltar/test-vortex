@@ -12,12 +12,16 @@ router.post('/', (req, res) => {
         issue_type: req.body.issueType,
         issue_description: req.body.issueDescription
     });
-
-    newIssue.save().then(function(result) {console.log(result)}, 
-        () => console.log("FAILED!"));
-    // console.log(savedIssue === newIssue);
     
-    res.send("Thank you for your issue submission!")
-})
+    newIssue.save()
+        .then((result) => {
+            console.log(result);
+            res.send("Thank you for your issue submission!");
+        })
+        .catch((error) => {
+            console.log("Error: " + error);
+            res.send(error)
+        });
+});
 
 module.exports = router;
