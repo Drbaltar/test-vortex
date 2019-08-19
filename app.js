@@ -32,7 +32,7 @@ const questionRouter = require('./routes/question');
 app.use('/test', testRouter);
 
 // Set issue route
-app.use('/submitIssue', issueRouter);
+app.use('/issues', issueRouter);
 
 // Set question route
 app.use('/submitQuestion', questionRouter);
