@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const issueSchema = new Schema({
+    issue_number: {
+        type: Number,
+        required: 'The \'Issue Number\' field is required'
+    },
     question_id: {
         type: Number,
         required: 'The \'Question ID\' field is required'
