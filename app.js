@@ -8,6 +8,7 @@ const port = 3000;
 
 // Connect to MongoDB
 const mongoose = require('mongoose');
+mongoose.set('useFindAndModify', false);
 mongoose.connect(process.env.DB_CONNECT, {useNewUrlParser: true})
     .catch((error) => console.log('Unable to connect to MongoDB: ' + error));
 const db = mongoose.connection;
