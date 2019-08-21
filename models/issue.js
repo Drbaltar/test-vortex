@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const issueSchema = new Schema({
     issue_number: {
         type: Number,
-        required: 'The \'Issue Number\' field is required'
+        required: 'The \'Issue Number\' field is required',
+        default: 0
     },
     question_id: {
         type: Number,
