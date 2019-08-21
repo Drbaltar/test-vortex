@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Issue = require('../models/issue');
 const Counter = require('../models/counter');
+const documentBuilder = require('../src/document-builder');
 
 router.get('/', (req, res) => {
     res.send('<h>Issue Submission Page</h>');
@@ -9,12 +10,7 @@ router.get('/', (req, res) => {
 
 router.post('/submit', (req, res) => {
     // Create a new Issue document with the input data
-    let newIssue =  new Issue({
-        issue_number: 0,
-        question_id: req.body.questionID,
-        issue_type: req.body.issueType,
-        issue_description: req.body.issueDescription
-    });
+    let newIssue =  documentBuilder.buildIssueDocument(req);
 
     // Validate document requirements before going any further
     newIssue.validate((err) => {
