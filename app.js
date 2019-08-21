@@ -35,7 +35,7 @@ app.use('/test', testRouter);
 app.use('/issues', issueRouter);
 
 // Set question route
-app.use('/submitQuestion', questionRouter);
+app.use('/questions', questionRouter);
 
 // Set default index route
 app.get('/', (req, res) => {
