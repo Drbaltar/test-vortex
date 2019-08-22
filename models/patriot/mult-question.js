@@ -51,8 +51,8 @@ const multQuestionSchema = new Schema({
     reference: String
 });
 
-const MultQuestion = mongoose.model('approved_question', multQuestionSchema);
-const PendingMultQuestion = mongoose.model('pending_question', multQuestionSchema);
+const MultQuestion = mongoose.model('MultQuestion', multQuestionSchema, 'approved_questions');
+const PendingMultQuestion = mongoose.model('MultQuestion', multQuestionSchema, 'pending_questions');
 
 module.exports = {
     MultQuestion,
