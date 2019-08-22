@@ -1,6 +1,7 @@
 const Issue = require('../models/issue');
 const MultQuestion = require('../models/patriot/mult-question');
 const TFQuestion = require('../models/patriot/tf-question');
+const FillBlankQuestion = require('../models/patriot/fill-blank-question');
 
 const buildIssueDocument = (req) => {
     return new Issue({
@@ -37,9 +38,6 @@ const buildTFQuestionDocument = (status, req) => {
     let inputData = {
         question_type: req.body.questionType,
         question_description: req.body.questionDescription,
-        answer_a: req.body.answerA,
-        answer_b: req.body.answerB,
-        answer_c: req.body.answerC,
         correct_answer: req.body.correctAnswer,
         gunnery_table: req.body.gunneryTable,
         test_type: req.body.testType,
@@ -56,8 +54,29 @@ const buildTFQuestionDocument = (status, req) => {
     }
 };
 
+const buildFillBlankQuestionDocument = (status, req) => {
+    let inputData = {
+        question_type: req.body.questionType,
+        question_description: req.body.questionDescription,
+        correct_answer: req.body.correctAnswer,
+        gunnery_table: req.body.gunneryTable,
+        test_type: req.body.testType,
+        topic: req.body.topic,
+        reference: req.body.reference
+    };
+
+    if (status === 'pending') {
+        return new FillBlankQuestion.PendingFillBlankQuestion(inputData); 
+    } else if (status === 'approved') {
+        return new FillBlankQuestion.FillBlankQuestion(inputData); 
+    } else {
+        throw new Error('The input status must be either \'pending\' or \'approved\'.');
+    }
+};
+
 module.exports = {
     buildIssueDocument,
     buildMultQuestionDocument,
-    buildTFQuestionDocument
+    buildTFQuestionDocument,
+    buildFillBlankQuestionDocument
 };
