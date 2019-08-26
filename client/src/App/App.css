@@ -1,0 +1,10 @@
+.App {
+  text-align: center;
+}
+
+.jumbotron {
+  text-align: center;
+  margin: 20px;
+  background: darkseagreen;
+  box-shadow: 0 4px 10px;
+}
