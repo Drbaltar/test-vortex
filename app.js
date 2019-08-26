@@ -30,13 +30,13 @@ const issueRouter = require('./routes/issue');
 const questionRouter = require('./routes/question');
 
 // Set test route
-app.use('/test', testRouter);
+app.use('/api/test', testRouter);
 
 // Set issue route
-app.use('/issues', issueRouter);
+app.use('/api/issues', issueRouter);
 
 // Set question route
-app.use('/questions', questionRouter);
+app.use('/api/questions', questionRouter);
 
 // Set route to access the built Test Vortex React app
 app.use(express.static(path.join(__dirname, 'client', 'build')));
