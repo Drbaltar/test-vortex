@@ -16,7 +16,7 @@ router.post('/submit', (req, res) => {
     newIssue.validate((err) => {
         if (err) {
             console.log('Validation Failed: ' + err);
-            res.send(err);
+            res.status(400).send(err);
         } else {
             // Retrieve and increment issue counter from database
             Counter.findOneAndUpdate({counter_type: 'issue'}, { $inc: {sequence_value: 1}},
@@ -44,13 +44,32 @@ router.post('/submit', (req, res) => {
     });
 });
 
+router.get('/get', (req, res) => {
+    Issue.find({issue_number: req.body.issueNumber})
+        .then((results) => {
+            res.send(results);
+        }).catch((err) => {
+            console.log('Error: ' + err);
+            res.status(404).send(err);
+        });
+});
+
 router.get('/getAll', (req, res) => {
     Issue.find().then((results) => {
         res.send(results);
     }).catch((err) => {
         console.log('Error: ' + err);
-        res.send(err);
+        res.status(404).send(err);
     });
 });
+
+// router.post('/delete', (req, res) => {
+//     Issue.find.then((results) => {
+//         res.send(results);
+//     }).catch((err) => {
+//         console.log('Error: ' + err);
+//         res.status(404).send(err);
+//     });
+// });
 
 module.exports = router;
