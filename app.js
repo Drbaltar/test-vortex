@@ -4,7 +4,7 @@ require('dotenv').config();
 // Setup express variables
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = 5000;
 
 // Connect to MongoDB
 const mongoose = require('mongoose');
