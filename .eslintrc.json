@@ -7,6 +7,7 @@
     "extends": "eslint:recommended",
     "globals": {
         "process": false,
+        "__dirname": false,
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },
