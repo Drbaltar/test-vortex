@@ -4,6 +4,7 @@ require('dotenv').config();
 // Setup express variables
 const express = require('express');
 const app = express();
+const path = require('path');
 const port = 5000;
 
 // Connect to MongoDB
@@ -37,8 +38,8 @@ app.use('/issues', issueRouter);
 // Set question route
 app.use('/questions', questionRouter);
 
-// Set default index route
+// Set route to access the built Test Vortex React app
+app.use(express.static(path.join(__dirname, 'client', 'build')));
 app.get('/', (req, res) => {
-    res.send('<h>INDEX PAGE PLACEHOLDER</h>');
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 });
-
