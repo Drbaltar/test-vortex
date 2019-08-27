@@ -6,16 +6,20 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
 
+// Import components
+import NewQuestionInputForm from './NewQuestion/InputForm';
+
 class App extends React.Component {
   render() {
     return (
-      <Router>
-        <div className="container" className="jumbotron">
-          <h1 >Test Vortex</h1>
-          <hr/>
-          <h4>A collaborative web application used to generate standardized tests!</h4>
-        </div>
-      </Router>     
+      <div>
+          <div className="container" className="jumbotron">
+            <h1 >Test Vortex</h1>
+            <hr/>
+            <h4>A collaborative web application used to generate standardized tests!</h4>
+            <NewQuestionInputForm/>
+          </div> 
+      </div> 
     );
   }
 }
