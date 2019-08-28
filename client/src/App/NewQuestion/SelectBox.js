@@ -7,7 +7,7 @@ const SelectBox = (props) => {
 
     return(
         <div className="form-group">
-            <label for={props.id}>{props.label}</label>
+            <label htmlFor={props.id}>{props.label}</label>
             <select className="form-control" id={props.id} onChange={props.inputChange}>
                 {selectableOptions}
             </select>
