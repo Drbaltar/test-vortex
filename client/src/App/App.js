@@ -17,8 +17,8 @@ class App extends React.Component {
             <h1 >Test Vortex</h1>
             <hr/>
             <h4>A collaborative web application used to generate standardized tests!</h4>
+          </div>
             <NewQuestionInputForm/>
-          </div> 
       </div> 
     );
   }
