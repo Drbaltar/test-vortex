@@ -1,8 +1,8 @@
 import React from 'react';
-import TextField from './TextField';
-import TextArea from './TextArea';
-import SelectBox from './SelectBox';
-import FormButtons from './FormButtons';
+import TextField from './Components/TextField';
+import TextArea from './Components/TextArea';
+import SelectBox from './Components/SelectBox';
+import FormButtons from './Components/FormButtons';
 import './InputForm.css';
 
 class InputForm extends React.Component {
@@ -61,6 +61,7 @@ class InputForm extends React.Component {
                     <div className="p-4">
                         <SelectBox label="Question Type" id="questionType"
                             options={['Multiple Choice', 'Fill-in-the-Blank', 'True or False']}
+                            value={this.state.questionType}
                             inputChange={(event) => this.handleInputChange(event)}/>
                         <TextArea label="Question Description" id="questionDescription" type="text" rows="4"
                             value={this.state.questionDescription}
