@@ -1,5 +1,5 @@
 import React from 'react';
-import Axios from 'axios'
+import Axios from 'axios';
 import TextField from './Components/TextField';
 import TextArea from './Components/TextArea';
 import SelectBox from './Components/SelectBox';
@@ -19,7 +19,7 @@ class InputForm extends React.Component {
             answerC: '',
             testType: 'Tactics',
             topic: '',
-            table: '', 
+            table: '',
             subtask: ''
         }
 
@@ -36,17 +36,12 @@ class InputForm extends React.Component {
         if (event.target.id === 'clearAllButton') {
             this.setState(this.initialState);
         } else if (event.target.id === 'submitButton') {
-            fetch('/api/questions/submit', {
-                    method: 'POST',
-                    body: this.state
+            this.setState({gunneryTable: {table: this.state.table, subtask: this.state.subtask}}, () => {
+                Axios.post('http://localhost:5000/api/questions/submit', this.state)
+                    .then((response) => console.log(response.status));
             })
-            .then(response => console.log(response))
+            
 
-            // const response = await Axios.post(
-            //     'http://localhost:5000/api/questions/submit'
-            //     );
-
-            // console.log(response);
             
         }
     }
