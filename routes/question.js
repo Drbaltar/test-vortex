@@ -3,10 +3,6 @@ const router = express.Router();
 // const Counter = require('../models/counter');
 const documentBuilder = require('../src/document-builder');
 
-router.get('/', (req, res) => {
-    res.send('<h>Question Submission Page</h>');
-});
-
 // Route for submitting a new question for approval
 router.post('/submit', (req, res) => {
     // Declare new question
