@@ -24,7 +24,7 @@ class InputForm extends React.Component {
         }
 
         this.state = this.initialState;
-    }
+    };
 
     handleInputChange = (event) => {
         const {target: { id, value}} = event;

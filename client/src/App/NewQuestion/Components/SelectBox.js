@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react';  // eslint-disable-line no-unused-vars
 
 const SelectBox = (props) => {
     let options = props.options;
     const selectableOptions =
-        options.map(option => <option key={option}>{option}</option>)
+        options.map(option => <option key={option}>{option}</option>);
 
     return(
         <div className="form-group">
@@ -13,7 +13,7 @@ const SelectBox = (props) => {
                 {selectableOptions}
             </select>
         </div>
-    )
-}
+    );
+};
 
 export default SelectBox;
