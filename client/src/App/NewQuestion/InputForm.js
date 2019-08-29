@@ -40,9 +40,6 @@ class InputForm extends React.Component {
                 Axios.post('http://localhost:5000/api/questions/submit', this.state)
                     .then((response) => console.log(response.status));
             })
-            
-
-            
         }
     }
 
