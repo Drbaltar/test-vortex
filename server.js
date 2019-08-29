@@ -25,6 +25,7 @@ db.once('open', () => {
 // Allow express to parse incoming JSON files
 app.use(express.json());
 
+// Allow express to use 'cors' module
 app.use(cors());
 
 // Add routes
