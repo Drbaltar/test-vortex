@@ -5,6 +5,7 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const path = require('path');
+const cors = require('cors');
 const port = 5000;
 
 // Connect to MongoDB
@@ -23,6 +24,8 @@ db.once('open', () => {
 
 // Allow express to parse incoming JSON files
 app.use(express.json());
+
+app.use(cors());
 
 // Add routes
 const testRouter = require('./routes/test');
