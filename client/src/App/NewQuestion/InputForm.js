@@ -4,6 +4,7 @@ import TextField from './Components/TextField';
 import TextArea from './Components/TextArea';
 import SelectBox from './Components/SelectBox';
 import FormButtons from './Components/FormButtons';
+import GunneryTableModal from './GunneryTableModal';
 import './InputForm.css';
 
 class InputForm extends React.Component {
@@ -18,9 +19,9 @@ class InputForm extends React.Component {
             answerB: '',
             answerC: '',
             testType: 'Tactics',
-            topic: '',
             table: '',
-            subtask: ''
+            subtask: '',
+            topic: ''
         }
 
         this.state = this.initialState;
@@ -81,18 +82,19 @@ class InputForm extends React.Component {
                             value={this.state.correctAnswer}
                             inputChange={(event) => this.handleInputChange(event)}/>
                         {multChoiceAnswers}
+                        <GunneryTableModal buttonLabel='Open Gunnery Wizard'/>
                         <SelectBox label="Test Type" id="testType"
                             options={['Tactics', 'Communications', 'RSOP', 'Early Warning/Mission Command', 'Launcher', 'Tactics/Communications']}
                             value={this.state.testType}
-                            inputChange={(event) => this.handleInputChange(event)}/>
-                        <TextField label="Topic"id="topic" type="text"
-                            value={this.state.topic}
                             inputChange={(event) => this.handleInputChange(event)}/>
                         <TextField label="Gunnery Table"id="table" type="text"
                             value={this.state.table}
                             inputChange={(event) => this.handleInputChange(event)}/>
                         <TextField label="Table Subtask"id="subtask" type="text"
                             value={this.state.subtask}
+                            inputChange={(event) => this.handleInputChange(event)}/>
+                        <TextField label="Topic"id="topic" type="text"
+                            value={this.state.topic}
                             inputChange={(event) => this.handleInputChange(event)}/>
                         <FormButtons clickHandler={(event) => this.handleClickEvent(event)}/>
                     </div>
