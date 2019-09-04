@@ -82,8 +82,8 @@ class InputForm extends React.Component {
                             value={this.state.correctAnswer}
                             inputChange={(event) => this.handleInputChange(event)}/>
                         {multChoiceAnswers}
-                        <GunneryTableModal buttonLabel='Open Gunnery Wizard'/>
-                        <SelectBox label="Test Type" id="testType"
+                        <GunneryTableModal buttonLabel='Add Gunnery Table/Subtask'/>
+                        {/* <SelectBox label="Test Type" id="testType"
                             options={['Tactics', 'Communications', 'RSOP', 'Early Warning/Mission Command', 'Launcher', 'Tactics/Communications']}
                             value={this.state.testType}
                             inputChange={(event) => this.handleInputChange(event)}/>
@@ -95,7 +95,7 @@ class InputForm extends React.Component {
                             inputChange={(event) => this.handleInputChange(event)}/>
                         <TextField label="Topic"id="topic" type="text"
                             value={this.state.topic}
-                            inputChange={(event) => this.handleInputChange(event)}/>
+                            inputChange={(event) => this.handleInputChange(event)}/> */}
                         <FormButtons clickHandler={(event) => this.handleClickEvent(event)}/>
                     </div>
             </form> 
