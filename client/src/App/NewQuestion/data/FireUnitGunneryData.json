@@ -1,0 +1,178 @@
+{
+    "ApplicableTables": {
+        "Tactics": {
+            "Table": {
+                "I": {
+                    "Subtask": [1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18]
+                },
+                "II": {
+                    "Subtask": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 18]
+                },
+                "III": {
+                    "Subtask": [1, 2, 3, 4]
+                },
+                "V": {
+                    "Subtask": []
+                },
+                "VI": {
+                    "Subtask": []
+                },
+                "VII": {
+                    "Subtask": []
+                }
+            }
+        },
+        "Communications": {
+            "Table": {
+                "I": {
+                    "Subtask": []
+                },
+                "II": {
+                    "Subtask": []
+                },
+                "III": {
+                    "Subtask": []
+                },
+                "V": {
+                    "Subtask": []
+                },
+                "VI": {
+                    "Subtask": []
+                },
+                "VII": {
+                    "Subtask": []
+                }
+            }
+        }, 
+        "RSOP": {
+            "Table": {
+                "I": {
+                    "Subtask": []
+                },
+                "II": {
+                    "Subtask": []
+                },
+                "III": {
+                    "Subtask": []
+                },
+                "V": {
+                    "Subtask": []
+                },
+                "VI": {
+                    "Subtask": []
+                },
+                "VII": {
+                    "Subtask": []
+                }
+            }
+        },
+        "Early Warning/Mission Command": {
+            "Table": {
+                "I": {
+                    "Subtask": []
+                },
+                "II": {
+                    "Subtask": []
+                },
+                "III": {
+                    "Subtask": []
+                },
+                "V": {
+                    "Subtask": []
+                },
+                "VI": {
+                    "Subtask": []
+                },
+                "VII": {
+                    "Subtask": []
+                }
+            }
+        }, 
+        "Launcher": {
+            "Table": {
+                "I": {
+                    "Subtask": []
+                },
+                "II": {
+                    "Subtask": []
+                },
+                "III": {
+                    "Subtask": []
+                },
+                "V": {
+                    "Subtask": []
+                },
+                "VI": {
+                    "Subtask": []
+                },
+                "VII": {
+                    "Subtask": []
+                }
+            }
+        }, 
+        "Tactics/Communications": {
+            "Table": {
+                "I": {
+                    "Subtask": []
+                },
+                "II": {
+                    "Subtask": []
+                },
+                "III": {
+                    "Subtask": []
+                },
+                "V": {
+                    "Subtask": []
+                },
+                "VI": {
+                    "Subtask": []
+                },
+                "VII": {
+                    "Subtask": []
+                }
+            }
+        }
+    },
+    "TableDescriptions": {
+        "Table": {
+            "I": {
+                "Description": "Basic System Skills",
+                "Subtask": {
+                    "1": "ECS and AMG crew members perform PMCS on the vehicle per applicable TMs",
+                    "2": "ECS crew members perform PMCS of the ECS and associated equipment per TM 9-1430-1600-10-1, other applicable TMs, and SOPs",
+                    "3": "ECS crew members perform tactical weapon control computer unit diagnostics (TWUD)/baseline and fault recognition per TM 9-1430-1600-10-1",
+                    "4": "ECS crew members perform lightweight computer unit (LCU) diagnostics and LCU initialization per TM 9-1430-1600-10-1",
+                    "5": "AMG crew members perform AMG PMCS and associated equipment PMCS per TM 9-1430-603-10, TM 9-1430-1603-10, other applicable TMs, and SOPs",
+                    "6": "EPP III crew members perform EPP III PMCS per TM 9-6115-757-13&P, TM 9-6115-668-13, and SOPs",
+                    "7": "RS crew members perform PMCS on RS and associated equipment per TM 9-1430-1601-10-1, other applicable TMs, and SOPs",
+                    "8": "LS, RS, and EPP III crew members perform PMCS on the HEMTT per applicable TM and SOPs",
+                    "9": "LS and RS crew members perform PMCS on the M860A1 trailer per TM 9-2330-357-14&P and SOPs",
+                    "10": "LS crew members perform LS PMCS and associated equipment PMCS per applicable TMs and SOPs",
+                    "11": "LS crew members perform 15 kilowatt (KW) generator PMCS per TM 9-6115-643-10 and SOPs",
+                    "12": "Missile reload crew members perform GMT PMCS per TM 9-2320-433-10 and SOPs",
+                    "13": "BCP crew members perform PMCS on the BCP and associated equipment per applicable references and SOPs",
+                    "14": "RSOP crew members perform PMCS of RSOP equipment per applicable TMs and SOPs",
+                    "15": "Perform prepare for movement using drills 44-CW-D0011, 44-CW-D0012, 44-CWD0015, 44-CW-D0017, 44-CW-D0140, 44-CW-D0200, and 44-CW-D9002, applicable TSOP, and SOPs",
+                    "16": "Perform emplacement per drills 44-CW-D0001, 44-CW-D0009, 44-CW-D0010, 44-CW-D0016, 44-CW-D0023, 44-CW-D0130, 44-CW-D0190, and 44-CW-D9003, applicable TSOP, and SOPs",
+                    "17": "ECS crew members initialize the ECS per drill 44-CW-D0009; TM 9-1430-1600-10-1, applicable TSOP, and SOPs",
+                    "18": "ECS, BCP, and LS crewmembers establish and operate the battery communications net per communications plan and applicable TMs"
+                }
+            },
+            "II": {
+                "Subtask": []
+            },
+            "III": {
+                "Subtask": []
+            },
+            "V": {
+                "Subtask": []
+            },
+            "VI": {
+                "Subtask": []
+            },
+            "VII": {
+                "Subtask": []
+            }
+        }
+    }
+}
