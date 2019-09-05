@@ -6,23 +6,38 @@ class GunnerySelector extends React.Component {
     constructor (props) {
         super(props);
 
-        this.state = {
+        this.initialState = {
+            gunneryData: '',
             openTab: '',
-            gunneryData: ''
+            searchInput: ''
         }
 
+        this.state = this.initialState;
+
+        // Declare interim gunnery data placeholder
+        let gunneryData;
+
+        // Load gunnery data placeholder with either Battery or Battalion information
         if (props.unitType === 'Battery') {
-            this.state.gunneryData = FireUnitGunneryData;
+            gunneryData = FireUnitGunneryData;
+        } else if (props.unitType === 'Battalion') {
+            gunneryData = FireUnitGunneryData;
         }
+
+        // Build state gunnery data information
+        this.state.gunneryData = Object.entries(gunneryData.TableDescriptions.Table).map((entry) => {
+            return { table: entry[0], description: entry[1].Description, subtasks: entry[1].Subtask, 
+                filteredSubtasks: Object.values(entry[1].Subtask)}
+        })
     }
 
     buildTabs = () => {
-        const tableDescriptions = this.state.gunneryData.TableDescriptions.Table;
-        const tabs = Object.keys(tableDescriptions).map((gunneryTable) => {
+        const tabs = this.state.gunneryData.map((gunneryTable) => {
+            let filteredSubtasks = Object.values(gunneryTable.subtasks).filter(entry => entry.toLowerCase().includes(this.state.searchInput.toLowerCase()));
             return(
-                <a className="nav-item nav-link" key={gunneryTable} id={gunneryTable} role="tab" title={tableDescriptions[gunneryTable].Description} 
-                    onClick={(event) => this.handleChangeTab(event)}>{gunneryTable}
-                    <span className="badge badge-primary ml-3">{Object.values(this.state.gunneryData.TableDescriptions.Table[gunneryTable].Subtask).length}</span>
+                <a className="nav-item nav-link" key={gunneryTable.table} id={gunneryTable.table} role="tab" title={gunneryTable.description} 
+                    onClick={(event) => this.handleChangeTab(event)}>{gunneryTable.table}
+                    <span className="badge badge-primary ml-3">{filteredSubtasks.length}</span>
                 </a>
             )
         });
@@ -30,18 +45,22 @@ class GunnerySelector extends React.Component {
     }
 
     buildPane = () => {
-        if (this.state.openTab !== '') {            
-            return(
-                <div className="tab-content">
-                    <div className="tab-pane fade show active" id={this.state.openTab} role="tabpanel" 
-                        aria-labelledby={this.state.gunneryData.TableDescriptions.Table[this.state.openTab] + "-tab"}>
+        let selectedTable = this.state.gunneryData.find(entry => entry.table === this.state.openTab);
+        
+        if (selectedTable) {
+                return(
+                    <div className="tab-pane fade show active mt-2" key={selectedTable.table} role="tabpanel">
                         <SelectBox label="Subtask List" id="subtaskList" size="8"
-                            options={Object.values(this.state.gunneryData.TableDescriptions.Table[this.state.openTab].Subtask)}/>
-                        </div>
-                </div>
-            )
-        }
+                            options={Object.values(selectedTable.subtasks).filter(entry => entry.toLowerCase().includes(this.state.searchInput.toLowerCase()))}/>
+                    </div>
+                )
+            }
     }
+
+    handleInputChange = (event) => {
+        const {target: { id, value}} = event;
+        this.setState({[id]: value});
+    };
 
     handleChangeTab = (event) => {
         event.preventDefault();
@@ -51,6 +70,14 @@ class GunnerySelector extends React.Component {
     render() {
         return(
             <div>
+                <div className="row mb-2">
+                    <form className="form-inline">
+                        <label className="col">Gunnery Tables</label>
+                        <input className="form-control col" type="text" id="searchInput" value={this.state.searchInput}
+                            placeholder={'Subtask Filter'}
+                            onChange={this.handleInputChange}/>
+                    </form>
+                </div>
                 <ul className="nav nav-tabs nav-fill" role="tablist">
                     {this.buildTabs()}
                 </ul>
