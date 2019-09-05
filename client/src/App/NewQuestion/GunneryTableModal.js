@@ -52,7 +52,8 @@ class GunneryTableModal extends React.Component {
                 <div>
                     <hr className="mt-3"></hr>
                     <GunnerySelector unitType={this.state.unitType}
-                        testType={this.state.testType}/>
+                        testType={this.state.testType}
+                        subtaskSelect={(table, subtask) => this.handleGunneryChange(table, subtask)}/>
                 </div>
             )
         }
@@ -62,6 +63,10 @@ class GunneryTableModal extends React.Component {
         const {target: { id, value}} = event;
         this.setState({[id]: value}, () => console.log(this.state));        
     };
+
+    handleGunneryChange = (table, subtask) => {
+        this.setState({table: table, subtask: subtask}, () => console.log(this.state));
+    }
 
     render() {
         const testType = this.toggleTestType();
