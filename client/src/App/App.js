@@ -13,7 +13,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <div className="container" className='jumbotron'>
+                <div className='jumbotron'>
                     <h1 >Test Vortex</h1>
                     <hr/>
                     <h4>A collaborative web application used to generate standardized tests!</h4>
