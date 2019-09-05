@@ -47,11 +47,10 @@ class GunneryTableModal extends React.Component {
     }
 
     toggleGunnerySelector = () => {
-        if (this.state.testType !== '') {
+        if (this.state.testType !== '' && this.state.unitType !== '') {
             return(
                 <div>
                     <hr className="mt-3"></hr>
-                    <label>Gunnery Tables</label>
                     <GunnerySelector unitType={this.state.unitType}
                         testType={this.state.testType}/>
                 </div>
