@@ -70,7 +70,7 @@ class InputForm extends React.Component {
     checkMultipleChoice = () => {
         if (this.state.questionType === 'Multiple Choice') {
             return(
-                <div className="border border-dark rounded p-3">
+                <div className="border border-muted rounded p-3">
                     <small id="multChoiceAnswerLabel" className="form-text">Input the incorrect answer options below:</small>
                     <TextField label="Answer A"id="answerA" type="text"
                         value={this.state.answerA}
@@ -110,8 +110,10 @@ class InputForm extends React.Component {
                         <TextField label="Topic"id="topic" type="text"
                             value={this.state.topic}
                             inputChange={(event) => this.handleInputChange(event)}/>
-                        <FormButtons clickHandler={(event) => this.handleClickEvent(event)}/>
                     </div>
+                <div className="card-footer">
+                    <FormButtons clickHandler={(event) => this.handleClickEvent(event)}/>
+                </div>
             </form> 
         )
     }
