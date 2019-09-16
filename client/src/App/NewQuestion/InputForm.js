@@ -18,7 +18,7 @@ class InputForm extends React.Component {
             answerA: '',
             answerB: '',
             answerC: '',
-            testType: 'Tactics',
+            testType: '',
             table: '',
             subtask: '',
             topic: ''
@@ -29,7 +29,12 @@ class InputForm extends React.Component {
 
     handleInputChange = (event) => {
         const {target: { id, value}} = event;
-        this.setState({[id]: value});        
+        this.setState({[id]: value});
+
+        // If the question type is changed, the correct answer field will be cleared
+        if (id === 'questionType') {
+            this.setState({correctAnswer: ''});
+        }
     };
 
     handleClickEvent = (event) => {
@@ -42,7 +47,25 @@ class InputForm extends React.Component {
                     .then((response) => console.log(response.status));
             })
         }
-    }
+    };
+
+    // Return the appropriate correct answer field based on the type of question
+    getCorrectAnswerField = () => {
+        if (this.state.questionType === 'True or False') {
+            return (
+                <SelectBox label="Correct Answer"id="correctAnswer"
+                    options={['', 'True', 'False']}
+                    value={this.state.correctAnswer}
+                    inputChange={(event) => this.handleInputChange(event)}/>
+            )
+        } else {
+            return (
+                <TextField label="Correct Answer"id="correctAnswer" type="text"
+                    value={this.state.correctAnswer}
+                    inputChange={(event) => this.handleInputChange(event)}/>
+            )
+        }
+    };
 
     checkMultipleChoice = () => {
         if (this.state.questionType === 'Multiple Choice') {
@@ -64,6 +87,9 @@ class InputForm extends React.Component {
     };
 
     render() {
+        // Format the correct answer field based on the question type
+        let correctAnswerField = this.getCorrectAnswerField();
+
         // Render additional answer fields if question is Multiple Choice
         let multChoiceAnswers = this.checkMultipleChoice();
 
@@ -78,24 +104,12 @@ class InputForm extends React.Component {
                         <TextArea label="Question Description" id="questionDescription" type="text" rows="4"
                             value={this.state.questionDescription}
                             inputChange={(event) => this.handleInputChange(event)}/>
-                        <TextField label="Correct Answer"id="correctAnswer" type="text"
-                            value={this.state.correctAnswer}
-                            inputChange={(event) => this.handleInputChange(event)}/>
+                        {correctAnswerField}
                         {multChoiceAnswers}
                         <GunneryTableModal buttonLabel='Add Gunnery Table/Subtask'/>
-                        {/* <SelectBox label="Test Type" id="testType"
-                            options={['Tactics', 'Communications', 'RSOP', 'Early Warning/Mission Command', 'Launcher', 'Tactics/Communications']}
-                            value={this.state.testType}
-                            inputChange={(event) => this.handleInputChange(event)}/>
-                        <TextField label="Gunnery Table"id="table" type="text"
-                            value={this.state.table}
-                            inputChange={(event) => this.handleInputChange(event)}/>
-                        <TextField label="Table Subtask"id="subtask" type="text"
-                            value={this.state.subtask}
-                            inputChange={(event) => this.handleInputChange(event)}/>
                         <TextField label="Topic"id="topic" type="text"
                             value={this.state.topic}
-                            inputChange={(event) => this.handleInputChange(event)}/> */}
+                            inputChange={(event) => this.handleInputChange(event)}/>
                         <FormButtons clickHandler={(event) => this.handleClickEvent(event)}/>
                     </div>
             </form> 
