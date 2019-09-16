@@ -33,9 +33,9 @@ class GunneryTableModal extends React.Component {
     toggleTestType = () => {
         let testTypeOptions;
         if (this.state.unitType === 'Battalion') {
-            testTypeOptions = ['', 'Tactics', 'Communications', 'RSOP', 'Early Warning/Mission Command', 'Tactics/Communications'];
+            testTypeOptions = ['', 'Tactics', 'Communications', 'RSOP', 'Early Warning/Mission Command'];
         } else if (this.state.unitType === 'Battery') {
-            testTypeOptions = ['', 'Tactics', 'Communications', 'RSOP', 'Early Warning/Mission Command', 'Launcher', 'Tactics/Communications'];
+            testTypeOptions = ['', 'Tactics', 'Communications', 'RSOP', 'Early Warning/Mission Command', 'Launcher'];
         } else return;
 
         return(
