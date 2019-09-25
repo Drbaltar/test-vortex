@@ -20,16 +20,6 @@ class GunneryTableModal extends React.Component {
         this.toggle = this.toggle.bind(this);
     };
 
-    toggle() {
-        if (this.state.modal) {
-            this.setState(this.initialState);
-        } else {
-            this.setState(prevState => ({
-                modal: !prevState.modal
-        }));
-        }
-    }
-
     toggleTestType = () => {
         let testTypeOptions;
         if (this.state.unitType === 'Battalion') {
@@ -66,7 +56,28 @@ class GunneryTableModal extends React.Component {
 
     handleGunneryChange = (table, subtask) => {
         this.setState({table: table, subtask: subtask}, () => console.log(this.state));
-    }
+    };
+
+    toggle = () => {
+        if (this.state.modal) {
+            this.setState(this.initialState);
+        } else {
+            this.setState(prevState => ({
+                modal: !prevState.modal
+        }));
+        }
+    };
+
+    submitGunneryInfo = () => {
+        if (this.state.unitType && this.state.testType && this.state.table && this.state.subtask) {
+            let newEntry = {unitType: this.state.unitType,
+                testType: this.state.testType,
+                table: this.state.table,
+                subtask: this.state.subtask}
+            this.props.updateGunneryList(newEntry);
+            this.toggle();
+        }
+    };
 
     render() {
         const testType = this.toggleTestType();
@@ -86,7 +97,7 @@ class GunneryTableModal extends React.Component {
                 {gunneryTable}
                 </ModalBody>
             <ModalFooter>
-                <Button color="success" onClick={this.toggle}>Submit</Button>
+                <Button color="success" onClick={this.submitGunneryInfo}>Submit</Button>
                 <Button color="secondary" onClick={this.toggle}>Cancel</Button>
             </ModalFooter>
             </Modal>
