@@ -5,6 +5,7 @@ import TextArea from './Components/TextArea';
 import SelectBox from './Components/SelectBox';
 import FormButtons from './Components/FormButtons';
 import GunneryTableModal from './GunneryTableModal';
+import GunneryList from './Components/GunneryList';
 import './InputForm.css';
 
 class InputForm extends React.Component {
@@ -19,8 +20,7 @@ class InputForm extends React.Component {
             answerB: '',
             answerC: '',
             testType: '',
-            table: '',
-            subtask: '',
+            applicableGunneryTasks: [],
             topic: ''
         }
 
@@ -42,12 +42,17 @@ class InputForm extends React.Component {
         if (event.target.id === 'clearAllButton') {
             this.setState(this.initialState);
         } else if (event.target.id === 'submitButton') {
-            this.setState({gunneryTable: {table: this.state.table, subtask: this.state.subtask}}, () => {
-                Axios.post('http://localhost:5000/api/questions/submit', this.state)
+            Axios.post('http://localhost:5000/api/questions/submit', this.state)
                     .then((response) => console.log(response.status));
-            })
         }
     };
+
+    updateGunneryList = (newEntry) => {
+        let newState = this.state.applicableGunneryTasks.slice(0);
+
+        newState.push(newEntry);
+        this.setState({applicableGunneryTasks: newState}, () => console.log(this.state.applicableGunneryTasks));
+    }
 
     // Return the appropriate correct answer field based on the type of question
     getCorrectAnswerField = () => {
@@ -106,7 +111,9 @@ class InputForm extends React.Component {
                             inputChange={(event) => this.handleInputChange(event)}/>
                         {correctAnswerField}
                         {multChoiceAnswers}
-                        <GunneryTableModal buttonLabel='Add Gunnery Table/Subtask'/>
+                        <GunneryTableModal buttonLabel='Add Gunnery Table/Subtask'
+                            updateGunneryList={(newEntry) => this.updateGunneryList(newEntry)}/>
+                        <GunneryList list={this.state.applicableGunneryTasks}/>
                         <TextField label="Topic"id="topic" type="text"
                             value={this.state.topic}
                             inputChange={(event) => this.handleInputChange(event)}/>
