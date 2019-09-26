@@ -20,7 +20,7 @@ class InputForm extends React.Component {
             answerB: '',
             answerC: '',
             testType: '',
-            applicableGunneryTasks: [],
+            gunneryTable: [],
             topic: ''
         }
 
@@ -48,10 +48,10 @@ class InputForm extends React.Component {
     };
 
     updateGunneryList = (newEntry) => {
-        let newState = this.state.applicableGunneryTasks.slice(0);
+        let newState = this.state.gunneryTable.slice(0);
 
         newState.push(newEntry);
-        this.setState({applicableGunneryTasks: newState}, () => console.log(this.state.applicableGunneryTasks));
+        this.setState({gunneryTable: newState}, () => console.log(this.state.gunneryTable));
     }
 
     // Return the appropriate correct answer field based on the type of question
@@ -113,7 +113,7 @@ class InputForm extends React.Component {
                         {multChoiceAnswers}
                         <GunneryTableModal buttonLabel='Add Gunnery Table/Subtask'
                             updateGunneryList={(newEntry) => this.updateGunneryList(newEntry)}/>
-                        <GunneryList list={this.state.applicableGunneryTasks}/>
+                        <GunneryList list={this.state.gunneryTable}/>
                         <TextField label="Topic"id="topic" type="text"
                             value={this.state.topic}
                             inputChange={(event) => this.handleInputChange(event)}/>
