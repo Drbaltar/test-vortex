@@ -61,8 +61,7 @@ const buildFillBlankQuestionDocument = (status, req) => {
         correct_answer: req.body.correctAnswer,
         gunnery_table: req.body.gunneryTable,
         test_type: req.body.testType,
-        topic: req.body.topic,
-        reference: req.body.reference
+        topic: req.body.topic
     };
 
     if (status === 'pending') {
