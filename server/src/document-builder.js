@@ -20,9 +20,7 @@ const buildMultQuestionDocument = (status, req) => {
         answer_c: req.body.answerC,
         correct_answer: req.body.correctAnswer,
         gunnery_table: req.body.gunneryTable,
-        test_type: req.body.testType,
-        topic: req.body.topic,
-        reference: req.body.reference
+        topic: req.body.topic
     };
 
     if (status === 'pending') {
@@ -40,9 +38,7 @@ const buildTFQuestionDocument = (status, req) => {
         question_description: req.body.questionDescription,
         correct_answer: req.body.correctAnswer,
         gunnery_table: req.body.gunneryTable,
-        test_type: req.body.testType,
-        topic: req.body.topic,
-        reference: req.body.reference
+        topic: req.body.topic
     };
 
     if (status === 'pending') {
@@ -60,7 +56,6 @@ const buildFillBlankQuestionDocument = (status, req) => {
         question_description: req.body.questionDescription,
         correct_answer: req.body.correctAnswer,
         gunnery_table: req.body.gunneryTable,
-        test_type: req.body.testType,
         topic: req.body.topic
     };
 

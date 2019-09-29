@@ -30,25 +30,38 @@ const multQuestionSchema = new Schema({
         required: 'The \'Correct Answer\' field is required'
     },
     gunnery_table: {
-        table: {
-            type: String,
-            required: 'The \'Gunnery Table\' field is required'
-        },
-        subtask: {
-            type: Number,
-            required: 'The \'Gunnery Table Subtask\' field is required'
+        type: [{
+            unitType: {
+                type: String,
+                enum: ['Battery', 'Battalion'],
+                required: 'The \'Gunnery Unit Type\' field is required'
+            },
+            testType: {
+                type: String,
+                enum: ['Tactics', 'Communications', 'RSOP', 'Early Warning/Mission Command', 'Launcher'],
+                required: 'The \'Gunnery Test Type\' field is required'
+            },
+            table: {
+                type: String,
+                required: 'The \'Gunnery Table\' field is required'
+            },
+            subtask: {
+                type: Number,
+                required: 'The \'Gunnery Table Subtask\' field is required'
+            }
+        }],
+        required: 'The \'Gunnery Table\' information is required',
+        validate: {
+            validator: function(v) {
+                return v.length > 0;
+            },
+            message: 'The \'Gunnery Table\' information is missing'
         }
-    },
-    test_type: {
-        type: String,
-        enum: ['Tactics', 'Communications', 'RSOP', 'Early Warning/Mission Command', 'Launcher', 'Tactics/Communications'],
-        required: 'The \'Test Type\' field is required'
     },
     topic: {
         type: String,
         required: 'The \'Topic\' field is required'
-    },
-    reference: String
+    }
 });
 
 const MultQuestion = mongoose.model('MultQuestion', multQuestionSchema, 'approved_questions');
