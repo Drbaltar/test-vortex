@@ -12,6 +12,15 @@ const buildIssueDocument = (req) => {
 };
 
 const buildMultQuestionDocument = (status, req) => {
+    const gunneryTableEntries = req.body.gunneryTable.map((entry) => {
+        return({
+            unit_type: entry.unitType,
+            test_type: entry.testType,
+            table: entry.table,
+            subtask: entry.subtask
+        });
+    });
+
     let inputData = {
         question_type: req.body.questionType,
         question_description: req.body.questionDescription,
@@ -19,7 +28,7 @@ const buildMultQuestionDocument = (status, req) => {
         answer_b: req.body.answerB,
         answer_c: req.body.answerC,
         correct_answer: req.body.correctAnswer,
-        gunnery_table: req.body.gunneryTable,
+        gunnery_table: gunneryTableEntries,
         topic: req.body.topic
     };
 
@@ -33,11 +42,20 @@ const buildMultQuestionDocument = (status, req) => {
 };
 
 const buildTFQuestionDocument = (status, req) => {
+    const gunneryTableEntries = req.body.gunneryTable.map((entry) => {
+        return({
+            unit_type: entry.unitType,
+            test_type: entry.testType,
+            table: entry.table,
+            subtask: entry.subtask
+        });
+    });
+
     let inputData = {
         question_type: req.body.questionType,
         question_description: req.body.questionDescription,
         correct_answer: req.body.correctAnswer,
-        gunnery_table: req.body.gunneryTable,
+        gunnery_table: gunneryTableEntries,
         topic: req.body.topic
     };
 
@@ -51,11 +69,20 @@ const buildTFQuestionDocument = (status, req) => {
 };
 
 const buildFillBlankQuestionDocument = (status, req) => {
+    const gunneryTableEntries = req.body.gunneryTable.map((entry) => {
+        return({
+            unit_type: entry.unitType,
+            test_type: entry.testType,
+            table: entry.table,
+            subtask: entry.subtask
+        });
+    });
+
     let inputData = {
         question_type: req.body.questionType,
         question_description: req.body.questionDescription,
         correct_answer: req.body.correctAnswer,
-        gunnery_table: req.body.gunneryTable,
+        gunnery_table: gunneryTableEntries,
         topic: req.body.topic
     };
 

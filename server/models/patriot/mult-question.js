@@ -31,12 +31,12 @@ const multQuestionSchema = new Schema({
     },
     gunnery_table: {
         type: [{
-            unitType: {
+            unit_type: {
                 type: String,
                 enum: ['Battery', 'Battalion'],
                 required: 'The \'Gunnery Unit Type\' field is required'
             },
-            testType: {
+            test_type: {
                 type: String,
                 enum: ['Tactics', 'Communications', 'RSOP', 'Early Warning/Mission Command', 'Launcher'],
                 required: 'The \'Gunnery Test Type\' field is required'
