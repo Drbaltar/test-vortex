@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-// const Counter = require('../models/counter');
 const documentBuilder = require('../src/document-builder');
 
 // Route for submitting a new question for approval
@@ -30,7 +29,7 @@ router.post('/submit', (req, res) => {
             console.log('Validation Failed: ' + err);
             res.status(400).send(err);
         } else {
-            // Save new MultQuestion document to the database
+            // Save new Question document to the database
             newQuestion.save()
                 .then((result) => {
                     console.log(result);
@@ -38,7 +37,7 @@ router.post('/submit', (req, res) => {
                 })
                 .catch((err) => {
                     console.log('Error: ' + err);
-                    res.send(err);
+                    res.status(500).send(err);
                 });
         }
     });
