@@ -51,11 +51,11 @@ class GunneryTableModal extends React.Component {
 
     handleInputChange = (event) => {
         const {target: { id, value}} = event;
-        this.setState({[id]: value}, () => console.log(this.state));        
+        this.setState({[id]: value});        
     };
 
     handleGunneryChange = (table, subtask) => {
-        this.setState({table: table, subtask: subtask}, () => console.log(this.state));
+        this.setState({table: table, subtask: subtask});
     };
 
     toggle = () => {
