@@ -21,7 +21,9 @@ class InputForm extends React.Component {
             answerC: '',
             testType: '',
             gunneryTable: [],
-            topic: ''
+            topic: '',
+            submissionResponse: '',
+            successAlert: false
         }
 
         this.state = this.initialState;
@@ -43,7 +45,8 @@ class InputForm extends React.Component {
             this.setState(this.initialState);
         } else if (event.target.id === 'submitButton') {
             Axios.post('http://localhost:5000/api/questions/submit', this.state)
-                    .then((response) => console.log(response.status));
+                    .then((response) => this.setState({submissionResponse: response, successAlert: true}))
+                    .catch((response) => this.setState({submissionResponse: response}))
         }
     };
 
@@ -51,7 +54,7 @@ class InputForm extends React.Component {
         let newState = this.state.gunneryTable.slice(0);
 
         newState.push(newEntry);
-        this.setState({gunneryTable: newState}, () => console.log(this.state.gunneryTable));
+        this.setState({gunneryTable: newState});
     }
 
     // Return the appropriate correct answer field based on the type of question
@@ -91,6 +94,16 @@ class InputForm extends React.Component {
         };
     };
 
+    getSubmissionAlert = () => {
+        if (this.state.successAlert) {
+            return (
+                <div className="alert alert-success" role="alert">
+                    {this.state.submissionResponse.data}
+                </div>
+            )
+        }
+    };
+
     render() {
         // Format the correct answer field based on the question type
         let correctAnswerField = this.getCorrectAnswerField();
@@ -98,8 +111,11 @@ class InputForm extends React.Component {
         // Render additional answer fields if question is Multiple Choice
         let multChoiceAnswers = this.checkMultipleChoice();
 
+        // Toggle the alert based on the results of a question submission POST request
+        let submissionAlert = this.getSubmissionAlert();
+
         return(
-            <form className="card bg-light m-10">
+            <form className="card bg-light m-10" noValidate>
                 <h1 className="card-header">Add New Question</h1>
                     <div className="p-4">
                         <SelectBox label="Question Type" id="questionType"
@@ -117,6 +133,7 @@ class InputForm extends React.Component {
                         <TextField label="Topic"id="topic" type="text"
                             value={this.state.topic}
                             inputChange={(event) => this.handleInputChange(event)}/>
+                            {submissionAlert}
                     </div>
                 <div className="card-footer">
                     <FormButtons clickHandler={(event) => this.handleClickEvent(event)}/>
