@@ -35,10 +35,10 @@ class GunnerySelector extends React.Component {
         const tabs = this.state.gunneryData.map((gunneryTable) => {
             let filteredSubtasks = Object.values(gunneryTable.subtasks).filter(entry => entry.toLowerCase().includes(this.state.searchInput.toLowerCase()));
             return(
-                <a className="nav-item nav-link" key={gunneryTable.table} id={gunneryTable.table} role="tab" title={gunneryTable.description} 
+                <button className="btn btn-outline-secondary col-sm" key={gunneryTable.table} id={gunneryTable.table} title={gunneryTable.description} 
                     onClick={(event) => this.handleChangeTab(event)}>{gunneryTable.table}
-                    <span className="badge badge-primary ml-3">{filteredSubtasks.length}</span>
-                </a>
+                    <span className="badge badge-primary ml-3" >{filteredSubtasks.length}</span>
+                </button>
             )
         });
         return tabs;
@@ -94,9 +94,11 @@ class GunnerySelector extends React.Component {
                             onChange={this.handleInputChange}/>
                     </form>
                 </div>
-                <ul className="nav nav-tabs nav-fill" role="tablist">
-                    {this.buildTabs()}
-                </ul>
+                <div className="container">
+                    <div className="row">
+                        {this.buildTabs()}
+                    </div>
+                </div>
                 {this.buildPane()}
             </div>
         )
