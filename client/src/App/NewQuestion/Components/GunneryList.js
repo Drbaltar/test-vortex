@@ -2,9 +2,10 @@ import React from 'react';
 
 const GunneryList = (props) => {
     let gunneryList = props.list;
+    let index = 0;
 
     const filledList = gunneryList.map(entry =>
-        <div className="row">
+        <div className="row" key={index++}>
             <div className="col-sm">
                 <label>Unit Type:</label>
                 <input readOnly={true} className="form-control" type="text" placeholder={entry.unitType}></input>
