@@ -34,7 +34,7 @@ class GunneryTableModal extends React.Component {
                 value={this.state.testType}
                 inputChange={(event) => this.handleInputChange(event)}/>
         )
-    }
+    };
 
     toggleGunnerySelector = () => {
         if (this.state.testType !== '' && this.state.unitType !== '') {
@@ -47,11 +47,16 @@ class GunneryTableModal extends React.Component {
                 </div>
             )
         }
-    }
+    };
 
     handleInputChange = (event) => {
         const {target: { id, value}} = event;
-        this.setState({[id]: value});        
+
+        if (id === 'unitType') {
+            this.setState({unitType: value, testType: '', table: '', subtask: ''});
+        } else {
+            this.setState({[id]: value});
+        }        
     };
 
     handleGunneryChange = (table, subtask) => {
@@ -82,6 +87,7 @@ class GunneryTableModal extends React.Component {
     render() {
         const testType = this.toggleTestType();
         const gunneryTable = this.toggleGunnerySelector();
+        // const correctionMessage = this.getCorrectionMessage();
 
         return (
         <div>
@@ -95,7 +101,8 @@ class GunneryTableModal extends React.Component {
                     inputChange={(event) => this.handleInputChange(event)}/>
                 {testType}
                 {gunneryTable}
-                </ModalBody>
+                {/* {correctionMessage} */}
+            </ModalBody>
             <ModalFooter>
                 <Button color="success" onClick={this.submitGunneryInfo}>Submit</Button>
                 <Button color="secondary" onClick={this.toggle}>Cancel</Button>
