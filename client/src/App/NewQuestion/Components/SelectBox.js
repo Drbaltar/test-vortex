@@ -3,7 +3,7 @@ import React from 'react';
 const SelectBox = (props) => {
     let options = props.options;
     const selectableOptions =
-        options.map(option => <option key={option}>{option}</option>);
+        options.map(option => <option key={option} title={option}>{option}</option>);
 
     return(
         <div className="form-group">
