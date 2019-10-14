@@ -36,8 +36,9 @@ class GunnerySelector extends React.Component {
             let filteredSubtasks = Object.values(gunneryTable.subtasks).filter(entry => entry.toLowerCase().includes(this.state.searchInput.toLowerCase()));
             return(
                 <button className="btn btn-outline-secondary col-sm" key={gunneryTable.table} id={gunneryTable.table} title={gunneryTable.description} 
-                    onClick={(event) => this.handleChangeTab(event)}>{gunneryTable.table}
-                    <span className="badge badge-primary ml-3" >{filteredSubtasks.length}</span>
+                    onClick={() => this.setState({openTab: gunneryTable.table})}>{gunneryTable.table}
+                    <span className="badge badge-primary ml-3" 
+                    onClick={() => this.setState({openTab: gunneryTable.table})}>{filteredSubtasks.length}</span>
                 </button>
             )
         });
@@ -62,11 +63,6 @@ class GunnerySelector extends React.Component {
         const {target: { id, value}} = event;
         this.setState({[id]: value});
     };
-
-    handleChangeTab = (event) => {
-        event.preventDefault();
-        this.setState({openTab: event.target.id});   
-    }
 
     handleSubtaskSelect = (event) => {
         let table, subtask;
