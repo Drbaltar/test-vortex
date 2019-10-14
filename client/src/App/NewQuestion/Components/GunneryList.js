@@ -22,6 +22,9 @@ const GunneryList = (props) => {
                 <label>Subtask:</label>
                 <input readOnly={true} className="form-control" type="text" placeholder={entry.subtask}></input>
             </div>
+            <button type="button" className="close pl-2 pr-2" aria-label="Remove">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
     );
     
