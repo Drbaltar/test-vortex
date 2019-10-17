@@ -55,7 +55,14 @@ class InputForm extends React.Component {
 
         newState.push(newEntry);
         this.setState({gunneryTable: newState});
-    }
+    };
+
+    deleteGunneryListEntry = (index) => {
+        let newState = this.state.gunneryTable.slice(0);
+
+        newState.splice(index, 1);
+        this.setState({gunneryTable: newState});
+    };
 
     // Return the appropriate correct answer field based on the type of question
     getCorrectAnswerField = () => {
@@ -129,7 +136,8 @@ class InputForm extends React.Component {
                         {multChoiceAnswers}
                         <GunneryTableModal buttonLabel='Add Gunnery Table/Subtask'
                             updateGunneryList={(newEntry) => this.updateGunneryList(newEntry)}/>
-                        <GunneryList list={this.state.gunneryTable}/>
+                        <GunneryList list={this.state.gunneryTable}
+                            deleteEntry={(index) => this.deleteGunneryListEntry(index)}/>
                         <TextField label="Topic"id="topic" type="text"
                             value={this.state.topic}
                             inputChange={(event) => this.handleInputChange(event)}/>

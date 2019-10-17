@@ -5,7 +5,7 @@ const GunneryList = (props) => {
     let index = 0;
 
     const filledList = gunneryList.map(entry =>
-        <div className="row" key={index++}>
+        <div className="row" key={index}>
             <div className="col-sm">
                 <label>Unit Type:</label>
                 <input readOnly={true} className="form-control" type="text" placeholder={entry.unitType}></input>
@@ -22,8 +22,8 @@ const GunneryList = (props) => {
                 <label>Subtask:</label>
                 <input readOnly={true} className="form-control" type="text" placeholder={entry.subtask}></input>
             </div>
-            <button type="button" className="close pl-2 pr-2" aria-label="Remove">
-                <span aria-hidden="true">&times;</span>
+            <button id={index++} type="button" className="close pl-2 pr-2" style={{color: 'darkred'}} aria-label="Remove"
+                onClick={(e) => props.deleteEntry(e.target.id)}>&times;
             </button>
         </div>
     );
