@@ -8,17 +8,21 @@ import './App.css';
 
 // Import components
 import NewQuestionInputForm from './NewQuestion/InputForm';
+import NavBar from './NavBar';
 
 class App extends React.Component {
     render() {
         return (
             <div>
-                <div className='jumbotron'>
-                    <h1 >Test Vortex</h1>
-                    <hr/>
-                    <h4>A collaborative web application used to generate standardized tests!</h4>
+                <NavBar/>
+                <div className='body'>
+                    <div className='jumbotron'>
+                        <h1 >Test Vortex</h1>
+                        <hr/>
+                        <h4>A collaborative web application used to generate standardized tests!</h4>
+                    </div>
+                    <NewQuestionInputForm/>
                 </div>
-                <NewQuestionInputForm/>
             </div> 
         );
     }
