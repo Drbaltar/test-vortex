@@ -45,6 +45,6 @@ app.use('/api/questions', questionRouter);
 // Set route to access the built Test Vortex React app
 const clientPath = path.join(path.resolve(__dirname, '..'), 'client', 'build');
 app.use(express.static(clientPath));
-app.get('/', (req, res) => {
+app.get('/*', (req, res) => {
     res.sendFile(path.join(clientPath, 'index.html'));
 });
