@@ -1,6 +1,6 @@
 // Import React dependencies
 import React from 'react';
-// import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 
 // Import CSS files
 import 'bootstrap/dist/css/bootstrap.min.css';
