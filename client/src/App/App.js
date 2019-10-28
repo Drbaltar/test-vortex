@@ -1,6 +1,6 @@
 // Import React dependencies
 import React from 'react';
-import { Route, Link } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 // Import CSS files
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -16,12 +16,18 @@ class App extends React.Component {
             <div>
                 <NavBar/>
                 <div className='body'>
-                    <div className='jumbotron'>
-                        <h1 >Test Vortex</h1>
-                        <hr/>
-                        <h4>A collaborative web application used to generate standardized tests!</h4>
-                    </div>
-                    <NewQuestionInputForm/>
+                    <Switch>
+                        <Route path="/questions">
+                            <NewQuestionInputForm/>
+                        </Route>
+                        <Route path="/">
+                            <div className='jumbotron'>
+                                <h1 >Test Vortex</h1>
+                                <hr/>
+                                <h4>A collaborative web application used to generate standardized tests!</h4>
+                            </div>
+                        </Route>
+                    </Switch>
                 </div>
             </div> 
         );
