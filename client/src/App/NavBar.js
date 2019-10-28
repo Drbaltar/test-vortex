@@ -1,6 +1,6 @@
 import React from 'react';
 import VortexLogo from './assets/tornado.png';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 const NavBar = () => {
     return(
@@ -10,7 +10,13 @@ const NavBar = () => {
                 Test Vortex
             </Link>
             <div className="navbar-nav">
-                <Link to="/questions" className="nav-item nav-link">Questions</Link>     
+                <NavLink to="/test" className="nav-item nav-link">Tests</NavLink>     
+            </div>
+            <div className="navbar-nav">
+                <NavLink to="/questions" className="nav-item nav-link">Questions</NavLink>     
+            </div>
+            <div className="navbar-nav">
+                <NavLink to="/issues" className="nav-item nav-link">Issues</NavLink>     
             </div>
         </nav>
     );
