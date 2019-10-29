@@ -32,6 +32,16 @@ class App extends React.Component {
                         <Route exact path="/questions">
                             <NewQuestionInputForm/>
                         </Route>
+                        <Route exact path="/issues">
+                            <div className='jumbotron'>
+                                <h1 >Issue Placeholder</h1>
+                            </div>
+                        </Route>
+                        <Route exact path="/about">
+                            <div className='jumbotron'>
+                                <h1 >About Placeholder</h1>
+                            </div>
+                        </Route>
                     </Switch>
                 </div>
             </div> 
