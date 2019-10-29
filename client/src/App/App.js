@@ -17,15 +17,20 @@ class App extends React.Component {
                 <NavBar/>
                 <div className='body'>
                     <Switch>
-                        <Route path="/questions">
-                            <NewQuestionInputForm/>
-                        </Route>
-                        <Route path="/">
+                        <Route exact path="/home">
                             <div className='jumbotron'>
                                 <h1 >Test Vortex</h1>
                                 <hr/>
                                 <h4>A collaborative web application used to generate standardized tests!</h4>
                             </div>
+                        </Route>
+                        <Route exact path="/tests">
+                            <div className='jumbotron'>
+                                <h1 >Test Placeholder</h1>
+                            </div>
+                        </Route>
+                        <Route exact path="/questions">
+                            <NewQuestionInputForm/>
                         </Route>
                     </Switch>
                 </div>
