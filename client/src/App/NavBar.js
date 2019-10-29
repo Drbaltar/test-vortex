@@ -10,7 +10,7 @@ const NavBar = () => {
                 Test Vortex
             </Link>
             <div className="navbar-nav">
-                <NavLink to="/test" className="nav-item nav-link">Tests</NavLink>     
+                <NavLink to="/tests" className="nav-item nav-link">Tests</NavLink>     
             </div>
             <div className="navbar-nav">
                 <NavLink to="/questions" className="nav-item nav-link">Questions</NavLink>     
