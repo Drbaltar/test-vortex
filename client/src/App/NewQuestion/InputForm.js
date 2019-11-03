@@ -44,7 +44,7 @@ class InputForm extends React.Component {
         if (event.target.id === 'clearAllButton') {
             this.setState(this.initialState);
         } else if (event.target.id === 'submitButton') {
-            Axios.post('http://localhost:5000/api/questions/submit', this.state)
+            Axios.post('/api/questions/submit', this.state)
                     .then((response) => this.setState({submissionResponse: response, successAlert: true}))
                     .catch((response) => this.setState({submissionResponse: response}))
         }
