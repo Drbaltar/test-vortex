@@ -7,8 +7,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 // Import components
-import NewQuestionInputForm from './NewQuestion/InputForm';
 import NavBar from './NavBar';
+import Questions from './Questions/Questions';
 
 class App extends React.Component {
     render() {
@@ -30,7 +30,7 @@ class App extends React.Component {
                             </div>
                         </Route>
                         <Route exact path="/questions">
-                            <NewQuestionInputForm/>
+                            <Questions/>
                         </Route>
                         <Route exact path="/issues">
                             <div className='jumbotron'>
