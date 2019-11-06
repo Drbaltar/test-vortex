@@ -122,7 +122,7 @@ class InputForm extends React.Component {
         let submissionAlert = this.getSubmissionAlert();
 
         return(
-            <form className="card bg-light m-10" noValidate>
+            <form className="card bg-light" noValidate>
                 <h1 className="card-header">Add New Question</h1>
                     <div className="p-4">
                         <SelectBox label="Question Type" id="questionType"
