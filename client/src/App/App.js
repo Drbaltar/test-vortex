@@ -29,7 +29,7 @@ class App extends React.Component {
                                 <h1 >Test Placeholder</h1>
                             </div>
                         </Route>
-                        <Route exact path="/questions">
+                        <Route path="/questions">
                             <Questions/>
                         </Route>
                         <Route exact path="/issues">
