@@ -4,11 +4,24 @@ import { NavLink, useRouteMatch } from 'react-router-dom';
 const SideBar = () => {
     const match = useRouteMatch();
     return(
-        <nav className="pt-3">
-            <NavLink to={`${match.url}/add`} className="nav-item nav-link">
+        <div className="pt-3">
+            <NavLink to={`${match.url}/add`} className="nav-item nav-link" 
+                style={{color: 'black'}}
+                activeStyle={{
+                    background: 'gray',
+                    color:'white'
+                }}>
                 Add Question
             </NavLink>
-        </nav>
+            <NavLink to={`${match.url}/approve`} className="nav-item nav-link"
+                style={{color: 'black'}}
+                activeStyle={{
+                    background: 'gray',
+                    color:'white'
+                }}>
+                Approve Question
+            </NavLink>
+        </div>
     );
 }
 
