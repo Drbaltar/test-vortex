@@ -17,7 +17,7 @@ const Questions = () => {
                 </div>
                 
                 <Switch>
-                    <Route exact path={`${match.path}/add`}>
+                    <Route exact path={`${match.path}/add-Patriot`}>
                         <div className="col sub-body">
                             <NewQuestion/>
                         </div>
