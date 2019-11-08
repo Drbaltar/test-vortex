@@ -4,7 +4,9 @@ require('dotenv').config();
 // Setup express variables
 const express = require('express');
 const app = express();
-const port = 3000;
+const path = require('path');
+const cors = require('cors');
+const port = 5000;
 
 // Connect to MongoDB
 const mongoose = require('mongoose');
@@ -23,22 +25,26 @@ db.once('open', () => {
 // Allow express to parse incoming JSON files
 app.use(express.json());
 
+// Allow express to use 'cors' module
+app.use(cors());
+
 // Add routes
 const testRouter = require('./routes/test');
 const issueRouter = require('./routes/issue');
 const questionRouter = require('./routes/question');
 
 // Set test route
-app.use('/test', testRouter);
+app.use('/api/test', testRouter);
 
 // Set issue route
-app.use('/issues', issueRouter);
+app.use('/api/issues', issueRouter);
 
 // Set question route
-app.use('/questions', questionRouter);
+app.use('/api/questions', questionRouter);
 
-// Set default index route
-app.get('/', (req, res) => {
-    res.send('<h>INDEX PAGE PLACEHOLDER</h>');
+// Set route to access the built Test Vortex React app
+const clientPath = path.join(path.resolve(__dirname, '..'), 'client', 'build');
+app.use(express.static(clientPath));
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(clientPath, 'index.html'));
 });
-

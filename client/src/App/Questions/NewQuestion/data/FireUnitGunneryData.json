@@ -1,0 +1,216 @@
+{
+    "ApplicableTables": {
+        "Tactics": {
+            "Table": {
+                "I": {
+                    "Subtask": [1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18]
+                },
+                "II": {
+                    "Subtask": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 18]
+                },
+                "III": {
+                    "Subtask": [1, 2, 3, 4]
+                },
+                "V": {
+                    "Subtask": [1, 2]
+                },
+                "VI": {
+                    "Subtask": [4, 7]
+                },
+                "VII": {
+                    "Subtask": [5, 8, 10]
+                }
+            }
+        },
+        "Communications": {
+            "Table": {
+                "I": {
+                    "Subtask": []
+                },
+                "II": {
+                    "Subtask": []
+                },
+                "III": {
+                    "Subtask": []
+                },
+                "V": {
+                    "Subtask": []
+                },
+                "VI": {
+                    "Subtask": []
+                },
+                "VII": {
+                    "Subtask": []
+                }
+            }
+        }, 
+        "RSOP": {
+            "Table": {
+                "I": {
+                    "Subtask": []
+                },
+                "II": {
+                    "Subtask": []
+                },
+                "III": {
+                    "Subtask": []
+                },
+                "V": {
+                    "Subtask": []
+                },
+                "VI": {
+                    "Subtask": []
+                },
+                "VII": {
+                    "Subtask": []
+                }
+            }
+        },
+        "Early Warning/Mission Command": {
+            "Table": {
+                "I": {
+                    "Subtask": []
+                },
+                "II": {
+                    "Subtask": []
+                },
+                "III": {
+                    "Subtask": []
+                },
+                "V": {
+                    "Subtask": []
+                },
+                "VI": {
+                    "Subtask": []
+                },
+                "VII": {
+                    "Subtask": []
+                }
+            }
+        }, 
+        "Launcher": {
+            "Table": {
+                "I": {
+                    "Subtask": []
+                },
+                "II": {
+                    "Subtask": []
+                },
+                "III": {
+                    "Subtask": []
+                },
+                "V": {
+                    "Subtask": []
+                },
+                "VI": {
+                    "Subtask": []
+                },
+                "VII": {
+                    "Subtask": []
+                }
+            }
+        }
+    },
+    "TableDescriptions": {
+        "Table": {
+            "I": {
+                "Description": "Basic System Skills",
+                "Subtask": {
+                    "1": "ECS and AMG crew members perform PMCS on the vehicle per applicable TMs",
+                    "2": "ECS crew members perform PMCS of the ECS and associated equipment per TM 9-1430-1600-10-1, other applicable TMs, and SOPs",
+                    "3": "ECS crew members perform tactical weapon control computer unit diagnostics (TWUD)/baseline and fault recognition per TM 9-1430-1600-10-1",
+                    "4": "ECS crew members perform lightweight computer unit (LCU) diagnostics and LCU initialization per TM 9-1430-1600-10-1",
+                    "5": "AMG crew members perform AMG PMCS and associated equipment PMCS per TM 9-1430-603-10, TM 9-1430-1603-10, other applicable TMs, and SOPs",
+                    "6": "EPP III crew members perform EPP III PMCS per TM 9-6115-757-13&P, TM 9-6115-668-13, and SOPs",
+                    "7": "RS crew members perform PMCS on RS and associated equipment per TM 9-1430-1601-10-1, other applicable TMs, and SOPs",
+                    "8": "LS, RS, and EPP III crew members perform PMCS on the HEMTT per applicable TM and SOPs",
+                    "9": "LS and RS crew members perform PMCS on the M860A1 trailer per TM 9-2330-357-14&P and SOPs",
+                    "10": "LS crew members perform LS PMCS and associated equipment PMCS per applicable TMs and SOPs",
+                    "11": "LS crew members perform 15 kilowatt (KW) generator PMCS per TM 9-6115-643-10 and SOPs",
+                    "12": "Missile reload crew members perform GMT PMCS per TM 9-2320-433-10 and SOPs",
+                    "13": "BCP crew members perform PMCS on the BCP and associated equipment per applicable references and SOPs",
+                    "14": "RSOP crew members perform PMCS of RSOP equipment per applicable TMs and SOPs",
+                    "15": "Perform prepare for movement using drills 44-CW-D0011, 44-CW-D0012, 44-CWD0015, 44-CW-D0017, 44-CW-D0140, 44-CW-D0200, and 44-CW-D9002, applicable TSOP, and SOPs",
+                    "16": "Perform emplacement per drills 44-CW-D0001, 44-CW-D0009, 44-CW-D0010, 44-CW-D0016, 44-CW-D0023, 44-CW-D0130, 44-CW-D0190, and 44-CW-D9003, applicable TSOP, and SOPs",
+                    "17": "ECS crew members initialize the ECS per drill 44-CW-D0009; TM 9-1430-1600-10-1, applicable TSOP, and SOPs",
+                    "18": "ECS, BCP, and LS crewmembers establish and operate the battery communications net per communications plan and applicable TMs"
+                }
+            },
+            "II": {
+		        "Description": "Ready-For-Action Drills",
+                "Subtask": {
+                    "1": "ECS crew members learn the function of all tabs and tabular entries per TM 9-1430-1600-10-1",
+                    "2": "ECS crew members learn the fuctions of all controls, switches, and indicators per TM 9-1430-1600-10-1",
+                    "3": "ECS crew members learn the situational display per TM 9-1430-1600-10-1",
+                    "4": "ECS crew members learn fix or fight criteria per applicable manuals",
+                    "5": "ECS crew members discuss evaluation decision and weapon assignment",
+                    "6": "ECS crew members learn Patriot weapon system capabilities and limitations per (U) FM 3-01-.13 (S/NF), other applicable FMs and SOPs",
+                    "7": "ECS crew members initialize the switch multiplexerunit per applicable references",
+                    "8": "ECS and BCP crew members learn Patriot symbols per TM 9-1430-1600-10-1",
+                    "9": "ECS and BCP crew members learn applicable TSOP and SOPs",
+                    "10": "ECS and BCP crew members learn to read and process United States message and test format (USMTF)/North Atlantic Treaty Organization (NATO) formated air space tasticing order (ATO)/airspace control order (ACO)",
+                    "11": "Crew members discuss alert states, STO, and ACO per applicable TSOP and SOPs",
+                    "12": "BCP crew members learn to input USMTF message and ACO information into the Patriot tactical planner workstation (TPW)",
+                    "13": "BCP crew members load map data per TM 9-1430-608-14&P",
+                    "14": "BCP crew members initialize the mulifunction information distribution system (MIDS) per TM 9-1430-608-14&P",
+                    "15": "BCP crew member perform joint tactical terminal (JTT) power up, per TM 9-1430-608-14&P",
+                    "16": "BCP crew member load crypto for the MIDS and JTT per TM 11-7021-223-10",
+                    "17": "BCP crew members perform control and display unit power up",
+                    "18": "ECS, BCP, and LS crew members conduct RFA drills, correctly configuring system for directed altert state per drill 44-CW-D0009, 44-CW-D-9003, and applicable SOPs"
+                }
+            },
+            "III": {
+		        "Description": "Basic Air Battle Management/Missle Reload",
+                  "Subtask": {
+		            "1": "ECS crew member create the site data book reflecting tabular settings and misison per applicable TSOP and SOPs",
+	     	        "2": "ECS crew members discuss defense design and factors which affect tabular entries",
+                    "3": "ECS and LS crew members perform missile hazard/misfire procedures per TM 9-1430-1600-10-1, applicable TSOP and SOPs",
+		            "4": "ECS and BCP crew members conduct air defense operations using ATP 3-01.87 and the applicable TSOP and SOPs, and using ABML 1 through 5",
+		            "5": "BCP crew members input defense plan per applicable TMs, TSOP, and SOPs",
+		            "6": "BCP crew members perform communications link planning per TM 9-1430-608-14&P",
+		            "7": "BCP crew members establish and operate the BCP using applicable TSOP and SOPs",
+                    "8": "Missile reload crew members perform missile reload operations, per drill 44-D0150 and D0160, applicable TSOP and SOPs"
+                  }
+            },
+            "V": {
+		        "Description": "Air Battle Management/ Missile Reload",
+                    "Subtask": {
+                        "1": "ECS and LS crew members perform missile hazard/misfire procedures per TM 9-1430-1600-10-1, applicable TSOP and SOPs",
+                        "2": "ECS and BCP crew members conduct air defense operations using ABML 6 through 9 scenarios",
+                        "3": "Missile reload crew members perform missile reload operation, per drills 44-CWD0150 and D0160, applicable TSOP, and SOPs" 
+                    }
+            },
+            "VI": {
+		        "Description": "Prepare For Movement And Emplacement",
+                    "Subtask": {
+                        "1": "RSOP crew members conduct RSOP, using collective task 44-TM-9046, ATP 3-01.87, applicable TSOP, and SOPs",
+                        "2": "Perform prepare for movement drills as a battery, using drills 44-CW-D0011, 44-CWD0012, 44-CW-D0015, 44-CW-D0017, 44-CW-D0140, 44-CW-D0200, and 44-CW-D9002, applicable TSOP, and SOPs",
+                        "3": "Perform emplacement as a battery, using drills 44-CW-D0001, 44-CW-D0009, 44-CW-D0010, 44-CW-D0016, 44-CW-D0023, 44-CW-D0130, 44-CW-D0190, and 44-CW-D9003, applicable TSOP, and SOPs",
+                        "4": "ECS crew members perform initialization, using standard emplacement with mapping, per drill 44-CW-D0009; TM 9-1430-1600-10-1, applicable TSOP and SOPs",
+                        "5": "BCP crew members initialize the BCP per applicable TSOP and SOPs",
+                        "6": "Establish and operate the battery communications net per communications plan and applicable TMs",
+                        "7": "ECS, BCP, and LS crew members conduct RFA drills, correctly configuring system for directed alert state per drill 44-CW-D0009, 44-CW-D9003, applicable TSOP and SOPs",
+                        "8": "Crew members perform maintenance sustainment operations, per applicable Army regulations, directives, pamphlets, and SOPs"
+                    }
+            },
+            "VII": {
+		        "Description": "Commander's Assessment",
+                  "Subtask": {
+                    "1": "Crew members demonstrate proper performance of PMCS of their equipment as referenced in Table I tasks",
+                    "2": "RSOP crew members conduct RSOP, using drill 44-TM-9046, ATP 3-01.87, applicable TSOP, and SOPs",
+                    "3": "Perform prepare for movement drills as a battery, using drills 44-CW-D0011, 44-CWD0012, 44-CW-D0015, 44-CW-D0017, 44-CW-D0140, 44-CW-D0200, and 44-CW-D9002, applicable TSOP, and SOPs",
+                    "4": "Perform emplacement as a battery, using drills 44-CW-D0001, 44-CW-D0009, 44-CW-D0010, 44-CW-D0016, 44-CW-D0023, 44-CW-D0130, 44-CW-D0190, and 44-CW-D9003, applicable TSOP, and SOPs",
+                    "5": "ECS crew members perform initialization, using standard emplacement with mapping, per drill 44-CW-D0009; TM 9-1430-1600-10-1, applicable TSOP and SOPs",
+                    "6": "BCP crew members initialize the BCP per applicable TSOP and SOPs",
+                    "7": "Establish and operate the battery communications net per communications plan and applicable TMs",
+                    "8": "ECS, BCP, and LS crew members conduct RFA drills, correctly configuring system for directed alert state per drill 44-CW-D0009, 44-CW-D9003, applicable TSOP and SOPs",
+                    "9": "BCP crew members establish the BCP and conduct early warning operations per applicable mission orders, directives, TSOP, and SOPs",
+                    "10": "ECS and BCP crew members conduct air defense operations using an ABML 10 or 11 scenario, per applicable mission orders, directives, TSOP, and SOPs",
+                    "11": "Submit required tactical reports per applicable TSOP and SOPs",
+                    "12": "Perform missile reload operations per drill 44-CW-D0150, 44-CW-D0160, applicable TSOP, and SOP",
+                    "13": "Crew members perform maintenance sustainment operations, per applicable Army regulations, directives, pamphlets, and SOPs"
+                  }
+            }
+	    }
+    }
+}
