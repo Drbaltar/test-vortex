@@ -7,8 +7,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 // Import components
-import NavBar from './NavBar';
-import Questions from './Questions/Questions';
+import NavBar from './Components/NavBar/NavBar';
+import Questions from './Components/Questions/Questions';
 
 class App extends React.Component {
     render() {

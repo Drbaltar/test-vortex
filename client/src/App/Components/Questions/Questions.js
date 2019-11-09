@@ -1,8 +1,8 @@
 import React from 'react';
 import { Switch, Route, Link, useRouteMatch } from 'react-router-dom';
 
-import SideBar from './SideBar';
-import NewQuestion from './NewQuestion/InputForm';
+import SideBar from '../shared-components/SideBar/SideBar';
+import NewQuestion from './Components/NewQuestion/NewQuestion';
 
 import "./Questions.css";
 

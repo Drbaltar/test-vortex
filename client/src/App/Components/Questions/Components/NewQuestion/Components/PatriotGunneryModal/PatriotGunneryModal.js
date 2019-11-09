@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import SelectBox from './Components/SelectBox';
+import SelectBox from '../../../../../shared-components/SelectBox';
 import GunnerySelector from './Components/GunnerySelector';
 
 class GunneryTableModal extends React.Component {
