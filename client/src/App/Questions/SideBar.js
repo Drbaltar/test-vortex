@@ -7,24 +7,38 @@ const SideBar = () => {
     const match = useRouteMatch();
     return(
         <div className="pt-5">
-            <div className="pl-2 sidelabel" style={{font: 'bold'}}>Add Question</div>
-            <NavLink to={`${match.url}/add-Patriot`} className="nav-item nav-link pl-4" 
+            <div className="pl-2 sidelabel" style={{font: 'bold'}}>Patriot Questions</div>
+            <NavLink to={`${match.url}/add-patriot`} className="nav-item nav-link pl-4" 
                 style={{color: 'black'}}
                 activeStyle={{
                     background: 'gray',
                     color:'white'
                 }}>
-                Patriot
+                Add (New)
             </NavLink>
-            <hr/>
-            <div className="pl-2 sidelabel">Approve Question</div>
-            <NavLink to={`${match.url}/approve-Patriot`} className="nav-item nav-link pl-4"
+            <NavLink to={`${match.url}/approve-patriot`} className="nav-item nav-link pl-4"
                 style={{color: 'black'}}
                 activeStyle={{
                     background: 'gray',
                     color:'white'
                 }}>
-                Patriot
+                Approve (Pending)
+            </NavLink>
+            <NavLink to={`${match.url}/update-patriot`} className="nav-item nav-link pl-4"
+                style={{color: 'black'}}
+                activeStyle={{
+                    background: 'gray',
+                    color:'white'
+                }}>
+                Update (Existing)
+            </NavLink>
+            <NavLink to={`${match.url}/delete-patriot`} className="nav-item nav-link pl-4"
+                style={{color: 'black'}}
+                activeStyle={{
+                    background: 'gray',
+                    color:'white'
+                }}>
+                Delete (Existing)
             </NavLink>
         </div>
     );
