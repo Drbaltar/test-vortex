@@ -4,8 +4,6 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import SideBar from '../shared-components/SideBar/SideBar';
 import NewQuestion from './Components/NewQuestion/NewQuestion';
 
-import "./Questions.css";
-
 const Questions = () => {
     const match = useRouteMatch();
 
