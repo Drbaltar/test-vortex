@@ -12,3 +12,16 @@
 .body {
   padding-top: 50px;
 }
+
+.sidenav {
+  height: 100%;
+  width: 175px;
+  position: fixed;
+  background-color: rgb(182, 202, 189);
+  outline-style: solid;
+  outline-width: thin;
+}
+
+.sub-body {  
+  margin-left: 170px;
+}

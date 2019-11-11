@@ -1,5 +1,5 @@
 import React from 'react';
-import SelectBox from './SelectBox';
+import SelectBox from '../../../../../../shared-components/SelectBox';
 import FireUnitGunneryData from '../data/FireUnitGunneryData.json';
 
 class GunnerySelector extends React.Component {

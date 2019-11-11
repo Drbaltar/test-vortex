@@ -1,12 +1,12 @@
 import React from 'react';
 import Axios from 'axios';
-import TextField from './Components/TextField';
-import TextArea from './Components/TextArea';
-import SelectBox from './Components/SelectBox';
-import FormButtons from './Components/FormButtons';
-import GunneryTableModal from './GunneryTableModal';
+import TextField from '../../../shared-components/TextField';
+import TextArea from '../../../shared-components/TextArea';
+import SelectBox from '../../../shared-components/SelectBox';
+import FormButtons from '../../../shared-components/FormButtons';
+import GunneryTableModal from './Components/PatriotGunneryModal/PatriotGunneryModal';
 import GunneryList from './Components/GunneryList';
-import './InputForm.css';
+import './NewQuestion.css';
 
 class InputForm extends React.Component {
     constructor(props) {
