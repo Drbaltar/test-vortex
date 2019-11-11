@@ -9,6 +9,8 @@ import './App.css';
 // Import components
 import NavBar from './Components/NavBar/NavBar';
 import Questions from './Components/Questions/Questions';
+import Tests from './Components/Tests/Tests';
+import Issues from './Components/Issues/Issues';
 
 class App extends React.Component {
     render() {
@@ -24,18 +26,14 @@ class App extends React.Component {
                                 <h4>A collaborative web application used to generate standardized tests!</h4>
                             </div>
                         </Route>
-                        <Route exact path="/tests">
-                            <div className='jumbotron'>
-                                <h1 >Test Placeholder</h1>
-                            </div>
+                        <Route path="/tests">
+                            <Tests/>
                         </Route>
                         <Route path="/questions">
                             <Questions/>
                         </Route>
-                        <Route exact path="/issues">
-                            <div className='jumbotron'>
-                                <h1 >Issue Placeholder</h1>
-                            </div>
+                        <Route path="/issues">
+                            <Issues/>
                         </Route>
                         <Route exact path="/about">
                             <div className='jumbotron'>
