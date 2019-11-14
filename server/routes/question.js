@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const documentBuilder = require('../src/document-builder');
+const dbInterface = require('../src/database-interface');
 
 // Route for submitting a new question for approval
 router.post('/submit', (req, res) => {
@@ -41,6 +42,12 @@ router.post('/submit', (req, res) => {
                 });
         }
     });
+});
+
+// Route for getting questions that were submitted and are pending approval
+router.get('/pending', (req, res) => {
+    dbInterface.getAllPendingQuestions();
+    res.send('Database accessed!');
 });
 
 module.exports = router;
