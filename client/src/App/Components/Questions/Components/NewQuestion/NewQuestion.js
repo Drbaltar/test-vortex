@@ -32,7 +32,7 @@ class NewQuestion extends React.Component {
             )
         } else {
             newQuestionView = (
-                <QuestionForm title="Add New Question (Patriot)"
+                <QuestionForm title={`Add New Question (${this.props.questionType})`}
                     submitEvent={(questionData) => this.submitNewQuestion(questionData)}/>
             )
         }
