@@ -46,8 +46,13 @@ router.post('/submit', (req, res) => {
 
 // Route for getting questions that were submitted and are pending approval
 router.get('/pending', (req, res) => {
-    dbInterface.getAllPendingQuestions();
-    res.send('Database accessed!');
+    dbInterface.getAllPendingQuestions((err, queryResults) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.send(queryResults);
+        }
+    });
 });
 
 module.exports = router;
