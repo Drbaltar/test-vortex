@@ -79,7 +79,7 @@ class QuestionForm extends React.Component {
 
     checkMultipleChoice = () => {
         if (this.state.questionType === 'Multiple Choice') {
-            return(
+            return (
                 <div className="border border-muted rounded p-3">
                     <small id="multChoiceAnswerLabel" className="form-text">Input the incorrect answer options below:</small>
                     <TextField label="Answer A"id="answerA" type="text"
