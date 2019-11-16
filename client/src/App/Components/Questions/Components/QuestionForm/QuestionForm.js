@@ -11,17 +11,38 @@ class QuestionForm extends React.Component {
     constructor(props) {
         super(props);
 
-        this.initialState = {
-            questionType: 'Multiple Choice',
-            questionDescription: '',
-            correctAnswer: '',
-            answerA: '',
-            answerB: '',
-            answerC: '',
-            testType: '',
-            gunneryTable: [],
-            topic: ''
-        }
+        if (props.data) {
+            let gunneryTable = props.data.gunnery_table.map(entry => {
+                return {
+                    unitType: entry.unit_type,
+                    testType: entry.test_type,
+                    table: entry.table,
+                    subtask: entry.subtask
+                }
+            });
+
+            this.initialState = {
+                questionType: props.data.question_type,
+                questionDescription: props.data.question_description,
+                correctAnswer: props.data.correct_answer,
+                answerA: props.data.answer_a,
+                answerB: props.data.answer_b,
+                answerC: props.data.answer_c,
+                gunneryTable,
+                topic: props.data.topic
+            }
+        } else {
+            this.initialState = {
+                questionType: 'Multiple Choice',
+                questionDescription: '',
+                correctAnswer: '',
+                answerA: '',
+                answerB: '',
+                answerC: '',
+                gunneryTable: [],
+                topic: ''
+            }
+        };
 
         this.state = this.initialState;
     };
