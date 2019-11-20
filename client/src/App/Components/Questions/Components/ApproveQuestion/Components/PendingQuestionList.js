@@ -9,7 +9,7 @@ const PendingQuestionList = (props) => {
             <div className="row">
                 <div className="col-sm">
                     <label>Test Type:</label>
-                    <input readOnly={true} className="form-control" type="text" placeholder={entry.gunnery_table[0].test_type}></input>
+                    <input readOnly={true} className="form-control" type="text" placeholder={`${entry.gunnery_table[0].test_type} (${entry.gunnery_table[0].unit_type})`}></input>
                 </div>
                 <div className="col-sm">
                     <label>Question Type:</label>
