@@ -146,7 +146,11 @@ class QuestionForm extends React.Component {
                             inputChange={(event) => this.handleInputChange(event)}/>
                     </div>
                 <div className="card-footer">
-                    <FormButtons clickHandler={(event) => this.handleClickEvent(event)}/>
+                    <FormButtons submitButtonID={this.props.submitButtonID || "submitButton"}
+                        submitButtonText={this.props.submitButtonText || "Submit"} 
+                        cancelButtonID={this.props.cancelButtonID || "clearAllButton"}
+                        cancelButtonText={this.props.cancelButtonText || "Clear All"} 
+                        clickHandler={(event) => this.handleClickEvent(event)}/>
                 </div>
             </form> 
         )

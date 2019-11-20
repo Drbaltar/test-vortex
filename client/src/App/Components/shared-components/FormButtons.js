@@ -3,10 +3,10 @@ import React from 'react';
 const FormButtons = (props) => {
     return(
         <div className="form-buttons">
-            <button className="btn btn-success" id="submitButton"
-                onClick={props.clickHandler}>Submit</button>
-            <button className="btn btn-secondary ml-4" id="clearAllButton"
-                onClick={props.clickHandler}>Clear All</button>
+            <button className="btn btn-success" id={props.submitButtonID}
+                onClick={props.clickHandler}>{props.submitButtonText}</button>
+            <button className="btn btn-secondary ml-4" id={props.cancelButtonID}
+                onClick={props.clickHandler}>{props.cancelButtonText}</button>
         </div>
     );
 };
