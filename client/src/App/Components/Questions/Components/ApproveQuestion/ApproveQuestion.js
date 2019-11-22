@@ -12,7 +12,9 @@ class ApproveQuestion extends React.Component {
             allPendingQuestions: [],
             loading: false,
             selectedEntry: null,
-            detailedView: false
+            detailedView: false,
+            submissionResponse: '',
+            successAlert: false
         };
 
         this.state = this.initialState;
@@ -40,6 +42,12 @@ class ApproveQuestion extends React.Component {
             .then((response) => this.setState({allPendingQuestions: response.data, loading: false}))
     };
 
+    approveNewQuestion = (questionData) => {
+        Axios.post('/api/questions/approve', questionData)
+            .then((response) => this.setState({submissionResponse: response, successAlert: true}))
+            .catch((response) => this.setState({submissionResponse: response}))
+    };
+
     render() {
         let approveQuestionView;
 
@@ -48,9 +56,9 @@ class ApproveQuestion extends React.Component {
 
             if (this.state.loading) {
                 loadingSpinner = (
-                    <div class="d-flex justify-content-center mb-3">
-                        <div class="spinner-border" role="status">
-                            <span class="sr-only">Loading...</span>
+                    <div className="d-flex justify-content-center mb-3">
+                        <div className="spinner-border" role="status">
+                            <span className="sr-only">Loading...</span>
                         </div>
                     </div>
                 )
@@ -73,15 +81,24 @@ class ApproveQuestion extends React.Component {
                 </form>
             )
         } else {
-            approveQuestionView = (
-                <div>
-                    <div className="btn btn-secondary mt-4" style={{marginLeft: "20px"}} id="returnButton"
-                        onClick={this.returnToMenu}>
-                        &#8678; Go Back
+            if (this.state.successAlert) {
+                approveQuestionView = (
+                    <div className="alert alert-success" role="alert">
+                        {this.state.submissionResponse.data}
                     </div>
-                    <QuestionForm title="Question Details" data={this.state.allPendingQuestions[this.state.selectedEntry]}/>
-                </div>
-            )
+            )} else {
+                approveQuestionView = (
+                    <div>
+                        <div className="btn btn-secondary mt-4" style={{marginLeft: "20px"}} id="returnButton"
+                            onClick={this.returnToMenu}>
+                            &#8678; Go Back
+                        </div>
+                        <QuestionForm title="Question Details" data={this.state.allPendingQuestions[this.state.selectedEntry]}
+                            submitButtonText="Approve" cancelButtonText="Revert Changes"
+                            submitEvent={(questionData) => this.approveNewQuestion(questionData)}/>
+                    </div>
+                )
+            }
         }
 
         return (
