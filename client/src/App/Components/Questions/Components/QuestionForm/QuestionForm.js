@@ -22,6 +22,7 @@ class QuestionForm extends React.Component {
             });
 
             this.initialState = {
+                _id: props.data._id,
                 questionType: props.data.question_type,
                 questionDescription: props.data.question_description,
                 correctAnswer: props.data.correct_answer,
@@ -63,6 +64,8 @@ class QuestionForm extends React.Component {
             this.setState(this.initialState);
         } else if (event.target.id === 'submitButton') {
             this.props.submitEvent(this.state);
+        } else if (event.target.id === 'updateButton') {
+            this.props.updateEvent(this.state);
         }
     };
 
@@ -98,6 +101,16 @@ class QuestionForm extends React.Component {
         }
     };
 
+    // Return the update button if the question was passed in with a database object ID
+    getUpdateButton = () => {
+        if (this.props.data._id) {
+            return (
+                <button className="btn btn-info" id="updateButton"
+                    onClick={(event) => this.handleInputChange(event)}>Apply Question Changes</button>
+            )
+        }
+    }
+
     checkMultipleChoice = () => {
         if (this.state.questionType === 'Multiple Choice') {
             return (
@@ -124,6 +137,9 @@ class QuestionForm extends React.Component {
         // Render additional answer fields if question is Multiple Choice
         let multChoiceAnswers = this.checkMultipleChoice();
 
+        // Render additional "update" button if the operator just wants to update passed in information
+        let updateButton = this.getUpdateButton();
+
         return(
             <form className="card bg-light" noValidate>
                 <h1 className="card-header">{this.props.title}</h1>
@@ -146,6 +162,7 @@ class QuestionForm extends React.Component {
                             inputChange={(event) => this.handleInputChange(event)}/>
                     </div>
                 <div className="card-footer">
+                    {updateButton}
                     <FormButtons submitButtonID={this.props.submitButtonID || "submitButton"}
                         submitButtonText={this.props.submitButtonText || "Submit"} 
                         cancelButtonID={this.props.cancelButtonID || "clearAllButton"}

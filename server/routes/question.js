@@ -85,6 +85,65 @@ router.post('/approve', (req, res) => {
     });
 });
 
+// Route for updating a pending question without moving it to the approved library bank
+router.post('/update-pending', (req, res) => {
+    const gunneryTableEntries = req.body.gunneryTable.map((entry) => {
+        return({
+            unit_type: entry.unitType,
+            test_type: entry.testType,
+            table: entry.table,
+            subtask: entry.subtask
+        });
+    });
+
+    let updatedQuestion= {
+        question_type: req.body.questionType,
+        question_description: req.body.questionDescription,
+        answer_a: req.body.answerA,
+        answer_b: req.body.answerB,
+        answer_c: req.body.answerC,
+        correct_answer: req.body.correctAnswer,
+        gunnery_table: gunneryTableEntries,
+        topic: req.body.topic
+    };
+
+    // Find out what type of question is being submitted and build appropriate document
+    switch (req.body.questionType) {
+    case 'Multiple Choice':
+        newQuestion = documentBuilder.buildMultQuestionDocument('pending', req);
+        break;
+    case 'True or False':
+        newQuestion = documentBuilder.buildTFQuestionDocument('pending', req);
+        break;
+    case 'Fill-in-the-Blank':
+        newQuestion = documentBuilder.buildFillBlankQuestionDocument('pending', req);
+        break;
+    default:
+        res.status(400).send({message: 'The \'Question Type\' entry is not a valid entry'});
+        return;
+    }
+
+
+    // Validate document requirements before going any further
+    updatedQuestion.validate((err) => {
+        if (err) {
+            console.log('Validation Failed: ' + err);
+            res.status(400).send(err);
+        } else {
+            // Save new Question document to the database
+            approvedQuestion.save()
+                .then((result) => {
+                    console.log(result);
+                    res.send('The question has been added to the question bank! The question can be referenced by the following value: ' + result._id);
+                })
+                .catch((err) => {
+                    console.log('Error: ' + err);
+                    res.status(500).send(err);
+                });
+        }
+    });
+});
+
 // Route for getting questions that were submitted and are pending approval
 router.get('/pending', (req, res) => {
     dbInterface.getAllPendingQuestions((err, queryResults) => {
