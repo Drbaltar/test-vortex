@@ -9,9 +9,9 @@ const Issues = () => {
     const sideBarMenu = [{
         title: 'Issues',
         submenu: [{ title: 'Submit (New)', link: 'new'},
-        { title: 'View (Existing)', link: 'view'},
-        { title: 'Update (Existing)', link: 'update'},  
-        { title: 'Close (Existing)', link: 'close'}]
+            { title: 'View (Existing)', link: 'view'},
+            { title: 'Update (Existing)', link: 'update'},  
+            { title: 'Close (Existing)', link: 'close'}]
     }];
 
     return(
@@ -29,6 +29,6 @@ const Issues = () => {
             </div>
         </div>  
     );
-}
+};
 
 export default Issues;

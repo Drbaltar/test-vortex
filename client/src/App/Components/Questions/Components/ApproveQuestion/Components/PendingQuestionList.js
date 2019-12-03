@@ -5,7 +5,7 @@ const PendingQuestionList = (props) => {
 
     const filledList = pendingQuestionList.map((entry, index) =>
         <div key={index} className="btn btn-block btn-outline-dark p-3"
-        onClick={() => props.showDetails(index)}>
+            onClick={() => props.showDetails(index)}>
             <div className="row">
                 <div className="col-sm">
                     <label>Test Type:</label>
@@ -25,13 +25,13 @@ const PendingQuestionList = (props) => {
                 </div>
             </div>
         </div>
-    )
+    );
 
     return (
         <div>
             {filledList}
         </div>
-    )
+    );
 };
 
 export default PendingQuestionList;
