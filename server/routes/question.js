@@ -47,6 +47,7 @@ router.post('/submit', (req, res) => {
 // Route for approving a question and moving to the official question bank
 router.post('/approve', (req, res) => {
     // Declare new question
+    const previousQuestionId = req.body._id;
     let approvedQuestion;
 
     // Find out what type of question is being submitted and build appropriate document
@@ -75,7 +76,15 @@ router.post('/approve', (req, res) => {
             approvedQuestion.save()
                 .then((result) => {
                     console.log(result);
-                    res.send('The question has been added to the question bank! The question can be referenced by the following value: ' + result._id);
+                    dbInterface.deletePendingQuestion(previousQuestionId, (err, response) => {
+                        if (err) {
+                            res.send(`The question has been added to the question bank! The question can be referenced by the following value: ${result._id}.\n` + 
+                                `However, the 'pending question' version of the question could not be removed! Please remove it manually.\n${err}`);
+                        } else {
+                            console.log(`Deleted the following entry: ${response}`);
+                            res.send(`The question has been added to the question bank! The question can be referenced by the following value: ${result._id}`);
+                        }
+                    });
                 })
                 .catch((err) => {
                     console.log('Error: ' + err);
@@ -87,59 +96,57 @@ router.post('/approve', (req, res) => {
 
 // Route for updating a pending question without moving it to the approved library bank
 router.post('/update-pending', (req, res) => {
-    const gunneryTableEntries = req.body.gunneryTable.map((entry) => {
-        return({
-            unit_type: entry.unitType,
-            test_type: entry.testType,
-            table: entry.table,
-            subtask: entry.subtask
-        });
-    });
+    // Declare and initialize the valid types of questions that are possible to be input
+    const validQuestionTypes = ['Multiple Choice', 'True or False', 'Fill-in-the-Blank'];
 
-    let updatedQuestion= {
-        question_type: req.body.questionType,
-        question_description: req.body.questionDescription,
-        answer_a: req.body.answerA,
-        answer_b: req.body.answerB,
-        answer_c: req.body.answerC,
-        correct_answer: req.body.correctAnswer,
-        gunnery_table: gunneryTableEntries,
-        topic: req.body.topic
-    };
-
-    // Find out what type of question is being submitted and build appropriate document
-    switch (req.body.questionType) {
-    case 'Multiple Choice':
-        newQuestion = documentBuilder.buildMultQuestionDocument('pending', req);
-        break;
-    case 'True or False':
-        newQuestion = documentBuilder.buildTFQuestionDocument('pending', req);
-        break;
-    case 'Fill-in-the-Blank':
-        newQuestion = documentBuilder.buildFillBlankQuestionDocument('pending', req);
-        break;
-    default:
+    // Check that the data input has a valid question type and return error if it doesn't
+    if (!validQuestionTypes.includes(req.body.questionType)) {
         res.status(400).send({message: 'The \'Question Type\' entry is not a valid entry'});
         return;
     }
 
-
-    // Validate document requirements before going any further
-    updatedQuestion.validate((err) => {
+    // Retrieve the document for the question ID in the POST request
+    dbInterface.getPendingQuestion(req.body._id, req.body.questionType, (err, question) => {
         if (err) {
-            console.log('Validation Failed: ' + err);
+            console.log('Error: ' + err);
             res.status(400).send(err);
         } else {
-            // Save new Question document to the database
-            approvedQuestion.save()
-                .then((result) => {
-                    console.log(result);
-                    res.send('The question has been added to the question bank! The question can be referenced by the following value: ' + result._id);
-                })
-                .catch((err) => {
-                    console.log('Error: ' + err);
-                    res.status(500).send(err);
+            const gunneryTableEntries = req.body.gunneryTable.map((entry) => {
+                return({
+                    unit_type: entry.unitType,
+                    test_type: entry.testType,
+                    table: entry.table,
+                    subtask: entry.subtask
                 });
+            });
+        
+            question.question_type = req.body.questionType;
+            question.question_description = req.body.questionDescription;
+            question.answer_a = req.body.answerA;
+            question.answer_b = req.body.answerB;
+            question.answer_c = req.body.answerC;
+            question.correct_answer = req.body.correctAnswer;
+            question.gunnery_table = gunneryTableEntries;
+            question.topic = req.body.topic;
+        
+            // Validate document requirements before going any further
+            question.validate((err) => {
+                if (err) {
+                    console.log('Validation Failed: ' + err);
+                    res.status(400).send(err);
+                } else {
+                    // Save new Question document to the database
+                    question.save()
+                        .then((result) => {
+                            console.log(result);
+                            res.send('The question has been updated! The question can be referenced by the following value: ' + result._id);
+                        })
+                        .catch((err) => {
+                            console.log('Error: ' + err);
+                            res.status(500).send(err);
+                        });
+                }
+            });
         }
     });
 });
