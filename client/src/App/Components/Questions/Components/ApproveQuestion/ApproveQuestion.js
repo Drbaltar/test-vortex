@@ -49,7 +49,7 @@ class ApproveQuestion extends React.Component {
     };
 
     updatePendingQuestion = (questionData) => {
-        Axios.post('api/questions/update-pending', questionData)
+        Axios.post('/api/questions/update-pending', questionData)
             .then((response) => this.setState({submissionResponse: response, successAlert: true}))
             .catch((response) => this.setState({submissionResponse: response}))
     }
