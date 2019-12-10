@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, useRouteMatch } from 'react-router-dom';
 
-import "./SideBar.css";
+import './SideBar.css';
 
 const SideBar = (props) => {
     let menuList = props.menu;
@@ -19,15 +19,15 @@ const SideBar = (props) => {
                     }}>
                     {entry.title}
                 </NavLink>
-                )}
+            )}
         </div>
-        );
-        
-        return(
-            <div className="pt-5">
-                {filledMenu}
-            </div>
     );
-}
+        
+    return(
+        <div className="pt-5">
+            {filledMenu}
+        </div>
+    );
+};
 
 export default SideBar;

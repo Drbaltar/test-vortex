@@ -1,6 +1,6 @@
 // Import React dependencies
 import React from 'react';
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route } from 'react-router-dom';
 
 // Import CSS files
 import 'bootstrap/dist/css/bootstrap.min.css';
