@@ -3,6 +3,8 @@ const router = express.Router();
 const documentBuilder = require('../src/document-builder');
 const dbInterface = require('../src/database-interface');
 
+/*------------------------CRUD Operations for 'Pending' Questions-----------------------*/
+
 // Route for submitting a new question for approval
 router.post('/submit', (req, res) => {
     // Declare new question
@@ -44,52 +46,13 @@ router.post('/submit', (req, res) => {
     });
 });
 
-// Route for approving a question and moving to the official question bank
-router.post('/approve', (req, res) => {
-    // Declare new question
-    const previousQuestionId = req.body._id;
-    let approvedQuestion;
-
-    // Find out what type of question is being submitted and build appropriate document
-    switch (req.body.questionType) {
-    case 'Multiple Choice':
-        approvedQuestion = documentBuilder.buildMultQuestionDocument('approved', req);
-        break;
-    case 'True or False':
-        approvedQuestion = documentBuilder.buildTFQuestionDocument('approved', req);
-        break;
-    case 'Fill-in-the-Blank':
-        approvedQuestion = documentBuilder.buildFillBlankQuestionDocument('approved', req);
-        break;
-    default:
-        res.status(400).send({message: 'The \'Question Type\' entry is not a valid entry'});
-        return;
-    }
-
-    // Validate document requirements before going any further
-    approvedQuestion.validate((err) => {
+// Route for getting questions that were submitted and are pending approval
+router.get('/pending', (req, res) => {
+    dbInterface.getAllPendingQuestions((err, queryResults) => {
         if (err) {
-            console.log('Validation Failed: ' + err);
-            res.status(400).send(err);
+            res.status(500).send(err);
         } else {
-            // Save new Question document to the database
-            approvedQuestion.save()
-                .then((result) => {
-                    console.log(result);
-                    dbInterface.deletePendingQuestion(previousQuestionId, (err, response) => {
-                        if (err) {
-                            res.send(`The question has been added to the question bank! The question can be referenced by the following value: ${result._id}.\n` + 
-                                `However, the 'pending question' version of the question could not be removed! Please remove it manually.\n${err}`);
-                        } else {
-                            console.log(`Deleted the following entry: ${response}`);
-                            res.send(`The question has been added to the question bank! The question can be referenced by the following value: ${result._id}`);
-                        }
-                    });
-                })
-                .catch((err) => {
-                    console.log('Error: ' + err);
-                    res.status(500).send(err);
-                });
+            res.send(queryResults);
         }
     });
 });
@@ -151,13 +114,75 @@ router.post('/update-pending', (req, res) => {
     });
 });
 
-// Route for getting questions that were submitted and are pending approval
-router.get('/pending', (req, res) => {
-    dbInterface.getAllPendingQuestions((err, queryResults) => {
+// Route for deleting questions that were submitted and are pending approval
+router.delete('/delete-pending', (req, res) => {
+    const previousQuestionId = req.body._id;
+
+    if (previousQuestionId) {
+        dbInterface.deletePendingQuestion(previousQuestionId, (err, response) => {
+            if (err) {
+                res.status(500).send(`Error: ${err}`);
+            } else {
+                if (response) {
+                    res.status(200).send('The question has been deleted from the pending question database!');
+                } else {
+                    res.status(400).send('The \'Question ID\' provided was not found in the pending question database!');
+                }
+            }
+        });
+    } else {
+        res.status(400).send('The \'Question\' ID is required!');
+    }
+});
+
+/*------------------------CRUD Operations for 'Approved' Questions-----------------------*/
+
+// Route for approving a question and moving to the official question bank
+router.post('/approve', (req, res) => {
+    // Declare new question
+    const previousQuestionId = req.body._id;
+    let approvedQuestion;
+
+    // Find out what type of question is being submitted and build appropriate document
+    switch (req.body.questionType) {
+    case 'Multiple Choice':
+        approvedQuestion = documentBuilder.buildMultQuestionDocument('approved', req);
+        break;
+    case 'True or False':
+        approvedQuestion = documentBuilder.buildTFQuestionDocument('approved', req);
+        break;
+    case 'Fill-in-the-Blank':
+        approvedQuestion = documentBuilder.buildFillBlankQuestionDocument('approved', req);
+        break;
+    default:
+        res.status(400).send({message: 'The \'Question Type\' entry is not a valid entry'});
+        return;
+    }
+
+    // Validate document requirements before going any further
+    approvedQuestion.validate((err) => {
         if (err) {
-            res.status(500).send(err);
+            console.log('Validation Failed: ' + err);
+            res.status(400).send(err);
         } else {
-            res.send(queryResults);
+            // Save new Question document to the database
+            approvedQuestion.save()
+                .then((result) => {
+                    console.log(result);
+                    dbInterface.deletePendingQuestion(previousQuestionId, (err, response) => {
+                        if (err) {
+                            res.send(`The question has been added to the question bank! The question can be referenced by the following value: ${result._id}.\n` + 
+                                `However, the 'pending question' version of the question could not be removed! Please remove it manually.\n${err}`);
+                        } else {
+                            console.log(`Deleted the following entry: ${response}`);
+                            res.send(`The question has been added to the question bank! The question can be referenced by the following value: ${result._id}`);
+                        }
+                    });
+                })
+                .catch((err) => {
+                    console.log('Error: ' + err);
+                    res.status(500).send(err);
+                });
         }
     });
 });
