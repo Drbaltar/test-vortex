@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const ObjectId = require('mongoose').Types.ObjectId;
+
 const documentBuilder = require('../src/document-builder');
 const dbInterface = require('../src/database-interface');
 
@@ -58,7 +60,7 @@ router.get('/pending', (req, res) => {
 });
 
 // Route for updating a pending question without moving it to the approved library bank
-router.post('/update-pending', (req, res) => {
+router.put('/update-pending', (req, res) => {
     // Declare and initialize the valid types of questions that are possible to be input
     const validQuestionTypes = ['Multiple Choice', 'True or False', 'Fill-in-the-Blank'];
 
@@ -131,7 +133,7 @@ router.delete('/delete-pending', (req, res) => {
             }
         });
     } else {
-        res.status(400).send('The \'Question\' ID is required!');
+        res.status(400).send('The \'Question ID\' is required!');
     }
 });
 
@@ -185,6 +187,30 @@ router.post('/approve', (req, res) => {
                 });
         }
     });
+});
+
+// Route for getting existing question with the input ID
+router.get('/search', (req, res) => {
+    let questionID = req.query._id;
+
+    // Check to see if the ID parameter was passed in and that it is a valid Object ID
+    if (questionID && ObjectId.isValid(questionID)) {
+        dbInterface.getExistingQuestion(questionID, (err, queryResults) => {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                console.log(queryResults);
+                
+                res.send(queryResults);
+            }
+        });
+    } else {
+        if (!questionID) {
+            res.status(400).send('The \'Question ID\' is required!');
+        } else {
+            res.status(400).send('The \'Question ID\' input is not a valid Object ID value!');
+        }
+    }
 });
 
 module.exports = router;

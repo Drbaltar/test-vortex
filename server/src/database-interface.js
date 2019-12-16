@@ -3,6 +3,7 @@ const MultQuestion = require('../models/patriot/mult-question');
 const TFQuestion = require('../models/patriot/tf-question');
 const FillBlankQuestion = require('../models/patriot/fill-blank-question');
 
+/*------------------------CRUD Operations for 'Pending' Database-----------------------*/
 
 // Returns the entire collection of pending questions
 const getAllPendingQuestions = (callback) => {
@@ -48,8 +49,21 @@ const deletePendingQuestion = (id, callback) => {
     });
 };
 
+/*------------------------CRUD Operations for 'Existing' Database-----------------------*/
+
+// Returns the appropriate document for the entry ID passed in
+const getExistingQuestion = (id, callback) => {
+    // Declare the existing question entry using MultQuestion model to represent 'Existing' database
+    let entry = MultQuestion.MultQuestion;
+
+    entry.findById(id, (err, doc) => {
+        callback(err, doc);
+    });
+};
+
 module.exports = {
     getAllPendingQuestions,
     getPendingQuestion,
-    deletePendingQuestion
+    deletePendingQuestion,
+    getExistingQuestion
 };
