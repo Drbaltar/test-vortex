@@ -103,7 +103,7 @@ class QuestionForm extends React.Component {
 
     // Return the update button if the question was passed in with a database object ID
     getUpdateButton = () => {
-        if (this.state._id) {
+        if (this.props.updateEvent) {
             return (
                 <button className="btn btn-info" id="updateButton"
                     onClick={(event) => this.handleClickEvent(event)}>Apply Question Changes</button>
