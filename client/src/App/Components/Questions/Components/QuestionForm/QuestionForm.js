@@ -54,7 +54,7 @@ class QuestionForm extends React.Component {
 
         // If the question type is changed, the correct answer field will be cleared
         if (id === 'questionType') {
-            this.setState({correctAnswer: ''});
+            this.setState({correctAnswer: '', answerA: '', answerB: '', answerC: ''});
         }
     };
 
