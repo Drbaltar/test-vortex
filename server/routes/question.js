@@ -76,6 +76,7 @@ router.put('/update-pending', (req, res) => {
             console.log('Error: ' + err);
             res.status(400).send(err);
         } else {
+            // Convert the variables to the database naming scheme
             const gunneryTableEntries = req.body.gunneryTable.map((entry) => {
                 return({
                     unit_type: entry.unitType,
@@ -87,10 +88,10 @@ router.put('/update-pending', (req, res) => {
         
             question.question_type = req.body.questionType;
             question.question_description = req.body.questionDescription;
+            question.correct_answer = req.body.correctAnswer;
             question.answer_a = req.body.answerA;
             question.answer_b = req.body.answerB;
             question.answer_c = req.body.answerC;
-            question.correct_answer = req.body.correctAnswer;
             question.gunnery_table = gunneryTableEntries;
             question.topic = req.body.topic;
         
@@ -198,9 +199,7 @@ router.get('/search', (req, res) => {
         dbInterface.getExistingQuestion(questionID, (err, queryResults) => {
             if (err) {
                 res.status(500).send(err);
-            } else {
-                console.log(queryResults);
-                
+            } else {                
                 res.send(queryResults);
             }
         });
@@ -211,6 +210,62 @@ router.get('/search', (req, res) => {
             res.status(400).send('The \'Question ID\' input is not a valid Object ID value!');
         }
     }
+});
+
+// Route for updating an existing question
+router.put('/update', (req, res) => {
+    // Declare and initialize the valid types of questions that are possible to be input
+    const validQuestionTypes = ['Multiple Choice', 'True or False', 'Fill-in-the-Blank'];
+
+    // Check that the data input has a valid question type and return error if it doesn't
+    if (!validQuestionTypes.includes(req.body.questionType)) {
+        res.status(400).send({message: 'The \'Question Type\' entry is not a valid entry'});
+        return;
+    }
+
+    // Retrieve the document for the question ID in the POST request
+    dbInterface.getExistingQuestionForUpdate(req.body._id, req.body.questionType, (err, question) => {
+        if (err) {
+            console.log('Error: ' + err);
+            res.status(400).send(err);
+        } else {
+            const gunneryTableEntries = req.body.gunneryTable.map((entry) => {
+                return({
+                    unit_type: entry.unitType,
+                    test_type: entry.testType,
+                    table: entry.table,
+                    subtask: entry.subtask
+                });
+            });
+        
+            question.question_type = req.body.questionType;
+            question.question_description = req.body.questionDescription;
+            question.correct_answer = req.body.correctAnswer;
+            question.answer_a = req.body.answerA;
+            question.answer_b = req.body.answerB;
+            question.answer_c = req.body.answerC;
+            question.gunnery_table = gunneryTableEntries;
+            question.topic = req.body.topic;
+        
+            // Validate document requirements before going any further
+            question.validate((err) => {
+                if (err) {
+                    console.log('Validation Failed: ' + err);
+                    res.status(400).send(err);
+                } else {
+                    // Save new Question document to the database
+                    question.save()
+                        .then((result) => {
+                            res.send('The question has been updated! The question can be referenced by the following value: ' + result._id);
+                        })
+                        .catch((err) => {
+                            console.log('Error: ' + err);
+                            res.status(500).send(err);
+                        });
+                }
+            });
+        }
+    });
 });
 
 module.exports = router;
