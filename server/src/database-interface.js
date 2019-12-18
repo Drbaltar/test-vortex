@@ -86,10 +86,21 @@ const getExistingQuestionForUpdate = (id, questionType, callback) => {
     });
 };
 
+// Deletes the entry based on the input Question ID
+const deleteExistingQuestion = (id, callback) => {
+    // Declare the existing question entry using MultQuestion model to represent 'Existing' database
+    let entry = MultQuestion.MultQuestion;
+
+    entry.findOneAndRemove(id, (err, doc) => {
+        callback(err, doc);
+    });
+};
+
 module.exports = {
     getAllPendingQuestions,
     getPendingQuestion,
     deletePendingQuestion,
     getExistingQuestion,
-    getExistingQuestionForUpdate
+    getExistingQuestionForUpdate,
+    deleteExistingQuestion
 };

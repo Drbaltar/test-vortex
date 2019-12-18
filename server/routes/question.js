@@ -199,7 +199,7 @@ router.get('/search', (req, res) => {
         dbInterface.getExistingQuestion(questionID, (err, queryResults) => {
             if (err) {
                 res.status(500).send(err);
-            } else {                
+            } else {
                 res.send(queryResults);
             }
         });
@@ -266,6 +266,32 @@ router.put('/update', (req, res) => {
             });
         }
     });
+});
+
+// Route for deleting existing question with the input ID
+router.delete('/delete', (req, res) => {
+    let questionID = req.query._id;
+
+    // Check to see if the ID parameter was passed in and that it is a valid Object ID
+    if (questionID && ObjectId.isValid(questionID)) {
+        dbInterface.deleteExistingQuestion(questionID, (err, queryResults) => {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                if (queryResults) {
+                    res.send('The question was sucessfully deleted!');
+                } else {
+                    res.status(404).send('The question to delete was not found!');
+                }
+            }
+        });
+    } else {
+        if (!questionID) {
+            res.status(400).send('The \'Question ID\' is required!');
+        } else {
+            res.status(400).send('The \'Question ID\' input is not a valid Object ID value!');
+        }
+    }
 });
 
 module.exports = router;
