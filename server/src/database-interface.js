@@ -91,7 +91,7 @@ const deleteExistingQuestion = (id, callback) => {
     // Declare the existing question entry using MultQuestion model to represent 'Existing' database
     let entry = MultQuestion.MultQuestion;
 
-    entry.findOneAndRemove(id, (err, doc) => {
+    entry.findByIdAndRemove(id, (err, doc) => {
         callback(err, doc);
     });
 };
