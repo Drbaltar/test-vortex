@@ -1,8 +1,8 @@
-// const Issue = require('../models/issue');
 const MultQuestion = require('../models/patriot/mult-question');
 const TFQuestion = require('../models/patriot/tf-question');
 const FillBlankQuestion = require('../models/patriot/fill-blank-question');
 
+/*------------------------CRUD Operations for 'Pending' Database-----------------------*/
 
 // Returns the entire collection of pending questions
 const getAllPendingQuestions = (callback) => {
@@ -48,8 +48,59 @@ const deletePendingQuestion = (id, callback) => {
     });
 };
 
+/*------------------------CRUD Operations for 'Existing' Database-----------------------*/
+
+// Returns the appropriate document for the entry ID passed in
+const getExistingQuestion = (id, callback) => {
+    // Declare the existing question entry using MultQuestion model to represent 'Existing' database
+    let entry = MultQuestion.MultQuestion;
+
+    entry.findById(id, (err, doc) => {
+        callback(err, doc);
+    });
+};
+
+// Returns the appropriate document for the entry ID passed in
+const getExistingQuestionForUpdate = (id, questionType, callback) => {
+    // Declare the existing question entry using MultQuestion model to represent 'Existing' database
+    let entry;
+
+    // Find out what type of question is being submitted and build appropriate document
+    switch (questionType) {
+    case 'Multiple Choice':
+        entry = MultQuestion.MultQuestion;
+        break;
+    case 'True or False':
+        entry = TFQuestion.TFQuestion;
+        break;
+    case 'Fill-in-the-Blank':
+        entry = FillBlankQuestion.FillBlankQuestion;
+        break;
+    default:
+        callback (null, 'The \'Question Type\' entry is not a valid entry');
+        return;
+    }
+
+    entry.findById(id, (err, doc) => {
+        callback(err, doc);
+    });
+};
+
+// Deletes the entry based on the input Question ID
+const deleteExistingQuestion = (id, callback) => {
+    // Declare the existing question entry using MultQuestion model to represent 'Existing' database
+    let entry = MultQuestion.MultQuestion;
+
+    entry.findByIdAndRemove(id, (err, doc) => {
+        callback(err, doc);
+    });
+};
+
 module.exports = {
     getAllPendingQuestions,
     getPendingQuestion,
-    deletePendingQuestion
+    deletePendingQuestion,
+    getExistingQuestion,
+    getExistingQuestionForUpdate,
+    deleteExistingQuestion
 };

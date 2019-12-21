@@ -1,7 +1,7 @@
 import React from 'react';
 import Axios from 'axios';
 
-import PendingQuestionList from './Components/PendingQuestionList';
+import PendingQuestionList from '../QuestionList/QuestionList';
 import QuestionForm from '../QuestionForm/QuestionForm';
 
 class ApproveQuestion extends React.Component {
@@ -49,7 +49,7 @@ class ApproveQuestion extends React.Component {
     };
 
     updatePendingQuestion = (questionData) => {
-        Axios.post('/api/questions/update-pending', questionData)
+        Axios.put('/api/questions/update-pending', questionData)
             .then((response) => this.setState({submissionResponse: response, successAlert: true}))
             .catch((response) => this.setState({submissionResponse: response}))
     }

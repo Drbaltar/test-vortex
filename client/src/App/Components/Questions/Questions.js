@@ -4,6 +4,8 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import SideBar from '../shared-components/SideBar/SideBar';
 import NewQuestion from './Components/NewQuestion/NewQuestion';
 import ApproveQuestion from './Components/ApproveQuestion/ApproveQuestion';
+import UpdateQuestion from './Components/UpdateQuestion/UpdateQuestion';
+import DeleteQuestion from './Components/DeleteQuestion/DeleteQuestion';
 
 const Questions = () => {
     const match = useRouteMatch();
@@ -32,6 +34,16 @@ const Questions = () => {
                     <Route exact path={`${match.path}/approve-patriot`}>
                         <div className="col sub-body">
                             <ApproveQuestion questionType="Patriot"/>
+                        </div>
+                    </Route>
+                    <Route exact path={`${match.path}/update-patriot`}>
+                        <div className="col sub-body">
+                            <UpdateQuestion questionType="Patriot"/>
+                        </div>
+                    </Route>
+                    <Route exact path={`${match.path}/delete-patriot`}>
+                        <div className="col sub-body">
+                            <DeleteQuestion questionType="Patriot"/>
                         </div>
                     </Route>
                 </Switch>

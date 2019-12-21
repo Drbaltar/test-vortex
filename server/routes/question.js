@@ -1,7 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const ObjectId = require('mongoose').Types.ObjectId;
+
 const documentBuilder = require('../src/document-builder');
 const dbInterface = require('../src/database-interface');
+
+/*------------------------CRUD Operations for 'Pending' Questions-----------------------*/
 
 // Route for submitting a new question for approval
 router.post('/submit', (req, res) => {
@@ -43,6 +47,98 @@ router.post('/submit', (req, res) => {
         }
     });
 });
+
+// Route for getting questions that were submitted and are pending approval
+router.get('/pending', (req, res) => {
+    dbInterface.getAllPendingQuestions((err, queryResults) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.send(queryResults);
+        }
+    });
+});
+
+// Route for updating a pending question without moving it to the approved library bank
+router.put('/update-pending', (req, res) => {
+    // Declare and initialize the valid types of questions that are possible to be input
+    const validQuestionTypes = ['Multiple Choice', 'True or False', 'Fill-in-the-Blank'];
+
+    // Check that the data input has a valid question type and return error if it doesn't
+    if (!validQuestionTypes.includes(req.body.questionType)) {
+        res.status(400).send({message: 'The \'Question Type\' entry is not a valid entry'});
+        return;
+    }
+
+    // Retrieve the document for the question ID in the POST request
+    dbInterface.getPendingQuestion(req.body._id, req.body.questionType, (err, question) => {
+        if (err) {
+            console.log('Error: ' + err);
+            res.status(400).send(err);
+        } else {
+            // Convert the variables to the database naming scheme
+            const gunneryTableEntries = req.body.gunneryTable.map((entry) => {
+                return({
+                    unit_type: entry.unitType,
+                    test_type: entry.testType,
+                    table: entry.table,
+                    subtask: entry.subtask
+                });
+            });
+        
+            question.question_type = req.body.questionType;
+            question.question_description = req.body.questionDescription;
+            question.correct_answer = req.body.correctAnswer;
+            question.answer_a = req.body.answerA;
+            question.answer_b = req.body.answerB;
+            question.answer_c = req.body.answerC;
+            question.gunnery_table = gunneryTableEntries;
+            question.topic = req.body.topic;
+        
+            // Validate document requirements before going any further
+            question.validate((err) => {
+                if (err) {
+                    console.log('Validation Failed: ' + err);
+                    res.status(400).send(err);
+                } else {
+                    // Save new Question document to the database
+                    question.save()
+                        .then((result) => {
+                            console.log(result);
+                            res.send('The question has been updated! The question can be referenced by the following value: ' + result._id);
+                        })
+                        .catch((err) => {
+                            console.log('Error: ' + err);
+                            res.status(500).send(err);
+                        });
+                }
+            });
+        }
+    });
+});
+
+// Route for deleting questions that were submitted and are pending approval
+router.delete('/delete-pending', (req, res) => {
+    const previousQuestionId = req.body._id;
+
+    if (previousQuestionId) {
+        dbInterface.deletePendingQuestion(previousQuestionId, (err, response) => {
+            if (err) {
+                res.status(500).send(`Error: ${err}`);
+            } else {
+                if (response) {
+                    res.status(200).send('The question has been deleted from the pending question database!');
+                } else {
+                    res.status(400).send('The \'Question ID\' provided was not found in the pending question database!');
+                }
+            }
+        });
+    } else {
+        res.status(400).send('The \'Question ID\' is required!');
+    }
+});
+
+/*------------------------CRUD Operations for 'Approved' Questions-----------------------*/
 
 // Route for approving a question and moving to the official question bank
 router.post('/approve', (req, res) => {
@@ -94,8 +190,30 @@ router.post('/approve', (req, res) => {
     });
 });
 
-// Route for updating a pending question without moving it to the approved library bank
-router.post('/update-pending', (req, res) => {
+// Route for getting existing question with the input ID
+router.get('/search', (req, res) => {
+    let questionID = req.query._id;
+
+    // Check to see if the ID parameter was passed in and that it is a valid Object ID
+    if (questionID && ObjectId.isValid(questionID)) {
+        dbInterface.getExistingQuestion(questionID, (err, queryResults) => {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                res.send(queryResults);
+            }
+        });
+    } else {
+        if (!questionID) {
+            res.status(400).send('The \'Question ID\' is required!');
+        } else {
+            res.status(400).send('The \'Question ID\' input is not a valid Object ID value!');
+        }
+    }
+});
+
+// Route for updating an existing question
+router.put('/update', (req, res) => {
     // Declare and initialize the valid types of questions that are possible to be input
     const validQuestionTypes = ['Multiple Choice', 'True or False', 'Fill-in-the-Blank'];
 
@@ -106,7 +224,7 @@ router.post('/update-pending', (req, res) => {
     }
 
     // Retrieve the document for the question ID in the POST request
-    dbInterface.getPendingQuestion(req.body._id, req.body.questionType, (err, question) => {
+    dbInterface.getExistingQuestionForUpdate(req.body._id, req.body.questionType, (err, question) => {
         if (err) {
             console.log('Error: ' + err);
             res.status(400).send(err);
@@ -122,10 +240,10 @@ router.post('/update-pending', (req, res) => {
         
             question.question_type = req.body.questionType;
             question.question_description = req.body.questionDescription;
+            question.correct_answer = req.body.correctAnswer;
             question.answer_a = req.body.answerA;
             question.answer_b = req.body.answerB;
             question.answer_c = req.body.answerC;
-            question.correct_answer = req.body.correctAnswer;
             question.gunnery_table = gunneryTableEntries;
             question.topic = req.body.topic;
         
@@ -138,7 +256,6 @@ router.post('/update-pending', (req, res) => {
                     // Save new Question document to the database
                     question.save()
                         .then((result) => {
-                            console.log(result);
                             res.send('The question has been updated! The question can be referenced by the following value: ' + result._id);
                         })
                         .catch((err) => {
@@ -151,15 +268,30 @@ router.post('/update-pending', (req, res) => {
     });
 });
 
-// Route for getting questions that were submitted and are pending approval
-router.get('/pending', (req, res) => {
-    dbInterface.getAllPendingQuestions((err, queryResults) => {
-        if (err) {
-            res.status(500).send(err);
+// Route for deleting existing question with the input ID
+router.delete('/delete', (req, res) => {
+    let questionID = req.query._id;
+
+    // Check to see if the ID parameter was passed in and that it is a valid Object ID
+    if (questionID && ObjectId.isValid(questionID)) {
+        dbInterface.deleteExistingQuestion(questionID, (err, queryResults) => {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                if (queryResults) {
+                    res.send('The question was sucessfully deleted!');
+                } else {
+                    res.status(404).send('The question to delete was not found!');
+                }
+            }
+        });
+    } else {
+        if (!questionID) {
+            res.status(400).send('The \'Question ID\' is required!');
         } else {
-            res.send(queryResults);
+            res.status(400).send('The \'Question ID\' input is not a valid Object ID value!');
         }
-    });
+    }
 });
 
 module.exports = router;

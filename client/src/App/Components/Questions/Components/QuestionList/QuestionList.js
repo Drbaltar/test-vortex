@@ -1,9 +1,9 @@
 import React from 'react';
 
-const PendingQuestionList = (props) => {
-    let pendingQuestionList = props.list;
+const QuestionList = (props) => {
+    let questionList = props.list;
 
-    const filledList = pendingQuestionList.map((entry, index) =>
+    const filledList = questionList.map((entry, index) =>
         <div key={index} className="btn btn-block btn-outline-dark p-3"
             onClick={() => props.showDetails(index)}>
             <div className="row">
@@ -34,4 +34,4 @@ const PendingQuestionList = (props) => {
     );
 };
 
-export default PendingQuestionList;
+export default QuestionList;
