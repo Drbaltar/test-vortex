@@ -11,6 +11,17 @@ class QuestionForm extends React.Component {
     constructor(props) {
         super(props);
 
+        let inputValidity = {
+            isQuestionTypeValid: null,
+            isQuestionDescriptionValid: null,
+            isCorrectAnswerValid: null,
+            isAnswerAValid: null,
+            isAnswerBValid: null,
+            isAnswerCValid: null,
+            isGunneryTableValid: null,
+            isTopicValid: null
+        };
+
         if (props.data) {
             let gunneryTable = props.data.gunnery_table.map(entry => {
                 return {
@@ -26,11 +37,12 @@ class QuestionForm extends React.Component {
                 questionType: props.data.question_type,
                 questionDescription: props.data.question_description,
                 correctAnswer: props.data.correct_answer,
-                answerA: props.data.answer_a,
-                answerB: props.data.answer_b,
-                answerC: props.data.answer_c,
+                answerA: props.data.answer_a || '',
+                answerB: props.data.answer_b || '',
+                answerC: props.data.answer_c || '',
                 gunneryTable,
-                topic: props.data.topic
+                topic: props.data.topic,
+                inputValidity
             }
         } else {
             this.initialState = {
@@ -41,7 +53,8 @@ class QuestionForm extends React.Component {
                 answerB: '',
                 answerC: '',
                 gunneryTable: [],
-                topic: ''
+                topic: '',
+                inputValidity
             }
         };
 
@@ -62,10 +75,14 @@ class QuestionForm extends React.Component {
         event.preventDefault();
         if (event.target.id === 'clearAllButton') {
             this.setState(this.initialState);
-        } else if (event.target.id === 'submitButton') {
-            this.props.submitEvent(this.state);
-        } else if (event.target.id === 'updateButton') {
-            this.props.updateEvent(this.state);
+        } else {
+            if (this.isAllInputValid()) {
+                if (event.target.id === 'submitButton') {
+                    this.props.submitEvent(this.state);
+                } else if (event.target.id === 'updateButton') {
+                    this.props.updateEvent(this.state);
+                }
+            }
         }
     };
 
@@ -90,18 +107,22 @@ class QuestionForm extends React.Component {
                 <SelectBox label="Correct Answer"id="correctAnswer"
                     options={['', 'True', 'False']}
                     value={this.state.correctAnswer}
-                    inputChange={(event) => this.handleInputChange(event)}/>
+                    inputChange={(event) => this.handleInputChange(event)}
+                    isValid={this.state.inputValidity.isCorrectAnswerValid}
+                    errorMessage={'Please select either \'True\' or \'False\''}/>
             )
         } else {
             return (
                 <TextField label="Correct Answer"id="correctAnswer" type="text"
                     value={this.state.correctAnswer}
-                    inputChange={(event) => this.handleInputChange(event)}/>
+                    inputChange={(event) => this.handleInputChange(event)}
+                    isValid={this.state.inputValidity.isCorrectAnswerValid}
+                    errorMessage={'The \'Correct Answer\' field is required!'}/>
             )
         }
     };
 
-    // Return the update button if the question was passed in with a database object ID
+    // Return the update button if an updateEvent function was passed in
     getUpdateButton = () => {
         if (this.props.updateEvent) {
             return (
@@ -118,16 +139,56 @@ class QuestionForm extends React.Component {
                     <small id="multChoiceAnswerLabel" className="form-text">Input the incorrect answer options below:</small>
                     <TextField label="Answer A"id="answerA" type="text"
                         value={this.state.answerA}
-                        inputChange={(event) => this.handleInputChange(event)}/>
+                        inputChange={(event) => this.handleInputChange(event)}
+                        isValid={this.state.inputValidity.isAnswerAValid}
+                        errorMessage={'The \'Answer A\' field is required!'}/>
                     <TextField label="Answer B"id="answerB" type="text"
                         value={this.state.answerB}
-                        inputChange={(event) => this.handleInputChange(event)}/>
+                        inputChange={(event) => this.handleInputChange(event)}
+                        isValid={this.state.inputValidity.isAnswerBValid}
+                        errorMessage={'The \'Answer B\' field is required!'}/>
                     <TextField label="Answer C"id="answerC" type="text"
                         value={this.state.answerC}
-                        inputChange={(event) => this.handleInputChange(event)}/>
+                        inputChange={(event) => this.handleInputChange(event)}
+                        isValid={this.state.inputValidity.isAnswerCValid}
+                        errorMessage={'The \'Answer C\' field is required!'}/>
                 </div>
             )
         };
+    };
+
+    isAllInputValid = () => {
+        let validQuestionTypes = ['Multiple Choice', 'True or False', 'Fill-in-the-Blank'];
+        let isQuestionTypeValid = (validQuestionTypes.includes(this.state.questionType) ? true : false );
+        let isQuestionDescriptionValid = (this.state.questionDescription.length > 9  ? true : false);
+        let isCorrectAnswerValid = (this.state.correctAnswer.length > 0 ? true : false);
+        let isGunneryTableValid = (this.state.gunneryTable.length > 0 ? true : false);
+        let isTopicValid = (this.state.topic.length > 0 ? true : false);
+
+        let isAnswerAValid, isAnswerBValid, isAnswerCValid;
+        if (this.state.questionType === 'Multiple Choice') {
+            isAnswerAValid = (this.state.answerA.length > 0 ? true : false);
+            isAnswerBValid = (this.state.answerB.length > 0 ? true : false);
+            isAnswerCValid = (this.state.answerC.length > 0 ? true : false);
+        }
+
+        let inputValidity = {
+            isQuestionTypeValid,
+            isQuestionDescriptionValid,
+            isCorrectAnswerValid,
+            isAnswerAValid,
+            isAnswerBValid,
+            isAnswerCValid,
+            isGunneryTableValid,
+            isTopicValid
+        }
+
+        let isAllValid = (isQuestionTypeValid !== false && isQuestionDescriptionValid !== false &&
+            isCorrectAnswerValid !== false && isAnswerAValid !== false && isAnswerBValid !== false &&
+            isAnswerCValid !== false && isGunneryTableValid !== false && isTopicValid !== false);
+        
+        this.setState({inputValidity});
+        return isAllValid;
     };
 
     render() {
@@ -147,10 +208,14 @@ class QuestionForm extends React.Component {
                         <SelectBox label="Question Type" id="questionType"
                             options={['Multiple Choice', 'Fill-in-the-Blank', 'True or False']}
                             value={this.state.questionType}
-                            inputChange={(event) => this.handleInputChange(event)}/>
+                            inputChange={(event) => this.handleInputChange(event)}
+                            isValid={this.state.inputValidity.isQuestionTypeValid}
+                            errorMessage='You must select the question type!'/>
                         <TextArea label="Question Description" id="questionDescription" type="text" rows="4"
                             value={this.state.questionDescription}
-                            inputChange={(event) => this.handleInputChange(event)}/>
+                            inputChange={(event) => this.handleInputChange(event)}
+                            isValid={this.state.inputValidity.isQuestionDescriptionValid}
+                            errorMessage='The question description must be at least 10 characters!'/>
                         {correctAnswerField}
                         {multChoiceAnswers}
                         <GunneryTableModal buttonLabel='Add Gunnery Table/Subtask'
@@ -159,7 +224,9 @@ class QuestionForm extends React.Component {
                             deleteEntry={(index) => this.deleteGunneryListEntry(index)}/>
                         <TextField label="Topic"id="topic" type="text"
                             value={this.state.topic}
-                            inputChange={(event) => this.handleInputChange(event)}/>
+                            inputChange={(event) => this.handleInputChange(event)}
+                            isValid={this.state.inputValidity.isTopicValid}
+                            errorMessage={'The \'Topic\' field is required!'}/>
                     </div>
                 <div className="card-footer">
                     {updateButton}
