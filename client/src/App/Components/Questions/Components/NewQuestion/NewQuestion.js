@@ -2,6 +2,7 @@ import React from 'react';
 import Axios from 'axios';
 
 import QuestionForm from '../QuestionForm/QuestionForm';
+import SuccessMessage from '../../../shared-components/SuccessMessage/SuccessMessage';
 
 class NewQuestion extends React.Component {
     constructor(props) {
@@ -21,14 +22,17 @@ class NewQuestion extends React.Component {
             .catch((response) => this.setState({submissionResponse: response}))
     }
 
+    returnToForm = () => {
+        this.setState({submissionResponse: '', successAlert: false});
+    }
+
     render() {
         let newQuestionView;
 
         if (this.state.successAlert) {
             newQuestionView = (
-                <div className="alert alert-success" role="alert">
-                    {this.state.submissionResponse.data}
-                </div>
+                <SuccessMessage message={this.state.submissionResponse.data}
+                    clickHandler={() => this.returnToForm()}/>
             )
         } else {
             newQuestionView = (
