@@ -27,11 +27,29 @@ const GunneryList = (props) => {
             </button>
         </div>
     );
+
+    // Assign the correct color to borderColor based on whether the prop states the input value is valid
+    // and create an optional error message if the field does not have a valid input
+    let borderColor;
+    let errorMessage;
+    if (props.isValid != null) {
+        if (props.isValid) {
+            borderColor = 'border-success';
+        } else {
+            borderColor = 'border-danger';
+            errorMessage = (<small style={{color: 'darkred'}}>
+                {props.errorMessage}
+            </small>);
+        }
+    };
     
     return(
-        <div className="border border-muted rounded pb-3 pl-3 pr-3">
-            <p id="applicableSubtaskLabel" className="form-text">Applicable Gunnery Table/Subtasks:</p>
-            {filledList}
+        <div>
+            <div className={`border border-muted ${borderColor} rounded pb-3 pl-3 pr-3`}>
+                <p id="applicableSubtaskLabel" className="form-text">Applicable Gunnery Table/Subtasks:</p>
+                {filledList}
+            </div>
+            {errorMessage}
         </div>
     );
 };

@@ -221,7 +221,9 @@ class QuestionForm extends React.Component {
                         <GunneryTableModal buttonLabel='Add Gunnery Table/Subtask'
                             updateGunneryList={(newEntry) => this.updateGunneryList(newEntry)}/>
                         <GunneryList list={this.state.gunneryTable}
-                            deleteEntry={(index) => this.deleteGunneryListEntry(index)}/>
+                            deleteEntry={(index) => this.deleteGunneryListEntry(index)}
+                            isValid={this.state.inputValidity.isGunneryTableValid}
+                            errorMessage={'You must select at least one applicable Gunnery Table/Subtask!'}/>
                         <TextField label="Topic"id="topic" type="text"
                             value={this.state.topic}
                             inputChange={(event) => this.handleInputChange(event)}
