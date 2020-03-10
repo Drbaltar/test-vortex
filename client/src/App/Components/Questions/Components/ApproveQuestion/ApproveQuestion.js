@@ -3,6 +3,7 @@ import Axios from 'axios';
 
 import PendingQuestionList from '../QuestionList/QuestionList';
 import QuestionForm from '../QuestionForm/QuestionForm';
+import SuccessMessage from '../../../shared-components/SuccessMessage/SuccessMessage';
 
 class ApproveQuestion extends React.Component {
     constructor(props) {
@@ -24,7 +25,9 @@ class ApproveQuestion extends React.Component {
         event.preventDefault();
         if (event.target.id === 'queryButton') {
             this.getAllPendingQuestions();
-        };
+        } else if (event.target.id === 'returnButton') {
+            this.returnToForm();
+        }
     };
 
     showDetails = (index) => {
@@ -32,8 +35,13 @@ class ApproveQuestion extends React.Component {
     };
 
     returnToMenu = () => {
-        this.setState({ detailedView: false, selectedEntry: null})
+        this.setState({detailedView: false, selectedEntry: null})
     };
+
+    returnToForm = () => {
+        this.setState({submissionResponse: '', successAlert: false, detailedView: false, selectedEntry: null}, 
+            () => { this.getAllPendingQuestions()});
+    }
 
     getAllPendingQuestions = () => {
         this.setState({loading: true});
@@ -89,9 +97,8 @@ class ApproveQuestion extends React.Component {
         } else {
             if (this.state.successAlert) {
                 approveQuestionView = (
-                    <div className="alert alert-success" role="alert">
-                        {this.state.submissionResponse.data}
-                    </div>
+                    <SuccessMessage message={this.state.submissionResponse.data}
+                        clickHandler={() => this.returnToForm()}/>
             )} else {
                 approveQuestionView = (
                     <div>
