@@ -9,7 +9,7 @@ const SuccessMessage = (props) => {
                 <h4>{props.message}</h4>
             </div>
             <div className="card-footer">
-                <button className="btn btn-success return-btn" id="Return Button"
+                <button className="btn btn-success return-btn" id="returnButton"
                     onClick={props.clickHandler}>Return</button>
             </div>
         </div> 
