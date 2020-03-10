@@ -2,6 +2,7 @@ import React from 'react';
 import Axios from 'axios';
 
 import SingleQuestionSearch from '../SingleQuestionSearch/SingleQuestionSearch';
+import SuccessMessage from '../../../shared-components/SuccessMessage/SuccessMessage';
 
 class DeleteQuestion extends React.Component {
     constructor(props) {
@@ -19,6 +20,10 @@ class DeleteQuestion extends React.Component {
         this.setState({ submissionResponse: response })
     }
 
+    returnToMenu = () => {
+        this.setState({submissionResponse: '', successAlert: false})
+    };
+
     deleteQuestion = (questionData) => {        
         Axios.delete('/api/questions/delete', { params: { _id: questionData._id } })
             .then((response) => this.setState({submissionResponse: response, successAlert: true}))
@@ -30,21 +35,19 @@ class DeleteQuestion extends React.Component {
 
         if (this.state.successAlert) {
             deleteQuestionView = (
-                <div className="alert alert-success" role="alert">
-                    {this.state.submissionResponse.data}
-                </div>
+                <SuccessMessage message={this.state.submissionResponse.data}
+                    clickHandler={() => this.returnToMenu()}/>
             )
         } else {
             deleteQuestionView = (
-                <div>
-                    <SingleQuestionSearch questionType={this.props.questionType}
-                        submitButtonText="Delete" submitEvent={(questionData) => this.deleteQuestion(questionData)}
-                        cancelButtonText="Revert Changes"
-                        submissionResponse={this.state.submissionResponse} successAlert={this.state.successAlert}
-                        updateSubmissionResponse={(response) => this.updateSubmissionResponse(response)}/>
-                </div>
+                <SingleQuestionSearch questionType={this.props.questionType}
+                    submitButtonText="Delete" submitEvent={(questionData) => this.deleteQuestion(questionData)}
+                    cancelButtonText="Revert Changes"
+                    submissionResponse={this.state.submissionResponse} successAlert={this.state.successAlert}
+                    updateSubmissionResponse={(response) => this.updateSubmissionResponse(response)}/>
             )
         }
+
         return (
             <div>
                 {deleteQuestionView}
