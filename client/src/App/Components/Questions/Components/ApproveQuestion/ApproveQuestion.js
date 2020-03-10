@@ -11,6 +11,7 @@ class ApproveQuestion extends React.Component {
 
         this.initialState = {
             allPendingQuestions: [],
+            hasSearchRan: false,
             loading: false,
             selectedEntry: null,
             detailedView: false,
@@ -39,7 +40,7 @@ class ApproveQuestion extends React.Component {
     };
 
     returnToForm = () => {
-        this.setState({submissionResponse: '', successAlert: false, detailedView: false, selectedEntry: null}, 
+        this.setState({allPendingQuestions: [], hasSearchRan: false, submissionResponse: '', successAlert: false, detailedView: false, selectedEntry: null}, 
             () => { this.getAllPendingQuestions()});
     }
 
@@ -47,7 +48,7 @@ class ApproveQuestion extends React.Component {
         this.setState({loading: true});
 
         Axios.get('/api/questions/pending')
-            .then((response) => this.setState({allPendingQuestions: response.data, loading: false}))
+            .then((response) => this.setState({allPendingQuestions: response.data, hasSearchRan: true, loading: false}))
     };
 
     approveNewQuestion = (questionData) => {
@@ -90,7 +91,8 @@ class ApproveQuestion extends React.Component {
                     <div className="p-4">
                         {loadingSpinner}
                         <PendingQuestionList list={this.state.allPendingQuestions}
-                            showDetails={(index) => this.showDetails(index)}/>
+                            showDetails={(index) => this.showDetails(index)}
+                            hasSearchRan={this.state.hasSearchRan}/>
                     </div>
                 </form>
             )

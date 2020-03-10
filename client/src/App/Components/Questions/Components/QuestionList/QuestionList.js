@@ -2,6 +2,23 @@ import React from 'react';
 
 const QuestionList = (props) => {
     let questionList = props.list;
+    let searchResultsMessage;
+
+    if (props.hasSearchRan) {
+        if (questionList.length === 0) {
+            searchResultsMessage = (
+                <div>
+                    <p>{'No Pending Questions Found!'}</p>
+                </div>
+            )
+        } else if (questionList.length > 0) {
+            searchResultsMessage = (
+                <div>
+                    <p>{`${questionList.length} Pending Questions Awaiting Approval!`}</p>
+                </div>
+            )
+        }
+    }
 
     const filledList = questionList.map((entry, index) =>
         <div key={index} className="btn btn-block btn-outline-dark p-3"
@@ -29,6 +46,7 @@ const QuestionList = (props) => {
 
     return (
         <div>
+            {searchResultsMessage}
             {filledList}
         </div>
     );
