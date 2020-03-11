@@ -43,7 +43,7 @@ class updateQuestion extends React.Component {
                 <div>
                     <SingleQuestionSearch questionType={this.props.questionType}
                         submitButtonText="Update" submitEvent={(questionData) => this.updateQuestion(questionData)}
-                        cancelButtonText="Revert Changes"
+                        cancelButtonText="Revert Changes" action='Update'
                         submissionResponse={this.state.submissionResponse} successAlert={this.state.successAlert}
                         updateSubmissionResponse={(response) => this.updateSubmissionResponse(response)}/>
                 </div>
