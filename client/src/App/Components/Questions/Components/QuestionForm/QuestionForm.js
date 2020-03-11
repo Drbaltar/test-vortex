@@ -81,6 +81,8 @@ class QuestionForm extends React.Component {
                     this.props.submitEvent(this.state);
                 } else if (event.target.id === 'updateButton') {
                     this.props.updateEvent(this.state);
+                } else if (event.target.id === 'deleteButton') {
+                    this.props.deleteEvent(this.state);
                 }
             }
         }
@@ -232,10 +234,12 @@ class QuestionForm extends React.Component {
                     </div>
                 <div className="card-footer">
                     {updateButton}
-                    <FormButtons submitButtonID={this.props.submitButtonID || "submitButton"}
-                        submitButtonText={this.props.submitButtonText || "Submit"} 
-                        cancelButtonID={this.props.cancelButtonID || "clearAllButton"}
-                        cancelButtonText={this.props.cancelButtonText || "Clear All"} 
+                    <FormButtons submitButtonID={"submitButton"}
+                        submitButtonText={this.props.submitButtonText} 
+                        cancelButtonID={"clearAllButton"}
+                        cancelButtonText={this.props.cancelButtonText}
+                        deleteButtonID={"deleteButton"}
+                        deleteButtonText={this.props.deleteButtonText}
                         clickHandler={(event) => this.handleClickEvent(event)}/>
                 </div>
             </form> 

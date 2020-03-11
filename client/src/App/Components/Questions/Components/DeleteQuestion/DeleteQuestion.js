@@ -41,8 +41,8 @@ class DeleteQuestion extends React.Component {
         } else {
             deleteQuestionView = (
                 <SingleQuestionSearch questionType={this.props.questionType}
-                    submitButtonText="Delete" submitEvent={(questionData) => this.deleteQuestion(questionData)}
-                    cancelButtonText="Revert Changes"
+                    deleteEvent={(questionData) => this.deleteQuestion(questionData)}
+                    action='Delete' deleteButtonText='Delete From Library'
                     submissionResponse={this.state.submissionResponse} successAlert={this.state.successAlert}
                     updateSubmissionResponse={(response) => this.updateSubmissionResponse(response)}/>
             )

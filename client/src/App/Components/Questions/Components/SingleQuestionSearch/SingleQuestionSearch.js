@@ -94,7 +94,7 @@ class SingleQuestionSearch extends React.Component {
         if (!this.state.detailedView) {
             questionSearchView = (
                 <form className="card bg-light" noValidate>
-                    <h1 className="card-header">{`${this.props.submitButtonText} Existing Question (${this.props.questionType})`}</h1>
+                    <h1 className="card-header">{`${this.props.action} Existing Question (${this.props.questionType})`}</h1>
                     <label className="pt-3 pl-3" htmlFor={"searchInput"}>Question ID</label>
                     <div className="form-group ml-3 mr-3">
                         <div className="row">
@@ -121,7 +121,9 @@ class SingleQuestionSearch extends React.Component {
                     <QuestionForm title="Question Details" data={this.state.searchResults}
                         submitButtonText={this.props.submitButtonText}
                         submitEvent={(questionData) => this.props.submitEvent(questionData)}
-                        cancelButtonText={this.props.cancelButtonText}/>
+                        cancelButtonText={this.props.cancelButtonText}
+                        deleteButtonText={this.props.deleteButtonText}
+                        deleteEvent={(questionData) => this.props.deleteEvent(questionData)}/>
                 </div>
             )
         }
