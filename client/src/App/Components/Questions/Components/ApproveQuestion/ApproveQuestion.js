@@ -63,6 +63,12 @@ class ApproveQuestion extends React.Component {
             .catch((response) => this.setState({submissionResponse: response}))
     }
 
+    disapproveNewQuestion = (questionData) => {
+        Axios.post('/api/questions/delete-pending', questionData)
+            .then((response) => this.setState({submissionResponse: response, successAlert: true}))
+            .catch((response) => this.setState({submissionResponse: response}))
+    };
+
     render() {
         let approveQuestionView;
 
@@ -110,8 +116,10 @@ class ApproveQuestion extends React.Component {
                         </div>
                         <QuestionForm title="Question Details" data={this.state.allPendingQuestions[this.state.selectedEntry]}
                             submitButtonText="Approve" cancelButtonText="Revert Changes"
+                            deleteButtonText='Disapprove'
                             submitEvent={(questionData) => this.approveNewQuestion(questionData)}
-                            updateEvent={(questionData) => this.updatePendingQuestion(questionData)}/>
+                            updateEvent={(questionData) => this.updatePendingQuestion(questionData)}
+                            deleteEvent={(questionData) => this.disapproveNewQuestion(questionData)}/>
                     </div>
                 )
             }
