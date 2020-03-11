@@ -1,0 +1,193 @@
+{
+    "ApplicableTables": {
+        "Tactics": {
+            "Table": {
+                "I": {
+                    "Subtask": []
+                },
+                "II": {
+                    "Subtask": []
+                },
+                "III": {
+                    "Subtask": []
+                },
+                "V": {
+                    "Subtask": []
+                },
+                "VI": {
+                    "Subtask": []
+                },
+                "VII": {
+                    "Subtask": []
+                }
+            }
+        },
+        "Communications": {
+            "Table": {
+                "I": {
+                    "Subtask": []
+                },
+                "II": {
+                    "Subtask": []
+                },
+                "III": {
+                    "Subtask": []
+                },
+                "V": {
+                    "Subtask": []
+                },
+                "VI": {
+                    "Subtask": []
+                },
+                "VII": {
+                    "Subtask": []
+                }
+            }
+        }, 
+        "RSOP": {
+            "Table": {
+                "I": {
+                    "Subtask": []
+                },
+                "II": {
+                    "Subtask": []
+                },
+                "III": {
+                    "Subtask": []
+                },
+                "V": {
+                    "Subtask": []
+                },
+                "VI": {
+                    "Subtask": []
+                },
+                "VII": {
+                    "Subtask": []
+                }
+            }
+        },
+        "Early Warning/Mission Command": {
+            "Table": {
+                "I": {
+                    "Subtask": []
+                },
+                "II": {
+                    "Subtask": []
+                },
+                "III": {
+                    "Subtask": []
+                },
+                "V": {
+                    "Subtask": []
+                },
+                "VI": {
+                    "Subtask": []
+                },
+                "VII": {
+                    "Subtask": []
+                }
+            }
+        }
+    },
+    "TableDescriptions": {
+        "Table": {
+            "I": {
+                "Description": "Basic System Skills",
+                "Subtask": {
+                    "1": "ICC, TCS, AMG, and CRG crew members perform operator level PMCS on the vehicle per applicable TMs",
+                    "2": "ICC crew members perform ICC PMCS and associated equipment PMCS per TM 9-1430-1602-10-1, other applicable TMs, and SOPs",
+                    "3": "ICC crew members perform TWUD per TM 9-1425-1602-12-1",
+                    "4": "TCS crew members perform TCS PMCS and associated equipment PMCS per TM 9-1430-608-14&P, other applicable TMs, and SOPs",
+                    "5": "AMG crew members perform AMG PMCS and associated equipment PMCS per TM 9-1430-603-10, TM 9-1430-1603-10, other applicable TMs, and SOPs",
+                    "6": "ICC, TCS, AMG, and CRG crew members perform PMCS of communications equipment per applicable TMs and SOPs",
+                    "7": "ICC, TCS, and CRG crew members perform PMCS on the 30 KW generator set per TM 9-6115-644-10 and applicable SOPs",
+                    "8": "CRG crew members perform PMCS and fault recognition per TM 9-1430-1604-10, TM 11-5985-368-12&P, TM 9-6115-662-13&P, other applicable TMs, and SOPs",
+                    "9": "ICC and CRG crew members perform LCU diagnostics for routing logic radio interface unit per TM 9-1430-1602-10-1 and TM 9-1430-1604-10",
+                    "10": "Crew members perform prepare for moment drills for the ICC, TCS, CRG, AMG, and EPU per drills 44-CW-D0007, 44-CW-D0008, 44-CW-D0015, 44-CW-D0022, 44-CW-D0025",
+                    "11": "Crew members emplace the ICC, TCS, CRG, AMG, and EPU per drills 44-CW-D0005, 44-CW-D0006, 44-CW-D0016, 44-CW-D0024, and 44-CW-D0026",
+                    "12": "ICC crew members initialize the ICC per TM 9-1430-1602-10-1 and drill 44-CW-D0005",
+                    "13": "TCS crew members establish and operate the TCS per communication plan, drill 44-CW-D0026, and TM 9-1430-608-14&P"
+                }
+            },
+            "II": {
+		        "Description": "Ready-For-Action Drills",
+                "Subtask": {
+                    "1": "ICC crew members learn functions of tabs and tabular entries per TM 9-1430-1602-10-1",
+                    "2": "ICC crew members learn the function of all controls, switches, and indicators per TM 9-1430-1602-10-1",
+                    "3": "ICC crew members learn the situational display per TM 9-1430-1602-10-1",
+                    "4": "ICC and TCS crew members recognize Patriot symbols, per applicable references",
+                    "5": "ICC crew members learn fix or fight criteria, including fire platoon faults, per applicable references",
+                    "6": "ICC crew members discuss evaluation decision and weapon assignment",
+                    "7": "ICC crew members learn Patriot weapon system capabilities and limitations per (U) FM 3-01.13 (S/NF), other applicable FMs and SOPs",
+                    "8": "ICC and CRG crew members initialize the switch multiplexer unit per applicable references.",
+                    "9": "ICC and TCS crew members learn applicable TSOP and SOPs",
+                    "10": "ICC and TCS crew members learn to read and process USMTF messages/ NATO ATOs/ ACOs",
+                    "11": "ICC and CRG crew members perform LCU initialization per TM 9-1430-1602-10-1 and TM 9-1430-1604-10",
+                    "12": "Crew members discuss alert states, STO, and ACO per applicable TSOP and SOPs",
+                    "13": "TCS crew members learn to input USMTF message and ACO information into the Patriot TPW",
+                    "14": "TCS crew members load map data per TM 9-1430-608-14&P",
+                    "15": "TCS crew members initialize the MIDS per TM 9-1430-608-14&P",
+                    "16": "TCS crew members perform JTT power-up per TM 9-1430-608-14&P",
+                    "17": "TCS crew members perform MIDS and JTT crypto loading per TM 11-7021-223-10",
+                    "18": "TCS crew members perform control and display unit power-up",
+                    "19": "CRG crew members learn function of switches, controls, and indicators (including LCU tabular displays) per TM 9-1430-1604-10",
+                    "20": "Crew members establish communications per communications plan",
+                    "21": "ICC, TCS, and CRG crew members perform RFA drills, correctly configuring system for directed alert state per drills 44-CW-D0005, 44-CW-D0024, 44-CW-D0026, and applicable SOPs",
+                    "22": "Crew members perform maintenance sustainment operations, per applicable Army regulations, directives, pamphlets, and SOPs"
+                }
+            },
+            "III": {
+		        "Description": "Basic Air Battle Management",
+                  "Subtask": {
+		            "1": "ICC crew members create, update, and maintain the battalion site data book",
+	     	        "2": "ICC crew members discuss defense design and events that result in the changing of tabular entries",
+                    "3": "ICC and TCS crew members demonstrate how to use the Patriot tactical planner to develop battalion ABT/TBM defense design as outlined in paragraph 2-92 and TM 9-1430-1606-12",
+		            "4": "TCS crew members input the defense plan",
+		            "5": "TCS crew members perform communications link planning per applicable references",
+		            "6": "CRG crew members select and interpret LCU tabular displays per TM 9-1430-1604-10",
+		            "7": "ICC and TCS crew members conduct air defense operations, using ABMLs 1 through 5, while controlling two fire platoons",
+                    "8": "Crew members demonstrate reporting requirements per applicable SOPs"
+                  }
+            },
+            "V": {
+		        "Description": "Air Battle Management",
+                    "Subtask": {
+                        "1": "The battalion staff develops a battalion level defense design based upon the threat and defended asset list provided in the brigade operations order. The design will be as outlined in paragraph 2-92 and applicable SOPs. The TD and TDA enter data into the ICC",
+                        "2": "The TD and TDA process tactical information using the Patriot TPW, per applicable SOPs (ACMs and missile engagement zones developed for ABMLs 6 through 9). The TD and TDA enter data into the ICC",
+                        "3": "The battalion staff prepares a decision brief for the battalion commander or the battalion commander’s designated representative",
+                        "4": "CRG crew members demonstrate CRG initialization as an LCS per TM 9-1430-1604-10",
+                        "5": "The ICC and TCS conduct air defense operations using ABMLs 6 through 9, per ATP 3-01.85 and applicable SOPs"
+                    }
+            },
+            "VI": {
+		        "Description": "Prepare For Movement And Emplacement",
+                    "Subtask": {
+                        "1": "Conduct RSOP, using collective task 44-TM-D9046, ATP 3-01.87, applicable TSOP, and SOPs",
+                        "2": "Crew members perform prepare for moment drills for the ICC, TCS, CRG, AMG, and EPU per drills 44-CW-D0007, 44-CW-D44-CW-D0008, 44-CW-D0015, 44-CW-D0022, 44-CWD0025",
+                        "3": "Crew members emplace the ICC, TCS, CRG, AMG, and EPU per drills 44-CW-D0005, 44-CW-D0006, 44-CW-D0016, 44-CW-D0024, and 44-CW-D0026",
+                        "4": "ICC crew members initialize the ICC per TM 9-1430-1602-10-1 and drill 44-CW-D0005",
+                        "5": "TCS crew members establish and operate the TCS per communication plan, drill 44-CW-D0026, and TM 9-1430-608-14&P",
+                        "6": "CRG crew members configure the CRG per the communication plan (where LCS operations are required, the CRG will configure the CRG as an LCS), drill 44-CW-D0008, and TM 9-1430-1604-10",
+                        "7": "ICC, TCS, and CRG crew members perform RFA drills, correctly configuring system for directed alert state per drills 44-CW-D0005, 44-CW-D0024, 44-CW-D0026, and applicable SOPs"
+                    }
+            },
+            "VII": {
+		        "Description": "Precertification Table VIII",
+                  "Subtask": {
+                    "1": "The battalion staff prepares a defense design and conducts a decision brief for the battalion commander or designated representative",
+                    "2": "Crew members demonstrate proper performance of PMCS of their equipment as referenced in Table I tasks",
+                    "3": "Conduct RSOP, using collective task 44-TM-9046, ATP 3-01.87, applicable TSOP, and SOPs",
+                    "4": "Crew members prepare for movement drills for the ICC, TCS, CRG, AMG, per drills 44-CW-D0007, 44-CW-D0015, 44-CW-D0022, 44-CW-D0025",
+                    "5": "Crew members emplace the ICC, TCS, CRG, AMG, per drills 44-CW-D0005, 44-CW-D0016, 44-CW-D0024, and 44-CW-D0026",
+                    "6": "ICC crew members initialize the ICC per TM 9-1430-1602-10-1 and drill 44-CW-D0005",
+                    "7": "TCS crew members establish and operate the TCS per communication plan, drill 44-CW-D0026, and TM 9-1430-608-14&P",
+                    "8": "CRG crew members configure the CRG per the communication plan (where LCS operations are required, the CRG will configure the CRG as an LCS), drill 44-CW-D0008, and TM 9-1430-1604-10",
+                    "9": "ICC, TCS, and CRG crew members perform RFA drills, correctly configuring system for directed alert state per drills 44-CW-D0005, 44-CW-D0024, 44-CW-D0026, and applicable SOPs",
+                    "10": "The ICC and TCS conduct air defense operations, while controlling two or more fire platoons, using ABMLs 10 or 11, per ATP 3-01.85 and applicable SOPs",
+                    "11": "CRG crew members demonstrate initialization as an LCS.",
+                    "12": "Perform maintenance sustainment operations, per applicable Army regulations, directives, pamphlets, and SOPs"
+                  }
+            }
+	    }
+    }
+}
