@@ -1,6 +1,8 @@
 import React from 'react';
 import SelectBox from '../../../../../../shared-components/SelectBox';
 import FireUnitGunneryData from '../data/FireUnitGunneryData.json';
+import BattalionGunneryData from '../data/BattalionGunneryData.json';
+
 
 class GunnerySelector extends React.Component {
     constructor (props) {
@@ -21,7 +23,7 @@ class GunnerySelector extends React.Component {
         if (props.unitType === 'Battery') {
             gunneryData = FireUnitGunneryData;
         } else if (props.unitType === 'Battalion') {
-            gunneryData = FireUnitGunneryData;
+            gunneryData = BattalionGunneryData;
         }
 
         // Build state gunnery data information
