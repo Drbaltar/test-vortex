@@ -41,7 +41,7 @@ const GunneryList = (props) => {
                 {props.errorMessage}
             </small>);
         }
-    };
+    }
     
     return(
         <div>

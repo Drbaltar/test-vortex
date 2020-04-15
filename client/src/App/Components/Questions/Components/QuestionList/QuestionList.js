@@ -10,13 +10,13 @@ const QuestionList = (props) => {
                 <div>
                     <p>{'No Pending Questions Found!'}</p>
                 </div>
-            )
+            );
         } else if (questionList.length > 0) {
             searchResultsMessage = (
                 <div>
                     <p>{`${questionList.length} Pending Questions Awaiting Approval!`}</p>
                 </div>
-            )
+            );
         }
     }
 

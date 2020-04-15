@@ -14,7 +14,7 @@ const TextField = (props) => {
                 {props.errorMessage}
             </small>);
         }
-    };
+    }
 
     return(
         <div className="form-group">

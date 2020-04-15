@@ -18,7 +18,7 @@ const SelectBox = (props) => {
                 {props.errorMessage}
             </small>);
         }
-    };
+    }
 
     return(
         <div className="form-group">
