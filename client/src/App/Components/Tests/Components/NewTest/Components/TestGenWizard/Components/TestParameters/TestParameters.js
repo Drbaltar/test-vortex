@@ -1,7 +1,7 @@
 import React from 'react';
 
-import SelectBox from '../../../../../../../shared-components/SelectBox'
-import NavigationButtons from '../shared-components/NavigationButtons'
+import SelectBox from '../../../../../../../shared-components/SelectBox';
+import NavigationButtons from '../shared-components/NavigationButtons';
 
 class TestParameters extends React.Component {
     constructor(props) {
@@ -29,7 +29,7 @@ class TestParameters extends React.Component {
             }
         } else {
             return(['']);
-        };
+        }
     }
 
     // Returns true if all fields have inputs
@@ -43,7 +43,7 @@ class TestParameters extends React.Component {
 
     render() {
         // Change the selectable test type options based on the unit type and test level
-      let testTypeOptions = this.getTestTypeOptions();
+        let testTypeOptions = this.getTestTypeOptions();
 
         return(
             <div className='p-4'>

@@ -11,23 +11,23 @@ class DeleteQuestion extends React.Component {
         this.initialState = {
             submissionResponse: '',
             successAlert: false
-        }
+        };
 
         this.state = this.initialState;
     }
 
     updateSubmissionResponse = (response) => {
-        this.setState({ submissionResponse: response })
+        this.setState({ submissionResponse: response });
     }
 
     returnToMenu = () => {
-        this.setState({submissionResponse: '', successAlert: false})
+        this.setState({submissionResponse: '', successAlert: false});
     };
 
     deleteQuestion = (questionData) => {        
         Axios.delete('/api/questions/delete', { params: { _id: questionData._id } })
             .then((response) => this.setState({submissionResponse: response, successAlert: true}))
-            .catch((response) => this.setState({submissionResponse: response}))
+            .catch((response) => this.setState({submissionResponse: response}));
     };
 
     render(){
@@ -37,7 +37,7 @@ class DeleteQuestion extends React.Component {
             deleteQuestionView = (
                 <SuccessMessage message={this.state.submissionResponse.data}
                     clickHandler={() => this.returnToMenu()}/>
-            )
+            );
         } else {
             deleteQuestionView = (
                 <SingleQuestionSearch questionType={this.props.questionType}
@@ -45,15 +45,15 @@ class DeleteQuestion extends React.Component {
                     action='Delete' deleteButtonText='Delete From Library'
                     submissionResponse={this.state.submissionResponse} successAlert={this.state.successAlert}
                     updateSubmissionResponse={(response) => this.updateSubmissionResponse(response)}/>
-            )
+            );
         }
 
         return (
             <div>
                 {deleteQuestionView}
             </div>
-        )
-    };
+        );
+    }
 }
 
 export default DeleteQuestion;

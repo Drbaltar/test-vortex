@@ -13,12 +13,12 @@ class GunneryTableModal extends React.Component {
             testType: '',
             table: '',
             subtask: ''
-        }
+        };
 
         this.state = this.initialState;
 
         this.toggle = this.toggle.bind(this);
-    };
+    }
 
     toggleTestType = () => {
         let testTypeOptions;
@@ -33,7 +33,7 @@ class GunneryTableModal extends React.Component {
                 options={testTypeOptions}
                 value={this.state.testType}
                 inputChange={(event) => this.handleInputChange(event)}/>
-        )
+        );
     };
 
     toggleGunnerySelector = () => {
@@ -45,7 +45,7 @@ class GunneryTableModal extends React.Component {
                         testType={this.state.testType}
                         subtaskSelect={(table, subtask) => this.handleGunneryChange(table, subtask)}/>
                 </div>
-            )
+            );
         }
     };
 
@@ -69,7 +69,7 @@ class GunneryTableModal extends React.Component {
         } else {
             this.setState(prevState => ({
                 modal: !prevState.modal
-        }));
+            }));
         }
     };
 
@@ -78,7 +78,7 @@ class GunneryTableModal extends React.Component {
             let newEntry = {unitType: this.state.unitType,
                 testType: this.state.testType,
                 table: this.state.table,
-                subtask: this.state.subtask}
+                subtask: this.state.subtask};
             this.props.updateGunneryList(newEntry);
             this.toggle();
         }
@@ -90,27 +90,27 @@ class GunneryTableModal extends React.Component {
         // const correctionMessage = this.getCorrectionMessage();
 
         return (
-        <div>
-            <Button color='info' onClick={this.toggle} className='mt-3 mb-3'>{this.props.buttonLabel}</Button>
-            <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle}>
-            <ModalHeader toggle={this.toggle}>Select Gunnery Information</ModalHeader>
-            <ModalBody>
-                <SelectBox label="Unit Type" id="unitType"
-                    options={['', 'Battery', 'Battalion']}
-                    value={this.state.unitType}
-                    inputChange={(event) => this.handleInputChange(event)}/>
-                {testType}
-                {gunneryTable}
-                {/* {correctionMessage} */}
-            </ModalBody>
-            <ModalFooter>
-                <Button color="success" onClick={this.submitGunneryInfo}>Submit</Button>
-                <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-            </ModalFooter>
-            </Modal>
-        </div>
+            <div>
+                <Button color='info' onClick={this.toggle} className='mt-3 mb-3'>{this.props.buttonLabel}</Button>
+                <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle}>
+                    <ModalHeader toggle={this.toggle}>Select Gunnery Information</ModalHeader>
+                    <ModalBody>
+                        <SelectBox label="Unit Type" id="unitType"
+                            options={['', 'Battery', 'Battalion']}
+                            value={this.state.unitType}
+                            inputChange={(event) => this.handleInputChange(event)}/>
+                        {testType}
+                        {gunneryTable}
+                        {/* {correctionMessage} */}
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="success" onClick={this.submitGunneryInfo}>Submit</Button>
+                        <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
+            </div>
         );
-  }
+    }
 }
 
 export default GunneryTableModal;

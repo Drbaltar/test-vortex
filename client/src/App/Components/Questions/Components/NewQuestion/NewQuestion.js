@@ -11,7 +11,7 @@ class NewQuestion extends React.Component {
         this.initialState = {
             submissionResponse: '',
             successAlert: false
-        }
+        };
 
         this.state = this.initialState;
     }
@@ -19,7 +19,7 @@ class NewQuestion extends React.Component {
     submitNewQuestion = (questionData) => {
         Axios.post('/api/questions/submit', questionData)
             .then((response) => this.setState({submissionResponse: response, successAlert: true}))
-            .catch((response) => this.setState({submissionResponse: response}))
+            .catch((response) => this.setState({submissionResponse: response}));
     }
 
     returnToForm = () => {
@@ -33,13 +33,13 @@ class NewQuestion extends React.Component {
             newQuestionView = (
                 <SuccessMessage message={this.state.submissionResponse.data}
                     clickHandler={() => this.returnToForm()}/>
-            )
+            );
         } else {
             newQuestionView = (
                 <QuestionForm title={`Add New Question (${this.props.questionType})`}
                     submitEvent={(questionData) => this.submitNewQuestion(questionData)}
                     submitButtonText='Submit' cancelButtonText='Clear All'/>
-            )
+            );
         }
         return(
             <div>

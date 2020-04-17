@@ -11,23 +11,23 @@ class updateQuestion extends React.Component {
         this.initialState = {
             submissionResponse: '',
             successAlert: false
-        }
+        };
 
         this.state = this.initialState;
     }
 
     updateSubmissionResponse = (response) => {
-        this.setState({ submissionResponse: response })
+        this.setState({ submissionResponse: response });
     }
 
     returnToMenu = () => {
-        this.setState({submissionResponse: '', successAlert: false})
+        this.setState({submissionResponse: '', successAlert: false});
     };
 
     updateQuestion = (questionData) => {
         Axios.put('/api/questions/update', questionData)
             .then((response) => this.setState({submissionResponse: response, successAlert: true}))
-            .catch((response) => this.setState({submissionResponse: response}))
+            .catch((response) => this.setState({submissionResponse: response}));
     };
 
     render(){
@@ -37,7 +37,7 @@ class updateQuestion extends React.Component {
             updateQuestionView = (
                 <SuccessMessage message={this.state.submissionResponse.data}
                     clickHandler={() => this.returnToMenu()}/>
-            )
+            );
         } else {
             updateQuestionView = (
                 <div>
@@ -47,14 +47,14 @@ class updateQuestion extends React.Component {
                         submissionResponse={this.state.submissionResponse} successAlert={this.state.successAlert}
                         updateSubmissionResponse={(response) => this.updateSubmissionResponse(response)}/>
                 </div>
-            )
+            );
         }
         return (
             <div>
                 {updateQuestionView}
             </div>
-        )
-    };
+        );
+    }
 }
 
 export default updateQuestion;

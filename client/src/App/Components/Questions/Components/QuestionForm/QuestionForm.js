@@ -29,7 +29,7 @@ class QuestionForm extends React.Component {
                     testType: entry.test_type,
                     table: entry.table,
                     subtask: entry.subtask
-                }
+                };
             });
 
             this.initialState = {
@@ -43,7 +43,7 @@ class QuestionForm extends React.Component {
                 gunneryTable,
                 topic: props.data.topic,
                 inputValidity
-            }
+            };
         } else {
             this.initialState = {
                 questionType: 'Multiple Choice',
@@ -55,11 +55,11 @@ class QuestionForm extends React.Component {
                 gunneryTable: [],
                 topic: '',
                 inputValidity
-            }
-        };
+            };
+        }
 
         this.state = this.initialState;
-    };
+    }
 
     handleInputChange = (event) => {
         const {target: { id, value}} = event;
@@ -112,7 +112,7 @@ class QuestionForm extends React.Component {
                     inputChange={(event) => this.handleInputChange(event)}
                     isValid={this.state.inputValidity.isCorrectAnswerValid}
                     errorMessage={'Please select either \'True\' or \'False\''}/>
-            )
+            );
         } else {
             return (
                 <TextField label="Correct Answer"id="correctAnswer" type="text"
@@ -120,7 +120,7 @@ class QuestionForm extends React.Component {
                     inputChange={(event) => this.handleInputChange(event)}
                     isValid={this.state.inputValidity.isCorrectAnswerValid}
                     errorMessage={'The \'Correct Answer\' field is required!'}/>
-            )
+            );
         }
     };
 
@@ -130,7 +130,7 @@ class QuestionForm extends React.Component {
             return (
                 <button className="btn btn-info" id="updateButton"
                     onClick={(event) => this.handleClickEvent(event)}>Apply Question Changes</button>
-            )
+            );
         }
     }
 
@@ -155,8 +155,8 @@ class QuestionForm extends React.Component {
                         isValid={this.state.inputValidity.isAnswerCValid}
                         errorMessage={'The \'Answer C\' field is required!'}/>
                 </div>
-            )
-        };
+            );
+        }
     };
 
     isAllInputValid = () => {
@@ -183,7 +183,7 @@ class QuestionForm extends React.Component {
             isAnswerCValid,
             isGunneryTableValid,
             isTopicValid
-        }
+        };
 
         let isAllValid = (isQuestionTypeValid !== false && isQuestionDescriptionValid !== false &&
             isCorrectAnswerValid !== false && isAnswerAValid !== false && isAnswerBValid !== false &&
@@ -206,44 +206,44 @@ class QuestionForm extends React.Component {
         return(
             <form className="card bg-light" noValidate>
                 <h1 className="card-header">{this.props.title}</h1>
-                    <div className="p-4">
-                        <SelectBox label="Question Type" id="questionType"
-                            options={['Multiple Choice', 'Fill-in-the-Blank', 'True or False']}
-                            value={this.state.questionType}
-                            inputChange={(event) => this.handleInputChange(event)}
-                            isValid={this.state.inputValidity.isQuestionTypeValid}
-                            errorMessage='You must select the question type!'/>
-                        <TextArea label="Question Description" id="questionDescription" type="text" rows="4"
-                            value={this.state.questionDescription}
-                            inputChange={(event) => this.handleInputChange(event)}
-                            isValid={this.state.inputValidity.isQuestionDescriptionValid}
-                            errorMessage='The question description must be at least 10 characters!'/>
-                        {correctAnswerField}
-                        {multChoiceAnswers}
-                        <GunneryTableModal buttonLabel='Add Gunnery Table/Subtask'
-                            updateGunneryList={(newEntry) => this.updateGunneryList(newEntry)}/>
-                        <GunneryList list={this.state.gunneryTable}
-                            deleteEntry={(index) => this.deleteGunneryListEntry(index)}
-                            isValid={this.state.inputValidity.isGunneryTableValid}
-                            errorMessage={'You must select at least one applicable Gunnery Table/Subtask!'}/>
-                        <TextField label="Topic"id="topic" type="text"
-                            value={this.state.topic}
-                            inputChange={(event) => this.handleInputChange(event)}
-                            isValid={this.state.inputValidity.isTopicValid}
-                            errorMessage={'The \'Topic\' field is required!'}/>
-                    </div>
+                <div className="p-4">
+                    <SelectBox label="Question Type" id="questionType"
+                        options={['Multiple Choice', 'Fill-in-the-Blank', 'True or False']}
+                        value={this.state.questionType}
+                        inputChange={(event) => this.handleInputChange(event)}
+                        isValid={this.state.inputValidity.isQuestionTypeValid}
+                        errorMessage='You must select the question type!'/>
+                    <TextArea label="Question Description" id="questionDescription" type="text" rows="4"
+                        value={this.state.questionDescription}
+                        inputChange={(event) => this.handleInputChange(event)}
+                        isValid={this.state.inputValidity.isQuestionDescriptionValid}
+                        errorMessage='The question description must be at least 10 characters!'/>
+                    {correctAnswerField}
+                    {multChoiceAnswers}
+                    <GunneryTableModal buttonLabel='Add Gunnery Table/Subtask'
+                        updateGunneryList={(newEntry) => this.updateGunneryList(newEntry)}/>
+                    <GunneryList list={this.state.gunneryTable}
+                        deleteEntry={(index) => this.deleteGunneryListEntry(index)}
+                        isValid={this.state.inputValidity.isGunneryTableValid}
+                        errorMessage={'You must select at least one applicable Gunnery Table/Subtask!'}/>
+                    <TextField label="Topic"id="topic" type="text"
+                        value={this.state.topic}
+                        inputChange={(event) => this.handleInputChange(event)}
+                        isValid={this.state.inputValidity.isTopicValid}
+                        errorMessage={'The \'Topic\' field is required!'}/>
+                </div>
                 <div className="card-footer">
                     {updateButton}
-                    <FormButtons submitButtonID={"submitButton"}
+                    <FormButtons submitButtonID={'submitButton'}
                         submitButtonText={this.props.submitButtonText} 
-                        cancelButtonID={"clearAllButton"}
+                        cancelButtonID={'clearAllButton'}
                         cancelButtonText={this.props.cancelButtonText}
-                        deleteButtonID={"deleteButton"}
+                        deleteButtonID={'deleteButton'}
                         deleteButtonText={this.props.deleteButtonText}
                         clickHandler={(event) => this.handleClickEvent(event)}/>
                 </div>
             </form> 
-        )
+        );
     }
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import NavigationButtons from '../shared-components/NavigationButtons'
+import NavigationButtons from '../shared-components/NavigationButtons';
 
 class QuestionReview extends React.Component {
     constructor(props) {

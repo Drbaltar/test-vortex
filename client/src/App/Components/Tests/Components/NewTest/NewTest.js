@@ -10,7 +10,7 @@ class NewTest extends React.Component {
         this.initialState = {
             submissionResponse: '',
             successAlert: false
-        }
+        };
 
         this.state = this.initialState;
     }
@@ -26,11 +26,11 @@ class NewTest extends React.Component {
             newTestView = (
                 <SuccessMessage message={this.state.submissionResponse.data}
                     clickHandler={() => this.returnToMenu()}/>
-            )
+            );
         } else {
             newTestView = (
                 <TestGenWizard title={`Generate New Test (${this.props.testType})`}/>
-            )
+            );
         }
         return(
             <div>

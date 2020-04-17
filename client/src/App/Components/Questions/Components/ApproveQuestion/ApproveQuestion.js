@@ -20,7 +20,7 @@ class ApproveQuestion extends React.Component {
         };
 
         this.state = this.initialState;
-    };
+    }
 
     handleClickEvent = (event) => {
         event.preventDefault();
@@ -32,41 +32,41 @@ class ApproveQuestion extends React.Component {
     };
 
     showDetails = (index) => {
-        this.setState({ detailedView: true, selectedEntry: index})
+        this.setState({ detailedView: true, selectedEntry: index});
     };
 
     returnToMenu = () => {
-        this.setState({detailedView: false, selectedEntry: null})
+        this.setState({detailedView: false, selectedEntry: null});
     };
 
     returnToForm = () => {
         this.setState({allPendingQuestions: [], hasSearchRan: false, submissionResponse: '', successAlert: false, detailedView: false, selectedEntry: null}, 
-            () => { this.getAllPendingQuestions()});
+            () => { this.getAllPendingQuestions();});
     }
 
     getAllPendingQuestions = () => {
         this.setState({loading: true});
 
         Axios.get('/api/questions/pending')
-            .then((response) => this.setState({allPendingQuestions: response.data, hasSearchRan: true, loading: false}))
+            .then((response) => this.setState({allPendingQuestions: response.data, hasSearchRan: true, loading: false}));
     };
 
     approveNewQuestion = (questionData) => {
         Axios.post('/api/questions/approve', questionData)
             .then((response) => this.setState({submissionResponse: response, successAlert: true}))
-            .catch((response) => this.setState({submissionResponse: response}))
+            .catch((response) => this.setState({submissionResponse: response}));
     };
 
     updatePendingQuestion = (questionData) => {
         Axios.put('/api/questions/update-pending', questionData)
             .then((response) => this.setState({submissionResponse: response, successAlert: true}))
-            .catch((response) => this.setState({submissionResponse: response}))
+            .catch((response) => this.setState({submissionResponse: response}));
     }
 
     disapproveNewQuestion = (questionData) => {
         Axios.post('/api/questions/delete-pending', questionData)
             .then((response) => this.setState({submissionResponse: response, successAlert: true}))
-            .catch((response) => this.setState({submissionResponse: response}))
+            .catch((response) => this.setState({submissionResponse: response}));
     };
 
     render() {
@@ -82,14 +82,14 @@ class ApproveQuestion extends React.Component {
                             <span className="sr-only">Loading...</span>
                         </div>
                     </div>
-                )
+                );
             }
             
             approveQuestionView = (
                 <form className="card bg-light" noValidate>
                     <h1 className="card-header">Approve Pending Questions ({this.props.questionType})</h1>
                     <div className="pt-3 pr-3">
-                        <div className="btn btn-primary" style={{float: "right"}} id="queryButton"
+                        <div className="btn btn-primary" style={{float: 'right'}} id="queryButton"
                             onClick={(event) => this.handleClickEvent(event)}>
                             &#8635; Refresh List
                         </div>
@@ -101,16 +101,16 @@ class ApproveQuestion extends React.Component {
                             hasSearchRan={this.state.hasSearchRan}/>
                     </div>
                 </form>
-            )
+            );
         } else {
             if (this.state.successAlert) {
                 approveQuestionView = (
                     <SuccessMessage message={this.state.submissionResponse.data}
                         clickHandler={() => this.returnToForm()}/>
-            )} else {
+                );} else {
                 approveQuestionView = (
                     <div>
-                        <div className="btn btn-secondary mt-4" style={{marginLeft: "20px"}} id="returnButton"
+                        <div className="btn btn-secondary mt-4" style={{marginLeft: '20px'}} id="returnButton"
                             onClick={this.returnToMenu}>
                             &#8678; Go Back
                         </div>
@@ -121,7 +121,7 @@ class ApproveQuestion extends React.Component {
                             updateEvent={(questionData) => this.updatePendingQuestion(questionData)}
                             deleteEvent={(questionData) => this.disapproveNewQuestion(questionData)}/>
                     </div>
-                )
+                );
             }
         }
 
@@ -129,8 +129,8 @@ class ApproveQuestion extends React.Component {
             <div>
                 {approveQuestionView}
             </div>
-        )
-    };
+        );
+    }
 
 }
 

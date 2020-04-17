@@ -1,6 +1,6 @@
 import React from 'react';
 
-import NavigationButtons from '../shared-components/NavigationButtons'
+import NavigationButtons from '../shared-components/NavigationButtons';
 
 class QuestionSelectionMethod extends React.Component {
     constructor(props) {
@@ -10,7 +10,7 @@ class QuestionSelectionMethod extends React.Component {
     // Returns true if all fields have inputs
     isAllFieldsComplete = () => {
         // Only question slider and auto selection needed for form to be complete
-        if (this.props.numberOfQuestions && this.props.questionSelection === "auto") {
+        if (this.props.numberOfQuestions && this.props.questionSelection === 'auto') {
             return true;
         }
     }
@@ -26,12 +26,12 @@ class QuestionSelectionMethod extends React.Component {
                 <p style={{'textAlign': 'center'}}>{`${this.props.numberOfQuestions} Questions`}</p>
                 <div className="custom-control custom-radio mb-2">
                     <input type="radio" id="autoSelectRadio" name="selectionMethodRadio" className="custom-control-input"
-                        onChange={this.props.radioChange} value="auto" checked={this.props.questionSelection === "auto"}/>
+                        onChange={this.props.radioChange} value="auto" checked={this.props.questionSelection === 'auto'}/>
                     <label className="custom-control-label" htmlFor="autoSelectRadio">Automatic Question Selection</label>
                 </div>
                 <div className="custom-control custom-radio mb-4">
                     <input type="radio" id="manualSelectRadio" name="selectionMethodRadio" className="custom-control-input"
-                        onChange={this.props.radioChange} value="manual" checked={this.props.questionSelection === "manual"}/>
+                        onChange={this.props.radioChange} value="manual" checked={this.props.questionSelection === 'manual'}/>
                     <label className="custom-control-label" htmlFor="manualSelectRadio">Manual Question Selection</label>
                 </div>
                 <NavigationButtons  previousButton={true} nextButton={true} 

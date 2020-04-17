@@ -12,7 +12,7 @@ class GunnerySelector extends React.Component {
             gunneryData: '',
             openTab: '',
             searchInput: ''
-        }
+        };
 
         this.state = this.initialState;
 
@@ -29,7 +29,7 @@ class GunnerySelector extends React.Component {
         // Build state gunnery data information
         this.state.gunneryData = Object.entries(gunneryData.TableDescriptions.Table).map((entry) => {
             return { table: entry[0], description: entry[1].Description, subtasks: entry[1].Subtask, 
-                filteredSubtasks: Object.values(entry[1].Subtask)}
+                filteredSubtasks: Object.values(entry[1].Subtask)};
         });
     }
 
@@ -40,9 +40,9 @@ class GunnerySelector extends React.Component {
                 <button className="btn btn-outline-secondary col-sm" key={gunneryTable.table} id={gunneryTable.table} title={gunneryTable.description} 
                     onClick={() => this.setState({openTab: gunneryTable.table})}>{gunneryTable.table}
                     <span className="badge badge-primary ml-3" 
-                    onClick={() => this.setState({openTab: gunneryTable.table})}>{filteredSubtasks.length}</span>
+                        onClick={() => this.setState({openTab: gunneryTable.table})}>{filteredSubtasks.length}</span>
                 </button>
-            )
+            );
         });
         return tabs;
     }
@@ -51,14 +51,14 @@ class GunnerySelector extends React.Component {
         let selectedTable = this.state.gunneryData.find(entry => entry.table === this.state.openTab);
         
         if (selectedTable) {
-                return(
-                    <div className="tab-pane fade show active mt-2" key={selectedTable.table} role="tabpanel">
-                        <SelectBox label="Subtask List" id="subtaskList" size="8"
-                            options={Object.values(selectedTable.subtasks).filter(entry => entry.toLowerCase().includes(this.state.searchInput.toLowerCase()))}
-                            inputChange={(event) => this.handleSubtaskSelect(event)}/>
-                    </div>
-                )
-            }
+            return(
+                <div className="tab-pane fade show active mt-2" key={selectedTable.table} role="tabpanel">
+                    <SelectBox label="Subtask List" id="subtaskList" size="8"
+                        options={Object.values(selectedTable.subtasks).filter(entry => entry.toLowerCase().includes(this.state.searchInput.toLowerCase()))}
+                        inputChange={(event) => this.handleSubtaskSelect(event)}/>
+                </div>
+            );
+        }
     }
 
     handleInputChange = (event) => {
@@ -75,7 +75,7 @@ class GunnerySelector extends React.Component {
                     table = entry.table;
                     subtask = task[0];
                 }
-            })
+            });
         });
 
         this.props.subtaskSelect(table, subtask);
@@ -99,7 +99,7 @@ class GunnerySelector extends React.Component {
                 </div>
                 {this.buildPane()}
             </div>
-        )
+        );
     }
 }
 
