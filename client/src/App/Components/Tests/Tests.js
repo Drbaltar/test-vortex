@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 import SideBar from '../shared-components/SideBar/SideBar';
+import NewTest from './Components/NewTest/NewTest';
 
 const Tests = () => {
     const match = useRouteMatch();
@@ -14,7 +15,7 @@ const Tests = () => {
             { title: 'Delete (Existing)', link: 'delete-patriot'}]
     }];
 
-    return(
+    return( 
         <div className="container-fluid">
             <div className="row">
                 <div className="sidenav">
@@ -22,8 +23,10 @@ const Tests = () => {
                 </div>
                 
                 <Switch>
-                    <Route>
-                        
+                    <Route exact path={`${match.path}/generate-patriot`}>
+                        <div className="col sub-body">
+                            <NewTest testType="Patriot"/>
+                        </div>
                     </Route>
                 </Switch>
             </div>

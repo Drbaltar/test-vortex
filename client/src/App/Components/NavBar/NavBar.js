@@ -10,19 +10,19 @@ class NavBar extends React.Component {
         this.state = {
             navbarCollapse: true
         };
-    };
+    }
 
     toggleNavBarCollapse = () => {
-        this.setState({ navbarCollapse: !this.state.navbarCollapse })
+        this.setState({ navbarCollapse: !this.state.navbarCollapse });
     }
 
     
     collapseNavBar = () => {
-        this.setState({ navbarCollapse: true })
+        this.setState({ navbarCollapse: true });
     }
 
     render() {
-        const collapse = (this.state.navbarCollapse) ? "collapse navbar-collapse" : "collapse navbar-collapse show"; 
+        const collapse = (this.state.navbarCollapse) ? 'collapse navbar-collapse' : 'collapse navbar-collapse show'; 
 
         return(
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">

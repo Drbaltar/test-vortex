@@ -118,7 +118,7 @@ router.put('/update-pending', (req, res) => {
 });
 
 // Route for deleting questions that were submitted and are pending approval
-router.delete('/delete-pending', (req, res) => {
+router.post('/delete-pending', (req, res) => {
     const previousQuestionId = req.body._id;
 
     if (previousQuestionId) {
