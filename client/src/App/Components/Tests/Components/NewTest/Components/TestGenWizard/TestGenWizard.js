@@ -147,7 +147,9 @@ class TestGenWizard extends React.Component {
             break;
         case 4:
             generateStatus = generateStatus + ' selected';
-            selectedTabPane = <GenerateTest clickHandler={(event) => this.handleClickEvent(event)}/>;
+            selectedTabPane = <GenerateTest unitType={this.state.unitType} testLevel={this.state.testLevel}
+                testType={this.state.testType}
+                clickHandler={(event) => this.handleClickEvent(event)}/>;
         }
 
         return(
