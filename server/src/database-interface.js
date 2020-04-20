@@ -60,6 +60,17 @@ const getExistingQuestion = (id, callback) => {
     });
 };
 
+// Returns the appropriate questions based on the passed in unit and test type
+const getExistingQuestionsByCategory = (unitType, testType, callback) => {
+    // Declare the existing question entry using MultQuestion model to represent 'Existing' database
+    let entry = MultQuestion.MultQuestion;
+
+    entry.find({'gunnery_table.unit_type': unitType, 
+        'gunnery_table.test_type': testType}, (err, doc) => {
+        callback(err, doc);
+    });
+};
+
 // Returns the appropriate document for the entry ID passed in
 const getExistingQuestionForUpdate = (id, questionType, callback) => {
     // Declare the existing question entry using MultQuestion model to represent 'Existing' database
@@ -101,6 +112,7 @@ module.exports = {
     getPendingQuestion,
     deletePendingQuestion,
     getExistingQuestion,
+    getExistingQuestionsByCategory,
     getExistingQuestionForUpdate,
     deleteExistingQuestion
 };
