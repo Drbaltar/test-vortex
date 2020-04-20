@@ -1,8 +1,11 @@
-const PatriotTestFormat = (testLevel, testType, version, date) => {
+const PatriotTestFormat = (unitType, testLevel, testType, version, date) => {
     return ({
         content: [
             {
-                text: `\n\n\n\n${testLevel} Exam\n\n${testType}\n\n\n\n\n\n\n${testType === 'Early Warning/Mission Command' ? '' : '\n'}`,
+                text: `\n\n\n\n${testLevel} Exam
+                    \n${testType}
+                    (${unitType})
+                    \n\n\n\n\n${testType === 'Early Warning/Mission Command' ? '' : '\n'}`,
                 style: 'titlePageHeader'
             },
             {
