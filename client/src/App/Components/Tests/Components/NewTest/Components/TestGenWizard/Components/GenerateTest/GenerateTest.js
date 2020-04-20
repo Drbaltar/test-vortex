@@ -20,7 +20,7 @@ class GenerateTest extends React.Component {
     downloadTest = (event) => {
         event.preventDefault();
 
-        let docDefinition = PatriotTestFormat(this.props.testLevel, this.props.testType);
+        let docDefinition = PatriotTestFormat(this.props.unitType, this.props.testLevel, this.props.testType);
         pdfMake.createPdf(docDefinition).open();
         
     }
