@@ -1,5 +1,5 @@
 import React from 'react';
-// import Axios from 'axios';
+import Axios from 'axios';
 
 import TestParameters from './Components/TestParameters/TestParameters';
 import QuestionSelectionMethod from './Components/QuestionSelectionMethod/QuestionSelectionMethod';
@@ -22,7 +22,9 @@ class TestGenWizard extends React.Component {
             numberOfQuestions: 50,
             minQuestions: 0,
             maxQuestions: 100,
-            questionSelection: ''
+            questionSelection: '',
+            loadingQuestions: false,
+            testQuestions: []
         };
 
         this.state = this.initialState;
@@ -74,7 +76,7 @@ class TestGenWizard extends React.Component {
                 return false;
             }
         case 2:
-            this.setState({isSelectionMethodComplete: true});
+            this.setState({isSelectionMethodComplete: true}, this.getTestQuestionsAuto());
             return true;
         case 3:
             this.setState({isQuestionReviewComplete: true});
@@ -91,6 +93,16 @@ class TestGenWizard extends React.Component {
         } else if (this.state.testLevel === 'Table VIII') {
             this.setState({minQuestions: 50, maxQuestions: 100, numberOfQuestions: 50});
         }
+    }
+
+    // Requests the test questions based on automatic question selection
+    getTestQuestionsAuto = () => {
+        this.setState({loadingQuestions: true});
+
+        Axios.get(`/api/tests/new-patriot-auto?unitType=${this.state.unitType}` +
+            `&testType=${this.state.testType}&testLevel=${this.state.testLevel}` +
+            `&numberOfQuestions=${this.state.numberOfQuestions}`)
+            .then((response) => this.setState({testQuestions: response.data, loadingQuestions: false}));
     }
 
     render() {
@@ -143,12 +155,13 @@ class TestGenWizard extends React.Component {
             break;
         case 3:
             reviewStatus = reviewStatus + ' selected';
-            selectedTabPane = <QuestionReview clickHandler={(event) => this.handleClickEvent(event)}/>;
+            selectedTabPane = <QuestionReview clickHandler={(event) => this.handleClickEvent(event)}
+                loadingQuestions={this.state.loadingQuestions} testQuestions={this.state.testQuestions}/>;
             break;
         case 4:
             generateStatus = generateStatus + ' selected';
             selectedTabPane = <GenerateTest unitType={this.state.unitType} testLevel={this.state.testLevel}
-                testType={this.state.testType}
+                testType={this.state.testType} testQuestions={this.state.testQuestions}
                 clickHandler={(event) => this.handleClickEvent(event)}/>;
         }
 
