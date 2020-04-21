@@ -24,6 +24,7 @@ class TestGenWizard extends React.Component {
             maxQuestions: 100,
             questionSelection: '',
             loadingQuestions: false,
+            hasSearchRan: false,
             testQuestions: []
         };
 
@@ -102,7 +103,7 @@ class TestGenWizard extends React.Component {
         Axios.get(`/api/tests/new-patriot-auto?unitType=${this.state.unitType}` +
             `&testType=${this.state.testType}&testLevel=${this.state.testLevel}` +
             `&numberOfQuestions=${this.state.numberOfQuestions}`)
-            .then((response) => this.setState({testQuestions: response.data, loadingQuestions: false}));
+            .then((response) => this.setState({testQuestions: response.data, loadingQuestions: false, hasSearchRan: true}));
     }
 
     render() {
@@ -155,8 +156,11 @@ class TestGenWizard extends React.Component {
             break;
         case 3:
             reviewStatus = reviewStatus + ' selected';
-            selectedTabPane = <QuestionReview clickHandler={(event) => this.handleClickEvent(event)}
-                loadingQuestions={this.state.loadingQuestions} testQuestions={this.state.testQuestions}/>;
+            selectedTabPane = <QuestionReview loadingQuestions={this.state.loadingQuestions}
+                hasSearchRan={this.state.hasSearchRan}
+                testQuestions={this.state.testQuestions}
+                clickHandler={(event) => this.handleClickEvent(event)}
+                />;
             break;
         case 4:
             generateStatus = generateStatus + ' selected';
