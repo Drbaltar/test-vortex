@@ -1,5 +1,6 @@
 import React from 'react';
 
+import QuestionPreview from './Components/QuestionPreview/QuestionPreview'
 import NavigationButtons from '../shared-components/NavigationButtons';
 
 class QuestionReview extends React.Component {
@@ -14,6 +15,7 @@ class QuestionReview extends React.Component {
 
     render() {
         let loadingSpinner;
+        let questionList;
 
         if (this.props.loadingQuestions) {
             loadingSpinner = (
@@ -23,14 +25,16 @@ class QuestionReview extends React.Component {
                     </div>
                 </div>
             );
+        } else if (this.props.hasSearchRan) {
+            questionList= (
+                <QuestionPreview testQuestions={this.props.testQuestions}/>
+            );
         }
 
         return(
             <div className='p-4'>
                 <h2 style={{'textAlign': 'center'}}>Review All Test Questions</h2>
-                <div>
-                    {/* <p>{this.props.testQuestions}</p> */}
-                </div>
+                {questionList}
                 {loadingSpinner}
                 <NavigationButtons  previousButton={true} nextButton={true} 
                     isNextButtonDisabled={!this.isAllFieldsComplete()}
