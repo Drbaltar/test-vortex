@@ -25,7 +25,7 @@ const QuestionPreview = (props) => {
                 <div key={index++}>
                     <li className="list-group-item">
                         <div style={{fontSize:'110%'}}>
-                            {`${entry.question_description}`}
+                            {`${index}) ${entry.question_description}`}
                         </div>
                         <div style={{marginLeft: '25px'}}>
                             <b>{`${entry.correct_answer}`}</b> <br/>
@@ -41,7 +41,7 @@ const QuestionPreview = (props) => {
                 <div key={index++}>
                     <li className="list-group-item">
                         <div style={{fontSize:'110%'}}>
-                            {`${entry.question_description}`}
+                            {`${index}) ${entry.question_description}`}
                         </div>
                         <div style={{marginLeft: '25px'}}>
                             <b>{`${entry.correct_answer}`}</b>
@@ -54,7 +54,7 @@ const QuestionPreview = (props) => {
                 <div key={index++}>
                     <li className="list-group-item">
                         <div style={{fontSize:'110%'}}>
-                            {`${entry.question_description}`}
+                            {`${index}) ${entry.question_description}`}
                         </div>
                         <div style={{marginLeft: '25px'}}>
                             {entry.correct_answer === 'True' ? 
