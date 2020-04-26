@@ -6,7 +6,7 @@ import SelectBox from '../../../shared-components/SelectBox';
 import FormButtons from '../../../shared-components/FormButtons';
 import GunneryTableModal from './Components/PatriotGunneryModal/PatriotGunneryModal';
 import GunneryList from './Components/GunneryList';
-import TopicCategoryDropdown from './Components/TopicCategoryDropdown/TopicCategoryDropdown';
+import TopicCategories from './Components/TopicCategories/TopicCategories'
 import './QuestionForm.css';
 
 class QuestionForm extends React.Component {
@@ -247,17 +247,11 @@ class QuestionForm extends React.Component {
                         deleteEntry={(index) => this.deleteGunneryListEntry(index)}
                         isValid={this.state.inputValidity.isGunneryTableValid}
                         errorMessage={'You must select at least one applicable Gunnery Table/Subtask!'}/>
-                    <div className="border border-muted rounded mt-3 p-3">
-                        <small id="multChoiceAnswerLabel" className="form-text">Select or input a Major Category and Sub-Category for your question topic:</small>
-                        <TopicCategoryDropdown categoryType='Major Category' inputCategory={this.state.topic.majorCategory} 
-                            categoryID='majorCategory' inputChange={(event) => this.handleTopicChange(event)}
-                            isValid={this.state.inputValidity.isMajorTopicValid}
-                            errorMessage={'You must select or input a Major Category for your question topic!'}/>
-                        <TopicCategoryDropdown categoryType='Sub-Category' inputCategory={this.state.topic.subCategory}
-                            categoryID='subCategory' inputChange={(event) => this.handleTopicChange(event)}
-                            isValid={this.state.inputValidity.isSubTopicValid}
-                            errorMessage={'You must select or input a Sub-Category for your question topic!'}/>
-                    </div>
+                    <TopicCategories topic={this.state.topic} gunneryTable={this.state.gunneryTable}
+                        isMajorTopicValid={this.state.inputValidity.isMajorTopicValid}
+                        isSubTopicValid={this.state.inputValidity.isSubTopicValid}
+                        inputChange={(event) => this.handleTopicChange(event)}/>
+
                 </div>
                 <div className="card-footer">
                     {updateButton}
