@@ -303,9 +303,9 @@ router.delete('/delete', (req, res) => {
 /*------------------------Operations for Requesting Topic Categories-----------------------*/
 // Route for getting the topic categories based on the gunnery table and subtask
 router.get('/topics', (req, res) => {
-    // Check to see if both the gunnery table and subtask was passed in
-    if (req.query.table && req.query.subtask) {
-        dbInterface.getTopicCategories(req.query.table, req.query.subtask, (err, queryResults) => {
+    // Check to see if the unit type, gunnery table and subtask was passed in
+    if (req.query.unitType && req.query.table && req.query.subtask) {
+        dbInterface.getTopicCategories(req.query.unitType, req.query.table, req.query.subtask, (err, queryResults) => {
             if (err) {
                 res.status(500).send(err);
             } else {
@@ -329,9 +329,11 @@ router.get('/topics', (req, res) => {
             }
         });
     } else {
-        if (!req.query.table) {
+        if (!req.query.unitType) {
+            res.status(400).send('The \'Unit Type\' is required!');
+        } else if (!req.query.table) {
             res.status(400).send('The \'Gunnery Table\' is required!');
-        } else {
+        } else if (!req.query.subtask){
             res.status(400).send('The \'Gunnery Subtask\' is required!');
         }
     }

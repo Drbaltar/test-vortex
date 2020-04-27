@@ -193,8 +193,8 @@ class QuestionForm extends React.Component {
         if (this.state.gunneryTable.length === 0) {
             this.setState({existingTopicCategories: null});
         } else { this.setState({isTopicLoading: true}, () => {
-            Axios.get('/api/questions/topics', { params: { table: this.state.gunneryTable[0].table, 
-                subtask: this.state.gunneryTable[0].subtask}})
+            Axios.get('/api/questions/topics', { params: { unitType: this.state.gunneryTable[0].unitType, 
+                table: this.state.gunneryTable[0].table, subtask: this.state.gunneryTable[0].subtask}})
                 .then((response) => this.setState({existingTopicCategories: response.data, isTopicLoading: false}))
                 .catch((response) => {
                     this.setState({existingTopicCategories: null, isTopicLoading: false});

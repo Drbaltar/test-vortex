@@ -110,11 +110,11 @@ const deleteExistingQuestion = (id, callback) => {
 /*------------------------Operations for Requesting Topic Categories-----------------------*/
 
 // Returns an array of topic categories based on the input gunnery table and subtask
-const getTopicCategories = (table, subtask, callback) => {
+const getTopicCategories = (unitType, table, subtask, callback) => {
     // Declare the existing question entry using MultQuestion model to represent 'Existing' database
     let entry = MultQuestion.MultQuestion;
 
-    entry.find({'gunnery_table.table': table, 
+    entry.find({'gunnery_table.unit_type': unitType, 'gunnery_table.table': table, 
         'gunnery_table.subtask': subtask}, (err, doc) => {
         callback(err, doc);
     });
