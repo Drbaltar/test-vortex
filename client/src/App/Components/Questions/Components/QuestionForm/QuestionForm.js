@@ -50,6 +50,7 @@ class QuestionForm extends React.Component {
                     subCategory: props.data.topic.sub_category
                 },
                 inputValidity,
+                isTopicLoading: false,
                 existingTopicCategories: null
             };
         } else {
@@ -66,6 +67,7 @@ class QuestionForm extends React.Component {
                     subCategory: ''
                 },
                 inputValidity,
+                isTopicLoading: false,
                 existingTopicCategories: null
             };
         }
@@ -111,10 +113,8 @@ class QuestionForm extends React.Component {
     handleTopicChange = (category, value) => {
         if ( category === 'majorCategory') {
             this.setState({topic: {[category]: value, subCategory: ''}});
-            return;
         } else if ( category === 'subCategory') {
             this.setState({topic: {majorCategory: this.state.topic.majorCategory, [category]: value,}});
-            return;
         }
     }
 
@@ -192,13 +192,14 @@ class QuestionForm extends React.Component {
     getExistingTopics = () => {
         if (this.state.gunneryTable.length === 0) {
             this.setState({existingTopicCategories: null});
-        } else {
+        } else { this.setState({isTopicLoading: true}, () => {
             Axios.get('/api/questions/topics', { params: { table: this.state.gunneryTable[0].table, 
                 subtask: this.state.gunneryTable[0].subtask}})
-                .then((response) => this.setState({existingTopicCategories: response.data}))
+                .then((response) => this.setState({existingTopicCategories: response.data, isTopicLoading: false}))
                 .catch((response) => {
-                    this.setState({existingTopicCategories: null});
+                    this.setState({existingTopicCategories: null, isTopicLoading: false});
                 });
+            })
         }
     }
 
@@ -275,6 +276,7 @@ class QuestionForm extends React.Component {
                         existingTopicCategories={this.state.existingTopicCategories}
                         isMajorTopicValid={this.state.inputValidity.isMajorTopicValid}
                         isSubTopicValid={this.state.inputValidity.isSubTopicValid}
+                        isTopicLoading={this.state.isTopicLoading}
                         inputChange={(event) => this.handleInputChange(event)}
                         topicChange={(category, value) => this.handleTopicChange(category, value)}/>
 

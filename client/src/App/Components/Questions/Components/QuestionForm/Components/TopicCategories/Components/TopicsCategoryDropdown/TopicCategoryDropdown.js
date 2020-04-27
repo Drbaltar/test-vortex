@@ -16,7 +16,6 @@ class TopicCategoryDropdown extends React.Component {
 
     selectFromDropdown = (event) => {
         event.preventDefault();
-        
         this.props.topicChange(this.props.categoryID, event.target.id);
     }
 
@@ -52,7 +51,7 @@ class TopicCategoryDropdown extends React.Component {
                     <div className='input-group-prepend'>
                         <Dropdown isOpen={this.state.isDropdownOpen} toggle={() => this.toggleDropdown()}>
                             <DropdownToggle caret>
-                                Existing Categories
+                                {this.props.isTopicLoading ? 'Loading...' :'Existing Categories'}
                             </DropdownToggle>
                             <DropdownMenu>
                                 {this.populateMenu()}

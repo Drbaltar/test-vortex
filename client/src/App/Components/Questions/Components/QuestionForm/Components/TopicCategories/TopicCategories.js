@@ -20,12 +20,14 @@ const TopicCategories = (props) => {
                 categoryID='majorCategory' inputChange={(event) => props.inputChange(event)}
                 isValid={props.isMajorTopicValid} existingTopicCategories={majorTopics}
                 errorMessage={'You must select or input a Major Category for your question topic!'}
-                topicChange={(category, value) => props.topicChange(category, value)}/>
+                topicChange={(category, value) => props.topicChange(category, value)}
+                isTopicLoading={props.isTopicLoading}/>
             <TopicCategoryDropdown categoryType='Sub-Category' inputCategory={props.topic.subCategory}
                 categoryID='subCategory' inputChange={(event) => props.inputChange(event)}
                 isValid={props.isSubTopicValid} existingTopicCategories={subTopics}
                 errorMessage={'You must select or input a Sub-Category for your question topic!'}
-                topicChange={(category, value) => props.topicChange(category, value)}/>
+                topicChange={(category, value) => props.topicChange(category, value)}
+                isTopicLoading={props.isTopicLoading}/>
         </div>
     )
 }
