@@ -316,10 +316,7 @@ router.get('/topics', (req, res) => {
                         if(!(element.topic.major_category in topicCategories)) {
                             topicCategories[element.topic.major_category] = [element.topic.sub_category];
                         } else {
-                            console.log(topicCategories[element.topic.major_category]);
-                            
                             if (!(topicCategories[element.topic.major_category].includes(element.topic.sub_category))) {
-                                
                                 topicCategories[element.topic.major_category].push(element.topic.sub_category);
                             }
                         }
