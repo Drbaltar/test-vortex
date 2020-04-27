@@ -31,9 +31,9 @@ class TopicCategories extends React.Component {
         let subTopics = [];
 
         if (this.state.existingTopicCategories !== null && Object.keys(this.state.existingTopicCategories).length !== 0) {
-            majorTopics = Object.keys(this.state.existingTopicCategories);
+            majorTopics = Object.keys(this.state.existingTopicCategories).sort();
             if (majorTopics.includes(this.props.topic.majorCategory)) {
-                subTopics = this.state.existingTopicCategories[this.props.topic.majorCategory];
+                subTopics = this.state.existingTopicCategories[this.props.topic.majorCategory].sort();
             }
         }
 
