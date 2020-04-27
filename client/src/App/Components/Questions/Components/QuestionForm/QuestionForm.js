@@ -72,6 +72,14 @@ class QuestionForm extends React.Component {
 
     handleInputChange = (event) => {
         const {target: { id, value}} = event;
+        if ( id === 'majorCategory') {
+            this.setState({topic: {[id]: value, subCategory: this.state.topic.subCategory}});
+            return;
+        } else if ( id === 'subCategory') {
+            this.setState({topic: {majorCategory: this.state.topic.majorCategory, [id]: value,}});
+            return;
+        }
+
         this.setState({[id]: value});
 
         // If the question type is changed, the correct answer field will be cleared
@@ -97,13 +105,13 @@ class QuestionForm extends React.Component {
         }
     };
 
-    handleTopicChange = (event) => {
-        const {target: { id, value}} = event;
-        
-        if ( id === 'majorCategory') {
-            this.setState({topic: {[id]: value, subCategory: this.state.topic.subCategory}});
-        } else if ( id === 'subCategory') {
-            this.setState({topic: {majorCategory: this.state.topic.majorCategory, [id]: value,}});
+    handleTopicChange = (category, value) => {
+        if ( category === 'majorCategory') {
+            this.setState({topic: {[category]: value, subCategory: ''}});
+            return;
+        } else if ( category === 'subCategory') {
+            this.setState({topic: {majorCategory: this.state.topic.majorCategory, [category]: value,}});
+            return;
         }
     }
 
@@ -250,7 +258,8 @@ class QuestionForm extends React.Component {
                     <TopicCategories topic={this.state.topic} gunneryTable={this.state.gunneryTable}
                         isMajorTopicValid={this.state.inputValidity.isMajorTopicValid}
                         isSubTopicValid={this.state.inputValidity.isSubTopicValid}
-                        inputChange={(event) => this.handleTopicChange(event)}/>
+                        inputChange={(event) => this.handleInputChange(event)}
+                        topicChange={(category, value) => this.handleTopicChange(category, value)}/>
 
                 </div>
                 <div className="card-footer">
