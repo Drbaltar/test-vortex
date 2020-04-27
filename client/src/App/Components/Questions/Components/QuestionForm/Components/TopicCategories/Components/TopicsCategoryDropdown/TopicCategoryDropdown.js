@@ -14,6 +14,21 @@ class TopicCategoryDropdown extends React.Component {
         this.setState({isDropdownOpen: !this.state.isDropdownOpen});
     }
 
+    selectFromDropdown = (event) => {
+        event.preventDefault();
+        
+        this.props.topicChange(this.props.categoryID, event.target.id);
+    }
+
+    populateMenu = () => {
+        let categories = this.props.existingTopicCategories;
+
+        const filledCategories = categories.map(entry =>
+            <DropdownItem key={entry} id={entry} onClick={(event) => this.selectFromDropdown(event)}>{entry}</DropdownItem>
+        )
+        return (filledCategories);
+    }
+
     render() {
         // Assign the correct className to validTag based on whether the prop states the input value is valid
         // and create an optional error message if the field does not have a valid input
@@ -40,9 +55,7 @@ class TopicCategoryDropdown extends React.Component {
                                 Existing Categories
                             </DropdownToggle>
                             <DropdownMenu>
-                                <DropdownItem>ECS</DropdownItem>
-                                <DropdownItem>AMG</DropdownItem>
-                                <DropdownItem>BCP</DropdownItem>
+                                {this.populateMenu()}
                             </DropdownMenu>
                         </Dropdown>
                     </div>
