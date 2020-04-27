@@ -1,6 +1,6 @@
 import React from 'react';
 
-import QuestionPreview from './Components/QuestionPreview/QuestionPreview'
+import QuestionPreview from './Components/QuestionPreview/QuestionPreview';
 import NavigationButtons from '../shared-components/NavigationButtons';
 
 class QuestionReview extends React.Component {

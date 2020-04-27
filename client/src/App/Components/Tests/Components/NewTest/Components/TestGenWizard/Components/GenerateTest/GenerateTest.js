@@ -19,7 +19,7 @@ class GenerateTest extends React.Component {
     // Creates a string of the current date in the DDMMMYY format
     getTodaysDateString = () => {
         const today = new Date(Date.now());
-        return `${today.getDate()}${new Intl.DateTimeFormat('en-US', {month: 'short'}).format(today).toUpperCase()}${today.getYear()-100}`
+        return `${today.getDate()}${new Intl.DateTimeFormat('en-US', {month: 'short'}).format(today).toUpperCase()}${today.getYear()-100}`;
     }
 
     // Download the newly generated test

@@ -29,8 +29,8 @@ const TopicCategories = (props) => {
                 topicChange={(category, value) => props.topicChange(category, value)}
                 isTopicLoading={props.isTopicLoading}/>
         </div>
-    )
-}
+    );
+};
 
 export default TopicCategories;
 

@@ -7,7 +7,7 @@ class TopicCategoryDropdown extends React.Component {
 
         this.state = {
             isDropdownOpen: false
-        }
+        };
     }
 
     toggleDropdown = () => {
@@ -24,7 +24,7 @@ class TopicCategoryDropdown extends React.Component {
 
         const filledCategories = categories.map(entry =>
             <DropdownItem key={entry} id={entry} onClick={(event) => this.selectFromDropdown(event)}>{entry}</DropdownItem>
-        )
+        );
         return (filledCategories);
     }
 

@@ -67,7 +67,7 @@ class QuestionPreview extends React.Component {
                             </div>    
                         </li>
                     </div>
-                )
+                );
             } else if (entry.question_type === 'Fill-in-the-Blank') {
                 return (
                     <div key={index++}>
@@ -81,7 +81,7 @@ class QuestionPreview extends React.Component {
                             </div>
                         </li>
                     </div>
-                )
+                );
             } else if (entry.question_type === 'True or False') {
                 return (
                     <div key={index++}>
@@ -97,7 +97,7 @@ class QuestionPreview extends React.Component {
                             </div>
                         </li>
                     </div>
-                )
+                );
             }
         });
 
@@ -116,6 +116,6 @@ class QuestionPreview extends React.Component {
             </div>
         );
     }
-};
+}
 
 export default QuestionPreview;

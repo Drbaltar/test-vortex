@@ -7,7 +7,7 @@ import SelectBox from '../../../shared-components/SelectBox';
 import FormButtons from '../../../shared-components/FormButtons';
 import GunneryTableModal from './Components/PatriotGunneryModal/PatriotGunneryModal';
 import GunneryList from './Components/GunneryList';
-import TopicCategories from './Components/TopicCategories/TopicCategories'
+import TopicCategories from './Components/TopicCategories/TopicCategories';
 import './QuestionForm.css';
 
 class QuestionForm extends React.Component {
@@ -199,7 +199,7 @@ class QuestionForm extends React.Component {
                 .catch((response) => {
                     this.setState({existingTopicCategories: null, isTopicLoading: false});
                 });
-            })
+        });
         }
     }
 

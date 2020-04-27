@@ -13,20 +13,20 @@ const PatriotTestFormat = (unitType, testLevel, testType, version, date, testQue
                     `c) ${question.answer_b}\n` +
                     `d) ${question.answer_c}\n\n`,
                 style: 'answers'
-            }])
+            }]);
         } else if (question.question_type === 'True or False') {
             return({
                 text: `${questionNumber++})\tTrue or False: ${question.question_description}\n\n`,
                 style: 'questions'
-            })
+            });
         } else {
             return({
                 text: `${questionNumber++})\t${question.question_description}\n\n`,
                 style: 'questions'
-            })
+            });
         }
 
-    })
+    });
 
     return ({
         content: [
@@ -65,7 +65,7 @@ const PatriotTestFormat = (unitType, testLevel, testType, version, date, testQue
         },
 
         pageMargins: 60
-    })
+    });
 };
 
 export default PatriotTestFormat;

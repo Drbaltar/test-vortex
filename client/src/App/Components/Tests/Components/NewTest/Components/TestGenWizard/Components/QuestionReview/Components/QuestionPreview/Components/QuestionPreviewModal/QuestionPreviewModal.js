@@ -23,6 +23,6 @@ const QuestionPreviewModal = (props)  => {
             </Modal>
         </div>
     );
-}
+};
 
 export default QuestionPreviewModal;

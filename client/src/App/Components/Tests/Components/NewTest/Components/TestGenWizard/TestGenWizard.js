@@ -160,7 +160,7 @@ class TestGenWizard extends React.Component {
                 hasSearchRan={this.state.hasSearchRan}
                 testQuestions={this.state.testQuestions}
                 clickHandler={(event) => this.handleClickEvent(event)}
-                />;
+            />;
             break;
         case 4:
             generateStatus = generateStatus + ' selected';
