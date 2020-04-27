@@ -1,4 +1,5 @@
 import React from 'react';
+import Axios from 'axios';
 
 import TextField from '../../../shared-components/TextField';
 import TextArea from '../../../shared-components/TextArea';
@@ -48,7 +49,8 @@ class QuestionForm extends React.Component {
                     majorCategory: props.data.topic.major_category,
                     subCategory: props.data.topic.sub_category
                 },
-                inputValidity
+                inputValidity,
+                existingTopicCategories: null
             };
         } else {
             this.initialState = {
@@ -63,7 +65,8 @@ class QuestionForm extends React.Component {
                     majorCategory: '',
                     subCategory: ''
                 },
-                inputValidity
+                inputValidity,
+                existingTopicCategories: null
             };
         }
 
@@ -119,14 +122,14 @@ class QuestionForm extends React.Component {
         let newState = this.state.gunneryTable.slice(0);
 
         newState.push(newEntry);
-        this.setState({gunneryTable: newState});
+        this.setState({gunneryTable: newState}, () => this.getExistingTopics());
     };
 
     deleteGunneryListEntry = (index) => {
         let newState = this.state.gunneryTable.slice(0);
 
         newState.splice(index, 1);
-        this.setState({gunneryTable: newState});
+        this.setState({gunneryTable: newState}, () => this.getExistingTopics());
     };
 
     // Return the appropriate correct answer field based on the type of question
@@ -185,6 +188,19 @@ class QuestionForm extends React.Component {
             );
         }
     };
+
+    getExistingTopics = () => {
+        if (this.state.gunneryTable.length === 0) {
+            this.setState({existingTopicCategories: null});
+        } else {
+            Axios.get('/api/questions/topics', { params: { table: this.state.gunneryTable[0].table, 
+                subtask: this.state.gunneryTable[0].subtask}})
+                .then((response) => this.setState({existingTopicCategories: response.data}))
+                .catch((response) => {
+                    this.setState({existingTopicCategories: null});
+                });
+        }
+    }
 
     isAllInputValid = () => {
         let validQuestionTypes = ['Multiple Choice', 'True or False', 'Fill-in-the-Blank'];
@@ -256,6 +272,7 @@ class QuestionForm extends React.Component {
                         isValid={this.state.inputValidity.isGunneryTableValid}
                         errorMessage={'You must select at least one applicable Gunnery Table/Subtask!'}/>
                     <TopicCategories topic={this.state.topic} gunneryTable={this.state.gunneryTable}
+                        existingTopicCategories={this.state.existingTopicCategories}
                         isMajorTopicValid={this.state.inputValidity.isMajorTopicValid}
                         isSubTopicValid={this.state.inputValidity.isSubTopicValid}
                         inputChange={(event) => this.handleInputChange(event)}
