@@ -47,8 +47,14 @@ const fillBlankQuestionSchema = new Schema({
         }
     },
     topic: {
-        type: String,
-        required: 'The \'Topic\' field is required'
+        major_category: {
+            type: String,
+            required: 'The \'Topic (Major Category)\' field is required'
+        },
+        sub_category: {
+            type: String,
+            required: 'The \'Topic (Sub-Category)\' field is required'
+        }
     }
 });
 

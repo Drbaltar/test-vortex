@@ -34,7 +34,7 @@ const issueRouter = require('./routes/issue');
 const questionRouter = require('./routes/question');
 
 // Set test route
-app.use('/api/test', testRouter);
+app.use('/api/tests', testRouter);
 
 // Set issue route
 app.use('/api/issues', issueRouter);

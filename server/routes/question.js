@@ -93,7 +93,10 @@ router.put('/update-pending', (req, res) => {
             question.answer_b = req.body.answerB;
             question.answer_c = req.body.answerC;
             question.gunnery_table = gunneryTableEntries;
-            question.topic = req.body.topic;
+            question.topic = {
+                major_category: req.body.topic.majorCategory,
+                sub_category: req.body.topic.subCategory
+            };
         
             // Validate document requirements before going any further
             question.validate((err) => {
@@ -245,7 +248,10 @@ router.put('/update', (req, res) => {
             question.answer_b = req.body.answerB;
             question.answer_c = req.body.answerC;
             question.gunnery_table = gunneryTableEntries;
-            question.topic = req.body.topic;
+            question.topic = {
+                major_category: req.body.topic.majorCategory,
+                sub_category: req.body.topic.subCategory
+            };
         
             // Validate document requirements before going any further
             question.validate((err) => {
@@ -290,6 +296,45 @@ router.delete('/delete', (req, res) => {
             res.status(400).send('The \'Question ID\' is required!');
         } else {
             res.status(400).send('The \'Question ID\' input is not a valid Object ID value!');
+        }
+    }
+});
+
+/*------------------------Operations for Requesting Topic Categories-----------------------*/
+// Route for getting the topic categories based on the gunnery table and subtask
+router.get('/topics', (req, res) => {
+    // Check to see if the unit type, gunnery table and subtask was passed in
+    if (req.query.unitType && req.query.table && req.query.subtask) {
+        dbInterface.getTopicCategories(req.query.unitType, req.query.table, req.query.subtask, (err, queryResults) => {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                if (queryResults.length !== 0) {
+                    let topicCategories = {};
+
+                    queryResults.forEach((element) => {
+                        if(!(element.topic.major_category in topicCategories)) {
+                            topicCategories[element.topic.major_category] = [element.topic.sub_category];
+                        } else {
+                            if (!(topicCategories[element.topic.major_category].includes(element.topic.sub_category))) {
+                                topicCategories[element.topic.major_category].push(element.topic.sub_category);
+                            }
+                        }
+                    });
+
+                    res.send(topicCategories);
+                } else {
+                    res.send({});
+                }
+            }
+        });
+    } else {
+        if (!req.query.unitType) {
+            res.status(400).send('The \'Unit Type\' is required!');
+        } else if (!req.query.table) {
+            res.status(400).send('The \'Gunnery Table\' is required!');
+        } else if (!req.query.subtask){
+            res.status(400).send('The \'Gunnery Subtask\' is required!');
         }
     }
 });

@@ -1,10 +1,13 @@
 import React from 'react';
+import Axios from 'axios';
+
 import TextField from '../../../shared-components/TextField';
 import TextArea from '../../../shared-components/TextArea';
 import SelectBox from '../../../shared-components/SelectBox';
 import FormButtons from '../../../shared-components/FormButtons';
 import GunneryTableModal from './Components/PatriotGunneryModal/PatriotGunneryModal';
 import GunneryList from './Components/GunneryList';
+import TopicCategories from './Components/TopicCategories/TopicCategories';
 import './QuestionForm.css';
 
 class QuestionForm extends React.Component {
@@ -19,7 +22,8 @@ class QuestionForm extends React.Component {
             isAnswerBValid: null,
             isAnswerCValid: null,
             isGunneryTableValid: null,
-            isTopicValid: null
+            isMajorTopicValid: null,
+            isSubTopicValid: null
         };
 
         if (props.data) {
@@ -41,8 +45,13 @@ class QuestionForm extends React.Component {
                 answerB: props.data.answer_b || '',
                 answerC: props.data.answer_c || '',
                 gunneryTable,
-                topic: props.data.topic,
-                inputValidity
+                topic: {
+                    majorCategory: props.data.topic.major_category,
+                    subCategory: props.data.topic.sub_category
+                },
+                inputValidity,
+                isTopicLoading: false,
+                existingTopicCategories: null
             };
         } else {
             this.initialState = {
@@ -53,8 +62,13 @@ class QuestionForm extends React.Component {
                 answerB: '',
                 answerC: '',
                 gunneryTable: [],
-                topic: '',
-                inputValidity
+                topic: {
+                    majorCategory: '',
+                    subCategory: ''
+                },
+                inputValidity,
+                isTopicLoading: false,
+                existingTopicCategories: null
             };
         }
 
@@ -63,6 +77,14 @@ class QuestionForm extends React.Component {
 
     handleInputChange = (event) => {
         const {target: { id, value}} = event;
+        if ( id === 'majorCategory') {
+            this.setState({topic: {[id]: value, subCategory: this.state.topic.subCategory}});
+            return;
+        } else if ( id === 'subCategory') {
+            this.setState({topic: {majorCategory: this.state.topic.majorCategory, [id]: value,}});
+            return;
+        }
+
         this.setState({[id]: value});
 
         // If the question type is changed, the correct answer field will be cleared
@@ -88,18 +110,26 @@ class QuestionForm extends React.Component {
         }
     };
 
+    handleTopicChange = (category, value) => {
+        if ( category === 'majorCategory') {
+            this.setState({topic: {[category]: value, subCategory: ''}});
+        } else if ( category === 'subCategory') {
+            this.setState({topic: {majorCategory: this.state.topic.majorCategory, [category]: value,}});
+        }
+    }
+
     updateGunneryList = (newEntry) => {
         let newState = this.state.gunneryTable.slice(0);
 
         newState.push(newEntry);
-        this.setState({gunneryTable: newState});
+        this.setState({gunneryTable: newState}, () => this.getExistingTopics());
     };
 
     deleteGunneryListEntry = (index) => {
         let newState = this.state.gunneryTable.slice(0);
 
         newState.splice(index, 1);
-        this.setState({gunneryTable: newState});
+        this.setState({gunneryTable: newState}, () => this.getExistingTopics());
     };
 
     // Return the appropriate correct answer field based on the type of question
@@ -159,13 +189,28 @@ class QuestionForm extends React.Component {
         }
     };
 
+    getExistingTopics = () => {
+        if (this.state.gunneryTable.length === 0) {
+            this.setState({existingTopicCategories: null});
+        } else { this.setState({isTopicLoading: true}, () => {
+            Axios.get('/api/questions/topics', { params: { unitType: this.state.gunneryTable[0].unitType, 
+                table: this.state.gunneryTable[0].table, subtask: this.state.gunneryTable[0].subtask}})
+                .then((response) => this.setState({existingTopicCategories: response.data, isTopicLoading: false}))
+                .catch((response) => {
+                    this.setState({existingTopicCategories: null, isTopicLoading: false});
+                });
+        });
+        }
+    }
+
     isAllInputValid = () => {
         let validQuestionTypes = ['Multiple Choice', 'True or False', 'Fill-in-the-Blank'];
         let isQuestionTypeValid = (validQuestionTypes.includes(this.state.questionType) ? true : false );
         let isQuestionDescriptionValid = (this.state.questionDescription.length > 9  ? true : false);
         let isCorrectAnswerValid = (this.state.correctAnswer.length > 0 ? true : false);
         let isGunneryTableValid = (this.state.gunneryTable.length > 0 ? true : false);
-        let isTopicValid = (this.state.topic.length > 0 ? true : false);
+        let isMajorTopicValid = (this.state.topic.majorCategory.length > 0 ? true : false);
+        let isSubTopicValid = (this.state.topic.subCategory.length > 0 ? true : false);
 
         let isAnswerAValid, isAnswerBValid, isAnswerCValid;
         if (this.state.questionType === 'Multiple Choice') {
@@ -182,14 +227,15 @@ class QuestionForm extends React.Component {
             isAnswerBValid,
             isAnswerCValid,
             isGunneryTableValid,
-            isTopicValid
+            isMajorTopicValid,
+            isSubTopicValid
         };
 
-        let isAllValid = (isQuestionTypeValid !== false && isQuestionDescriptionValid !== false &&
-            isCorrectAnswerValid !== false && isAnswerAValid !== false && isAnswerBValid !== false &&
-            isAnswerCValid !== false && isGunneryTableValid !== false && isTopicValid !== false);
+        let isAllValid = (isQuestionTypeValid && isQuestionDescriptionValid && isCorrectAnswerValid && isAnswerAValid !== false &&
+            isAnswerBValid !== false && isAnswerCValid !== false && isGunneryTableValid && isMajorTopicValid && isSubTopicValid);
         
         this.setState({inputValidity});
+        
         return isAllValid;
     };
 
@@ -226,11 +272,14 @@ class QuestionForm extends React.Component {
                         deleteEntry={(index) => this.deleteGunneryListEntry(index)}
                         isValid={this.state.inputValidity.isGunneryTableValid}
                         errorMessage={'You must select at least one applicable Gunnery Table/Subtask!'}/>
-                    <TextField label="Topic"id="topic" type="text"
-                        value={this.state.topic}
+                    <TopicCategories topic={this.state.topic} gunneryTable={this.state.gunneryTable}
+                        existingTopicCategories={this.state.existingTopicCategories}
+                        isMajorTopicValid={this.state.inputValidity.isMajorTopicValid}
+                        isSubTopicValid={this.state.inputValidity.isSubTopicValid}
+                        isTopicLoading={this.state.isTopicLoading}
                         inputChange={(event) => this.handleInputChange(event)}
-                        isValid={this.state.inputValidity.isTopicValid}
-                        errorMessage={'The \'Topic\' field is required!'}/>
+                        topicChange={(category, value) => this.handleTopicChange(category, value)}/>
+
                 </div>
                 <div className="card-footer">
                     {updateButton}

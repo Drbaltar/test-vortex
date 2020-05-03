@@ -48,8 +48,14 @@ const tfQuestionSchema = new Schema({
         }
     },
     topic: {
-        type: String,
-        required: 'The \'Topic\' field is required'
+        major_category: {
+            type: String,
+            required: 'The \'Major Category of Topic\' field is required'
+        },
+        sub_category: {
+            type: String,
+            required: 'The \'Sub-Category of Topic\' field is required'
+        }
     }
 });
 
