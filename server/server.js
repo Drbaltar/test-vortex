@@ -82,16 +82,10 @@ const issueRouter = require('./routes/issue');
 const questionRouter = require('./routes/question');
 const userRouter = require('./routes/user');
 
-// Set test route
+// Set all routes
 app.use('/api/tests', testRouter);
-
-// Set issue route
 app.use('/api/issues', issueRouter);
-
-// Set question route
 app.use('/api/questions', questionRouter);
-
-// Set user route
 app.use('/user', userRouter);
 
 // Set route to access the built Test Vortex React app
@@ -102,17 +96,26 @@ app.use(express.static(clientPath));
 const loginPath = path.join(path.resolve(__dirname), 'public', 'login');
 app.use(express.static(loginPath));
 
+// Set route to access the Test Vortex Login Page
+const logoutPath = path.join(path.resolve(__dirname), 'public', 'logout');
+
 app.get('/login', (req, res) => {
     res.sendFile(path.join(loginPath, 'login.html'));
 });
 
 app.post('/login', passport.authenticate('local'), (req, res) => {
-    // res.sendFile(path.join(clientPath, 'app.html'));
     res.redirect('/');
 });
 
 app.get('/logout', (req, res) => {
-    res.send('You are now logged out!');
+    req.logout();
+    req.session.destroy((err) => {
+        if (err) {
+            res.send('An error has occurred while trying to log you out!');
+        } else {
+            res.sendFile(path.join(logoutPath, 'logout.html'));
+        }
+    });
 });
 
 app.get('/*', (req, res, next) => {
