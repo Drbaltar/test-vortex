@@ -28,7 +28,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 app.use(session({
     secret: process.env.SESSION_SECRET,
-    cookie: { maxAge: 3600000},
+    cookie: { maxAge: 86400000},
     store: new MongoStore({mongooseConnection: db}),
     resave: false,
     saveUninitialized: false
