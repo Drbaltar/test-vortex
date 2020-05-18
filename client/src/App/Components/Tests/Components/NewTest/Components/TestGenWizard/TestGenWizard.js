@@ -22,10 +22,13 @@ class TestGenWizard extends React.Component {
             numberOfQuestions: 50,
             minQuestions: 0,
             maxQuestions: 100,
+            createVersionB: false,
+            percentAlternateQuestions: 0,
             questionSelection: '',
             loadingQuestions: false,
             hasSearchRan: false,
-            testQuestions: []
+            testQuestions: [],
+            testVersions: []
         };
 
         this.state = this.initialState;
@@ -44,6 +47,12 @@ class TestGenWizard extends React.Component {
             }
         });
 
+    };
+
+    handleCheckboxChange = (event) => {
+        const {target: { id, checked}} = event;
+
+        this.setState({[id]: checked});
     };
 
     handleRadioSelection = (event) => {
@@ -80,6 +89,7 @@ class TestGenWizard extends React.Component {
             this.setState({isSelectionMethodComplete: true}, this.getTestQuestionsAuto());
             return true;
         case 3:
+            this.createVersions();
             this.setState({isQuestionReviewComplete: true});
             return true;
         default:
@@ -104,6 +114,22 @@ class TestGenWizard extends React.Component {
             `&testType=${this.state.testType}&testLevel=${this.state.testLevel}` +
             `&numberOfQuestions=${this.state.numberOfQuestions}`)
             .then((response) => this.setState({testQuestions: response.data, loadingQuestions: false, hasSearchRan: true}));
+    }
+
+    createVersions = () => {
+        let versionA = this.shuffleArray(this.state.testQuestions.slice(0));
+        let versionB = this.shuffleArray(this.state.testQuestions.slice(0));
+
+        this.setState({testVersions: [versionA, versionB]});
+    }
+
+    shuffleArray = (array) => {
+        for (let i = 0; i < array.length; i++) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]]
+        }
+
+        return array;
     }
 
     render() {
@@ -148,8 +174,11 @@ class TestGenWizard extends React.Component {
             selectionStatus = selectionStatus + ' selected';
             selectedTabPane = (<QuestionSelectionMethod numberOfQuestions={this.state.numberOfQuestions}
                 minQuestions={this.state.minQuestions} maxQuestions={this.state.maxQuestions}
+                createVersionB={this.state.createVersionB}
+                percentAlternateQuestions={this.state.percentAlternateQuestions}
                 questionSelection={this.state.questionSelection}
                 inputChange={(event) => this.handleInputChange(event)}
+                checkboxChange={(event) => this.handleCheckboxChange(event)}
                 radioChange={(event) => this.handleRadioSelection(event)} 
                 clickHandler={(event) => this.handleClickEvent(event)}/>
             );
@@ -165,7 +194,7 @@ class TestGenWizard extends React.Component {
         case 4:
             generateStatus = generateStatus + ' selected';
             selectedTabPane = <GenerateTest unitType={this.state.unitType} testLevel={this.state.testLevel}
-                testType={this.state.testType} testQuestions={this.state.testQuestions}
+                testType={this.state.testType} testVersions={this.state.testVersions}
                 clickHandler={(event) => this.handleClickEvent(event)}/>;
         }
 
