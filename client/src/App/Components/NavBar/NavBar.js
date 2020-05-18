@@ -41,7 +41,6 @@ class NavBar extends React.Component {
                         <NavLink to="/tests" className="nav-item nav-link" onClick={this.collapseNavBar}>Tests</NavLink>     
                         <NavLink to="/questions" className="nav-item nav-link" onClick={this.collapseNavBar}>Questions</NavLink>     
                         <NavLink to="/issues" className="nav-item nav-link" onClick={this.collapseNavBar}>Issues</NavLink>
-                        <NavLink to="/about" className="nav-item nav-link" onClick={this.collapseNavBar}>About</NavLink> 
                     </div>
                     <hr/>
                     {welcomeMessage}
