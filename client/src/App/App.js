@@ -1,6 +1,6 @@
 // Import React dependencies
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Axios from 'axios';
 
 // Import CSS files
@@ -59,10 +59,8 @@ class App extends React.Component {
                         <Route path="/issues">
                             <Issues/>
                         </Route>
-                        <Route exact path="/about">
-                            <div className='jumbotron'>
-                                <h1 >About Placeholder</h1>
-                            </div>
+                        <Route exact path="/*">
+                            <Redirect to="/home"/>
                         </Route>
                     </Switch>
                 </div>
