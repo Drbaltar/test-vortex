@@ -126,7 +126,7 @@ class TestGenWizard extends React.Component {
     shuffleArray = (array) => {
         for (let i = 0; i < array.length; i++) {
             const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]]
+            [array[i], array[j]] = [array[j], array[i]];
         }
 
         return array;
@@ -188,14 +188,22 @@ class TestGenWizard extends React.Component {
             selectedTabPane = <QuestionReview loadingQuestions={this.state.loadingQuestions}
                 hasSearchRan={this.state.hasSearchRan}
                 testQuestions={this.state.testQuestions}
-                clickHandler={(event) => this.handleClickEvent(event)}
-            />;
+                clickHandler={(event) => this.handleClickEvent(event)}/>;
             break;
         case 4:
             generateStatus = generateStatus + ' selected';
             selectedTabPane = <GenerateTest unitType={this.state.unitType} testLevel={this.state.testLevel}
                 testType={this.state.testType} testVersions={this.state.testVersions}
                 clickHandler={(event) => this.handleClickEvent(event)}/>;
+            break;
+        default:
+            typeStatus = typeStatus + ' selected';
+            selectedTabPane = (
+                <TestParameters unitType={this.state.unitType} testLevel={this.state.testLevel}
+                    testType={this.state.testType}
+                    inputChange={(event) => this.handleInputChange(event)}
+                    clickHandler={(event) => this.handleClickEvent(event)}/>
+            );
         }
 
         return(
