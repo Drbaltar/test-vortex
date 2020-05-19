@@ -49,7 +49,6 @@ class QuestionPreview extends React.Component {
     getTestQuestionPreview = () => {
         // let questionList = this.props.testQuestions;
 
-        let index = 0;
         const filledList = this.props.testQuestions.map((entry, index) => {
             if (entry.question_type === 'Multiple Choice') {
                 return (
@@ -98,6 +97,8 @@ class QuestionPreview extends React.Component {
                         </li>
                     </div>
                 );
+            } else {
+                return null;
             }
         });
 
