@@ -44,8 +44,8 @@ class SingleQuestionSearch extends React.Component {
 
         Axios.get('/api/questions/search', { params: { _id: this.state.searchInput } })
             .then((response) => this.setState({searchResults: response.data, searchReturned: true, loading: false}))
-            .catch((response) => {
-                this.setState({loading: false}, (response) => {this.props.updateSubmissionResponse(response);});
+            .catch((error) => {
+                this.setState({loading: false}, () => {this.props.updateSubmissionResponse(error);});
             });
     };
 
