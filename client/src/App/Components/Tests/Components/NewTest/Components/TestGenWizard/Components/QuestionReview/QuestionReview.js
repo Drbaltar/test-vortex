@@ -4,9 +4,6 @@ import QuestionPreview from './Components/QuestionPreview/QuestionPreview';
 import NavigationButtons from '../shared-components/NavigationButtons';
 
 class QuestionReview extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     
     // Returns true if all fields have inputs
     isAllFieldsComplete = () => {

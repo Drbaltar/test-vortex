@@ -4,9 +4,6 @@ import SelectBox from '../../../../../../../shared-components/SelectBox';
 import NavigationButtons from '../shared-components/NavigationButtons';
 
 class TestParameters extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     // Returns the possible test options based on the unit echelon 
     // and test level IAW the TC 3-01.86 dated December 2017
