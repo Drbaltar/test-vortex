@@ -15,7 +15,7 @@ class GenerateTest extends React.Component {
 
         this.state = {
             date: this.getTodaysDateString()
-        }
+        };
     }
     
     // Creates a string of the current date in the DDMMMYY format
@@ -70,7 +70,7 @@ class GenerateTest extends React.Component {
         }
 
         let docDefinition = PatriotTestFormat(this.props.unitType, this.props.testLevel, 
-            this.props.testType, version, this.state.date, this.props.testQuestions);
+            this.props.testType, version, this.state.date, questions);
         
         pdfMake.createPdf(docDefinition).open();
     }
@@ -90,7 +90,7 @@ class GenerateTest extends React.Component {
         }
 
         let docDefinition = PatriotTestFormat(this.props.unitType, this.props.testLevel, 
-            this.props.testType, version, this.state.date, this.props.testQuestions);
+            this.props.testType, version, this.state.date, questions);
         
         pdfMake.createPdf(docDefinition).open();
     }

@@ -26,7 +26,7 @@ const TestVersionCard = (props) => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default TestVersionCard;

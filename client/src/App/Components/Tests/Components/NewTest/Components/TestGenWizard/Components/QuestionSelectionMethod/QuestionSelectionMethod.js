@@ -23,7 +23,7 @@ class QuestionSelectionMethod extends React.Component {
                     <p style={{'textAlign': 'center'}}>{`${this.props.percentAlternateQuestions} %`}</p>
                 </div>
             </div>
-        )
+        );
     }
 
     render() {

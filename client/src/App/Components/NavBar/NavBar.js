@@ -24,7 +24,7 @@ class NavBar extends React.Component {
     render() {
         const collapse = (this.state.navbarCollapse) ? 'collapse navbar-collapse' : 'collapse navbar-collapse show';
         const welcomeMessage = (this.props.userFirstName !== '') ? 
-            <span className="navbar-text " style={{ color: 'white'}}>{`Hello, ${this.props.userFirstName}!`}</span> : null
+            <span className="navbar-text " style={{ color: 'white'}}>{`Hello, ${this.props.userFirstName}!`}</span> : null;
 
         return(
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
