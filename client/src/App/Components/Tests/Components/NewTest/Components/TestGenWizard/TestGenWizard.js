@@ -117,10 +117,40 @@ class TestGenWizard extends React.Component {
     }
 
     createVersions = () => {
-        let versionA = this.shuffleArray(this.state.testQuestions.slice(0));
-        let versionB = this.shuffleArray(this.state.testQuestions.slice(0));
+        const versionA = this.buildVersionOutline('A');
 
-        this.setState({testVersions: [versionA, versionB]});
+        if (this.state.createVersionB) {
+            const versionB = this.buildVersionOutline('B');
+            this.setState({testVersions: [versionA, versionB]});
+        } else {
+            this.setState({testVersions: [versionA]});
+        }
+    }
+
+    buildVersionOutline = (version) => {
+        let answerArray = ['correct_answer', 'answer_a', 'answer_b', 'answer_c'];
+        let shuffledTest = this.shuffleArray(this.state.testQuestions.slice(0));
+
+        const questions = shuffledTest.map((question) => {
+            if (question.question_type === 'Multiple Choice') {
+                return {
+                    question_id: question._id,
+                    question_version: question._v,
+                    answer_order: this.shuffleArray(answerArray).slice(0)
+                }
+            } else {
+                return {
+                    question_id: question._id,
+                    question_version: question._v
+                }
+            }
+
+        });
+
+        return {
+            version,
+            questions
+        }
     }
 
     shuffleArray = (array) => {
@@ -193,7 +223,8 @@ class TestGenWizard extends React.Component {
         case 4:
             generateStatus = generateStatus + ' selected';
             selectedTabPane = <GenerateTest unitType={this.state.unitType} testLevel={this.state.testLevel}
-                testType={this.state.testType} testVersions={this.state.testVersions}
+                testType={this.state.testType} testQuestions={this.state.testQuestions}
+                testVersions={this.state.testVersions}
                 clickHandler={(event) => this.handleClickEvent(event)}/>;
             break;
         default:

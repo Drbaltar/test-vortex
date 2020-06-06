@@ -1,27 +1,28 @@
-const PatriotTestFormat = (unitType, testLevel, testType, version, date, testQuestions) => {
-    let questionNumber = 1;
+const PatriotTestFormat = (unitType, testLevel, testType, version, date, testQuestions, versionOutline) => {
+    
+    let testQuestionsString = versionOutline.questions.map((questionOutline, index) => {
+        const question = testQuestions.find((question) => question._id === questionOutline.question_id);
 
-    let testQuestionsString = testQuestions.map((question) => {
         if (question.question_type === 'Multiple Choice') {
             return([{
-                text: `${questionNumber++})\t${question.question_description}`,
+                text: `${index + 1})\t${question.question_description}`,
                 style: 'questions'
             },
             {
-                text: `a) ${question.correct_answer}\n` +
-                    `b) ${question.answer_a}\n` +
-                    `c) ${question.answer_b}\n` +
-                    `d) ${question.answer_c}\n\n`,
+                text: `a) ${question[questionOutline.answer_order[0]]}\n` +
+                    `b) ${question[questionOutline.answer_order[1]]}\n` +
+                    `c) ${question[questionOutline.answer_order[2]]}\n` +
+                    `d) ${question[questionOutline.answer_order[3]]}\n\n`,
                 style: 'answers'
             }]);
         } else if (question.question_type === 'True or False') {
             return({
-                text: `${questionNumber++})\tTrue or False: ${question.question_description}\n\n`,
+                text: `${index + 1})\tTrue or False: ${question.question_description}\n\n`,
                 style: 'questions'
             });
         } else {
             return({
-                text: `${questionNumber++})\t${question.question_description}\n\n`,
+                text: `${index + 1})\t${question.question_description}\n\n`,
                 style: 'questions'
             });
         }
