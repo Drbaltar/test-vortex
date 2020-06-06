@@ -6,6 +6,7 @@ import NavigationButtons from '../shared-components/NavigationButtons';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import PatriotTestFormat from './Components/PatriotTestFormat/PatriotTestFormat';
+import PatriotKeyFormat from './Components/PatriotKeyFormat/PatriotKeyFormat';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 class GenerateTest extends React.Component {
@@ -25,84 +26,69 @@ class GenerateTest extends React.Component {
     }
 
     // Create document definition for the test
-    createTestDefinition = (action) => {
-        let version;
-        let questions;
-
-        if (action === 'openTestA' || action === 'downloadTestA') {
-            version = 'A';
-            questions = this.props.testVersions[0];
-        } else if (action === 'openTestB' || action === 'downloadTestB') {
-            version = 'B';
-            questions = this.props.testVersions[1];
-        }
-
+    createTestDefinition = (version) => {
         return PatriotTestFormat(this.props.unitType, this.props.testLevel, 
-            this.props.testType, version, this.state.date, questions);
+            this.props.testType, version, this.state.date, this.props.testQuestions,
+            this.props.testVersions.find((testOutline) => (testOutline.version === version)));
+    }
+
+    // Create document definition for the answer key
+    createAnswerKeyDefinition = (version) => {
+        return PatriotKeyFormat(this.props.unitType, this.props.testLevel, 
+            this.props.testType, version, this.state.date, this.props.testQuestions,
+            this.props.testVersions.find((testOutline) => (testOutline.version === version)));
     }
 
     // Open the newly generated test
     openTest = (event) => {
         event.preventDefault();
+
+        let version = event.target.id.charAt(event.target.id.length-1);
         
-        pdfMake.createPdf(this.createTestDefinition(event.target.id)).open();
+        pdfMake.createPdf(this.createTestDefinition(version)).open();
     }
 
     // Download the newly generated test
     downloadTest = (event) => {
         event.preventDefault();
+
+        let version = event.target.id.charAt(event.target.id.length-1);
         
-        pdfMake.createPdf(this.createTestDefinition(event.target.id)).download();
+        pdfMake.createPdf(this.createTestDefinition(version)).download();
     }
 
     // Open the newly generated answer key
     openKey = (event) => {
         event.preventDefault();
 
-        let version;
-        let questions;
-        if (event.target.id === 'openKeyA') {
-            version = 'A';
-            questions = this.props.versionA;
-        } else if (event.target.id === 'openKeyB') {
-            version = 'B';
-            questions = this.props.versionB;
-        }
-
-        let docDefinition = PatriotTestFormat(this.props.unitType, this.props.testLevel, 
-            this.props.testType, version, this.state.date, questions);
+        let version = event.target.id.charAt(event.target.id.length-1);
         
-        pdfMake.createPdf(docDefinition).open();
+        pdfMake.createPdf(this.createAnswerKeyDefinition(version)).open();
     }
 
     // Download the newly generated answer key
     downloadKey = (event) => {
         event.preventDefault();
 
-        let version;
-        let questions;
-        if (event.target.id === 'openKeyA') {
-            version = 'A';
-            questions = this.props.versionA;
-        } else if (event.target.id === 'openKeyB') {
-            version = 'B';
-            questions = this.props.versionB;
-        }
-
-        let docDefinition = PatriotTestFormat(this.props.unitType, this.props.testLevel, 
-            this.props.testType, version, this.state.date, questions);
+        let version = event.target.id.charAt(event.target.id.length-1);
         
-        pdfMake.createPdf(docDefinition).open();
+        pdfMake.createPdf(this.createAnswerKeyDefinition(version)).download();
     }
 
     render() {
+        const testCards = this.props.testVersions.map((testOutline) => {
+            return (<TestVersionCard version={testOutline.version} key={`Version ${testOutline.version}`}
+                openTest={(event) => this.openTest(event)}
+                downloadTest={(event) => this.downloadTest(event)}
+                openKey={(event) => this.openKey(event)}
+                downloadKey={(event) => this.downloadKey(event)}/>
+            )
+        })
+
         return(
             <div className='p-4'>
                 <h2 style={{'textAlign': 'center'}}>Choose to Generate a Test or Save for Later</h2>
-                <TestVersionCard version='A' openTest={(event) => this.openTest(event)}
-                    downloadTest={(event) => this.downloadTest(event)}/>
-                <TestVersionCard version='B' openTest={(event) => this.openTest(event)}
-                    downloadTest={(event) => this.downloadTest(event)}/>
+                {testCards}
                 <NavigationButtons  previousButton={true} nextButton={true} 
                     nextButtonID='submitButton' nextButtonText='Save Test'
                     isNextButtonDisabled={false}
