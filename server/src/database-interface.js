@@ -114,10 +114,60 @@ const getTopicCategories = (unitType, table, subtask, callback) => {
     // Declare the existing question entry using MultQuestion model to represent 'Existing' database
     let entry = MultQuestion.MultQuestion;
 
-    entry.find({'gunnery_table.unit_type': unitType, 'gunnery_table.table': table, 
-        'gunnery_table.subtask': subtask}, (err, doc) => {
-        callback(err, doc);
-    });
+    entry.where('gunnery_table').elemMatch({'unit_type': unitType, 'table': table, 'subtask': subtask})
+        .then(queryResults => callback(null, queryResults))
+        .catch(err => callback(err));
+};
+
+/*---------------Operations for Requesting Questions by Gunnery Table/Subtask--------------*/
+
+// Returns the number of questions per table and subtask based on unit and test type
+const getNumQuestionsPerSubtask = (unitType, testType, callback) => {
+    // Declare the existing question entry using MultQuestion model to represent 'Existing' database
+    let entry = MultQuestion.MultQuestion;
+    const batteryTables = [['I', 18], ['II', 18], ['III', 8], ['V', 3], ['VI', 8], ['VII', 13]];
+    const battalionTables = [['I', 13], ['II', 22], ['III', 8], ['V', 5], ['VI', 7], ['VII', 12]];
+
+    const getGunneryPromises = (tables) => {
+        let allPromises = [];
+        for (let tableIndex = 0; tableIndex < tables.length; tableIndex++) {
+            let subtaskPromises = [];
+            for (let subtaskIndex = 0; subtaskIndex < tables[tableIndex][1]; subtaskIndex++) {
+                subtaskPromises.push(requestCount(tables[tableIndex][0], subtaskIndex + 1));
+            }
+            allPromises.push(Promise.all(subtaskPromises));
+        }
+        return allPromises;
+    };
+    
+    const requestCount = (table, subtask) => {
+        return entry.where('gunnery_table').elemMatch({'unit_type': unitType,
+            'test_type': testType, 'table': table,
+            'subtask': subtask}).countDocuments().exec();
+    };
+
+    let gunneryPromises = [];
+
+    if (unitType === 'Battery') {
+        gunneryPromises = getGunneryPromises(batteryTables);
+    } else if (unitType === 'Battalion') {
+        gunneryPromises = getGunneryPromises(battalionTables);
+    } else {
+        callback('The \'Unit Type\' entry is not a valid entry');
+    }
+
+    Promise.all(gunneryPromises).then(values => callback(null, values)).catch(err => callback(err));
+};
+
+// Returns all the questions for a gunnery table and subtask based on unit type and test type
+const getQuestionsPerSubtask = (unitType, testType, table, subtask, callback) => {
+    // Declare the existing question entry using MultQuestion model to represent 'Existing' database
+    let entry = MultQuestion.MultQuestion;
+
+    entry.where('gunnery_table').elemMatch({'unit_type': unitType,
+        'test_type': testType, 'table': table, 'subtask': subtask}).lean()
+        .then(values => callback(null, values))
+        .catch(err => callback(err));
 };
 
 module.exports = {
@@ -128,5 +178,7 @@ module.exports = {
     getExistingQuestionsByCategory,
     getExistingQuestionForUpdate,
     deleteExistingQuestion,
-    getTopicCategories
+    getTopicCategories,
+    getNumQuestionsPerSubtask,
+    getQuestionsPerSubtask
 };
