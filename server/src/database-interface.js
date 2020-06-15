@@ -61,14 +61,25 @@ const getExistingQuestion = (id, callback) => {
 };
 
 // Returns the appropriate questions based on the passed in unit and test type
-const getExistingQuestionsByCategory = (unitType, testType, callback) => {
+const getAllExistingQuestionsByTestType = (unitType, testType, callback) => {
     // Declare the existing question entry using MultQuestion model to represent 'Existing' database
     let entry = MultQuestion.MultQuestion;
 
-    entry.find({'gunnery_table.unit_type': unitType, 
-        'gunnery_table.test_type': testType}, (err, doc) => {
-        callback(err, doc);
-    });
+    entry.where('gunnery_table').elemMatch({'unit_type': unitType, 'test_type': testType})
+        .then(values => callback(null, values))
+        .catch(err => callback(err));
+};
+
+// Returns a sample size of the appropriate questions based on the passed in unit type, test type and applicable tables
+const getSampleExistingQuestionsByTables = (unitType, testType, applicableTables, numOfQuestions, callback) => {
+    // Declare the existing question entry using MultQuestion model to represent 'Existing' database
+    let entry = MultQuestion.MultQuestion;
+
+    entry.aggregate([{ $unwind: '$gunnery_table' }, 
+        { $match: {'gunnery_table.unit_type': unitType, 'gunnery_table.test_type': testType, 'gunnery_table.table': { $in: applicableTables }}},
+        { $sample: { size: parseInt(numOfQuestions)}}]).exec()
+        .then(queryResults => callback(null, queryResults))
+        .catch(err => callback(err));
 };
 
 // Returns the appropriate document for the entry ID passed in
@@ -180,7 +191,7 @@ const getNumQuestionsPerSubtask = (unitType, testType, callback) => {
 };
 
 // Returns all the questions for a gunnery table and subtask based on unit type and test type
-const getQuestionsPerSubtask = (unitType, testType, table, subtask, callback) => {
+const getAllQuestionsPerSubtask = (unitType, testType, table, subtask, callback) => {
     // Declare the existing question entry using MultQuestion model to represent 'Existing' database
     let entry = MultQuestion.MultQuestion;
 
@@ -195,10 +206,11 @@ module.exports = {
     getPendingQuestion,
     deletePendingQuestion,
     getExistingQuestion,
-    getExistingQuestionsByCategory,
+    getAllExistingQuestionsByTestType,
+    getSampleExistingQuestionsByTables,
     getExistingQuestionForUpdate,
     deleteExistingQuestion,
     getTopicCategories,
     getNumQuestionsPerSubtask,
-    getQuestionsPerSubtask
+    getAllQuestionsPerSubtask
 };
