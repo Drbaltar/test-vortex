@@ -128,35 +128,55 @@ const getNumQuestionsPerSubtask = (unitType, testType, callback) => {
     const batteryTables = [['I', 18], ['II', 18], ['III', 8], ['V', 3], ['VI', 8], ['VII', 13]];
     const battalionTables = [['I', 13], ['II', 22], ['III', 8], ['V', 5], ['VI', 7], ['VII', 12]];
 
-    const getGunneryPromises = (tables) => {
-        let allPromises = [];
+    const getGunneryPipelines = (tables) => {
+        let allPipelines = {};
         for (let tableIndex = 0; tableIndex < tables.length; tableIndex++) {
-            let subtaskPromises = [];
             for (let subtaskIndex = 0; subtaskIndex < tables[tableIndex][1]; subtaskIndex++) {
-                subtaskPromises.push(requestCount(tables[tableIndex][0], subtaskIndex + 1));
+                allPipelines[tables[tableIndex][0] + '-' + (subtaskIndex + 1)] = requestCount(tables[tableIndex][0], subtaskIndex + 1);
             }
-            allPromises.push(Promise.all(subtaskPromises));
         }
-        return allPromises;
+        return allPipelines;
     };
-    
+
     const requestCount = (table, subtask) => {
-        return entry.where('gunnery_table').elemMatch({'unit_type': unitType,
-            'test_type': testType, 'table': table,
-            'subtask': subtask}).countDocuments().exec();
+        return ([
+            { $match: { 'gunnery_table.unit_type': unitType, 'gunnery_table.test_type': testType,
+                'gunnery_table.table': table, 'gunnery_table.subtask': subtask }},
+            { $count: 'count' }
+        ]);
     };
 
-    let gunneryPromises = [];
+    const formatResults = (queryResults) => {
+        return new Promise((resolve, reject) => {
+            let formattedResults = {};
 
+            for (const property in queryResults) {
+                let table = property.split('-')[0];
+                if (!formattedResults[table]) { formattedResults[table] = []; }
+                if (queryResults[property].length === 0) {
+                    formattedResults[table].push(0);
+                } else {
+                    formattedResults[table].push(queryResults[property][0].count);
+                }
+            }
+            
+            resolve(formattedResults);
+        });
+    };
+
+    let gunneryPipeline = {};
     if (unitType === 'Battery') {
-        gunneryPromises = getGunneryPromises(batteryTables);
+        gunneryPipeline = getGunneryPipelines(batteryTables);
     } else if (unitType === 'Battalion') {
-        gunneryPromises = getGunneryPromises(battalionTables);
+        gunneryPipeline = getGunneryPipelines(battalionTables);
     } else {
         callback('The \'Unit Type\' entry is not a valid entry');
     }
 
-    Promise.all(gunneryPromises).then(values => callback(null, values)).catch(err => callback(err));
+    entry.aggregate([{ $unwind: '$gunnery_table' }]).facet(gunneryPipeline)
+        .then(queryResults => formatResults(queryResults[0]))
+        .then(formattedResults => callback(null, formattedResults))
+        .catch(err => callback(err));
 };
 
 // Returns all the questions for a gunnery table and subtask based on unit type and test type
