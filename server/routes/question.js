@@ -352,8 +352,6 @@ router.get('/count', (req, res) => {
             if (err) {
                 res.status(500).send(err);
             } else {
-                console.log(queryResults);
-                
                 res.send(queryResults);
             }
         });
