@@ -87,7 +87,7 @@ class GenerateTest extends React.Component {
 
         return(
             <div className='p-4'>
-                <h2 style={{'textAlign': 'center'}}>Choose to Generate a Test or Save for Later</h2>
+                <h2 className='pb-4'>Step 5: Preview/Download a Test or Save for Later</h2>
                 {testCards}
                 <NavigationButtons  previousButton={true} nextButton={true} 
                     nextButtonID='submitButton' nextButtonText='Save Test'

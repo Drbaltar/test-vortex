@@ -29,7 +29,7 @@ class QuestionSelectionMethod extends React.Component {
     render() {
         return (
             <div className='p-4'>
-                <h2 style={{'textAlign': 'center'}}>Choose Question Selection Method</h2>
+                <h2 className='pb-4'>Step 2: Choose Number of Questions</h2>
                 <label htmlFor='numberOfQuestions'>Number of Questions</label>
                 <input type='range' className='custom-range' id='numberOfQuestions'
                     min={this.props.minQuestions} max={this.props.maxQuestions} value={this.props.numberOfQuestions}
@@ -41,6 +41,7 @@ class QuestionSelectionMethod extends React.Component {
                     <label className="form-check-label" htmlFor="createVersionB">Create Version B</label>
                 </div>
                 {this.props.createVersionB ? this.getVersionBEntries() : null}
+                <h2 className='pb-4 pt-5'>Step 3: Choose Question Selection Method</h2>
                 <div className="custom-control custom-radio mt-4 mb-2">
                     <input type="radio" id="autoSelectRadio" name="selectionMethodRadio" className="custom-control-input"
                         onChange={this.props.radioChange} value="auto" checked={this.props.questionSelection === 'auto'}/>

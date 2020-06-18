@@ -44,7 +44,7 @@ class TestParameters extends React.Component {
 
         return(
             <div className='p-4'>
-                <h2 style={{'textAlign': 'center'}}>Choose Test Type</h2>
+                <h2 className='pb-4'>Step 1: Choose Test Type</h2>
                 <SelectBox label="Unit Type" id="unitType"
                     options={['', 'Battery', 'Battalion']}
                     value={this.props.unitType}
