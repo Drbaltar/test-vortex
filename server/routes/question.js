@@ -309,23 +309,27 @@ router.get('/topics', (req, res) => {
             if (err) {
                 res.status(500).send(err);
             } else {
-                if (queryResults.length !== 0) {
+                let allTopics = [];
+
+                queryResults.forEach((collectionTopics) => {
                     let topicCategories = {};
 
-                    queryResults.forEach((element) => {
-                        if(!(element.topic.major_category in topicCategories)) {
-                            topicCategories[element.topic.major_category] = [element.topic.sub_category];
-                        } else {
-                            if (!(topicCategories[element.topic.major_category].includes(element.topic.sub_category))) {
-                                topicCategories[element.topic.major_category].push(element.topic.sub_category);
+                    if (collectionTopics.length !== 0) {
+                        collectionTopics.forEach((element) => {
+                            if(!(element.topic.major_category in topicCategories)) {
+                                topicCategories[element.topic.major_category] = [element.topic.sub_category];
+                            } else {
+                                if (!(topicCategories[element.topic.major_category].includes(element.topic.sub_category))) {
+                                    topicCategories[element.topic.major_category].push(element.topic.sub_category);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
 
-                    res.send(topicCategories);
-                } else {
-                    res.send({});
-                }
+                    allTopics.push(topicCategories);
+                });
+
+                res.send(allTopics);
             }
         });
     } else {

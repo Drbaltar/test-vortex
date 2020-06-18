@@ -20,12 +20,39 @@ class TopicCategoryDropdown extends React.Component {
     }
 
     populateMenu = () => {
-        let categories = this.props.existingTopicCategories;
 
-        const filledCategories = categories.map(entry =>
-            <DropdownItem key={entry} id={entry} onClick={(event) => this.selectFromDropdown(event)}>{entry}</DropdownItem>
-        );
-        return (filledCategories);
+        if (this.props.existingTopicCategories !== null && this.props.existingTopicCategories.length === 2) {
+
+            const filledApprovedCategories = this.props.existingTopicCategories[0].map(entry =>
+                <DropdownItem key={entry} id={entry} onClick={(event) => this.selectFromDropdown(event)}>{entry}</DropdownItem>
+            );
+
+            const filledPendingCategories = this.props.existingTopicCategories[1].map(entry =>
+                <DropdownItem key={entry} id={entry} onClick={(event) => this.selectFromDropdown(event)}>{entry}</DropdownItem>
+            );
+
+            let approvedList = (filledApprovedCategories.length === 0 ? null : 
+                <div>
+                    <DropdownItem disabled>Approved Topics</DropdownItem>
+                    {filledApprovedCategories}
+                </div>
+            );
+
+            let pendingList = (filledPendingCategories.length === 0 ? null : 
+                <div>
+                    <DropdownItem disabled>Pending Topics</DropdownItem>
+                    {filledPendingCategories}
+                </div>
+            );
+
+            return (
+                <div>
+                    {approvedList}
+                    {(approvedList && pendingList ? <DropdownItem divider/> : null)}
+                    {pendingList}
+                </div>
+            )
+        }
     }
 
     render() {

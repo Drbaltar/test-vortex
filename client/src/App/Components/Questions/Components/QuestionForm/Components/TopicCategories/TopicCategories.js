@@ -6,11 +6,44 @@ const TopicCategories = (props) => {
     let majorTopics = [];
     let subTopics = [];
 
-    if (props.existingTopicCategories !== null && Object.keys(props.existingTopicCategories).length !== 0) {
-        majorTopics = Object.keys(props.existingTopicCategories).sort();
-        if (majorTopics.includes(props.topic.majorCategory)) {
-            subTopics = props.existingTopicCategories[props.topic.majorCategory].sort();
+    let approvedMajorTopics = [];
+    let uniquePendingMajorTopics = [];
+    let approvedSubTopics = [];
+    let uniquePendingSubTopics = [];
+
+    if (props.existingTopicCategories !== null && props.existingTopicCategories.length === 2) {
+        let approvedTopics = props.existingTopicCategories[0];
+        let pendingTopics = props.existingTopicCategories[1];
+
+        if (approvedTopics) {
+            approvedMajorTopics = Object.keys(approvedTopics).sort();
+            if (approvedMajorTopics.includes(props.topic.majorCategory)) {
+                approvedSubTopics = approvedTopics[props.topic.majorCategory].sort();
+            }
         }
+
+        if (pendingTopics) {
+            let pendingMajorTopics = Object.keys(pendingTopics).sort();
+
+            pendingMajorTopics.forEach((topic) => {
+                if (!approvedMajorTopics.includes(topic)) {
+                    uniquePendingMajorTopics.push(topic);
+                }
+            });
+
+            if (pendingMajorTopics.includes(props.topic.majorCategory)) {
+                let pendingSubTopics = pendingTopics[props.topic.majorCategory].sort();
+
+                pendingSubTopics.forEach((topic) => {
+                    if (!approvedSubTopics.includes(topic)) {
+                        uniquePendingSubTopics.push(topic);
+                    }
+                });
+            }
+        }
+
+        majorTopics.push(approvedMajorTopics, uniquePendingMajorTopics);
+        subTopics.push(approvedSubTopics, uniquePendingSubTopics);
     }
 
     return (

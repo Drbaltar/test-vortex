@@ -120,12 +120,16 @@ const deleteExistingQuestion = (id, callback) => {
 
 /*------------------------Operations for Requesting Topic Categories-----------------------*/
 
-// Returns an array of topic categories based on the input gunnery table and subtask
+// Returns an array of topic categories (approved and pending) based on the input gunnery table and subtask
 const getTopicCategories = (unitType, table, subtask, callback) => {
     // Declare the existing question entry using MultQuestion model to represent 'Existing' database
-    let entry = MultQuestion.MultQuestion;
+    let existingEntry = MultQuestion.MultQuestion;
+    let pendingEntry = MultQuestion.PendingMultQuestion;
 
-    entry.where('gunnery_table').elemMatch({'unit_type': unitType, 'table': table, 'subtask': subtask})
+    Promise.all([
+        existingEntry.where('gunnery_table').elemMatch({'unit_type': unitType, 'table': table, 'subtask': subtask}).exec(),
+        pendingEntry.where('gunnery_table').elemMatch({'unit_type': unitType, 'table': table, 'subtask': subtask}).exec()
+    ])
         .then(queryResults => callback(null, queryResults))
         .catch(err => callback(err));
 };
@@ -158,7 +162,7 @@ const getNumQuestionsPerSubtask = (unitType, testType, callback) => {
     };
 
     const formatResults = (queryResults) => {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             let formattedResults = {};
 
             for (const property in queryResults) {
