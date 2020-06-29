@@ -5,16 +5,33 @@ import TestParameters from './Components/TestParameters/TestParameters';
 import QuestionSelectionMethod from './Components/QuestionSelectionMethod/QuestionSelectionMethod';
 import QuestionReview from './Components/QuestionReview/QuestionReview';
 import GenerateTest from './Components/GenerateTest/GenerateTest';
+import ParameterChangeModal from './Components/ParameterChangeModal/ParameterChangeModal';
 import './TestGenWizard.css';
 
 class TestGenWizard extends React.Component {
     constructor(props) {
         super(props);
 
+        this.tabTwoInitialState = {
+            isSelectionMethodComplete: false,
+            createVersionB: false,
+            percentAlternateQuestions: 0,
+            questionSelection: ''
+        };
+
+        this.tabThreeInitialState = {
+            isQuestionReviewComplete: false,
+            loadingQuestions: false,
+            hasSearchRan: false,
+            testQuestions: [],
+            testVersions: []
+        };
+
         this.initialState = {
             isTestTypeComplete: false,
             isSelectionMethodComplete: false,
             isQuestionReviewComplete: false,
+            isChangeModalDisplayed: false,
             tabDisplayed: 1,
             unitType: '',
             testLevel: '',
@@ -28,7 +45,8 @@ class TestGenWizard extends React.Component {
             loadingQuestions: false,
             hasSearchRan: false,
             testQuestions: [],
-            testVersions: []
+            testVersions: [],
+            pendingChange: null
         };
 
         this.state = this.initialState;
@@ -37,30 +55,30 @@ class TestGenWizard extends React.Component {
     handleInputChange = (event) => {
         const {target: { id, value}} = event;
 
-        this.setState({[id]: value}, () => {
-            if (id === 'testLevel' && value !== '') {
-                this.setMinMaxQuestions();
-            }
-
-            if ((id === 'unitType' && this.state.testType !== '') || (id === 'testLevel' && this.state.testType !== '')) {
-                this.setState({ testType: ''});
-            }
-        });
-
+        if (!this.isResetNeeded(id, value)) {
+            this.setState({[id]: value}, () => {
+                if ((id === 'unitType' && this.state.testType !== '') || (id === 'testLevel' && this.state.testType !== '')) {
+                    this.setState({ testType: ''});
+                }
+            });
+        }
     };
 
     handleCheckboxChange = (event) => {
-        const {target: { id, checked}} = event;
+        const {target: {id, checked}} = event;
 
-        this.setState({[id]: checked});
+        if (!this.isResetNeeded(id, checked)) {
+            this.setState({[id]: checked});
+        }
     };
 
     handleRadioSelection = (event) => {
-        const {target: { name, value}} = event;
+        const {target: {name, value}} = event;
         
         if (name === 'selectionMethodRadio') {
-            this.setState({questionSelection: value});
-            return;
+            if (!this.isResetNeeded('questionSelection', value)) {
+                this.setState({questionSelection: value});
+            }
         }
     }
 
@@ -75,11 +93,62 @@ class TestGenWizard extends React.Component {
         }
     };
 
+    handleChangeConfirmation = (response) => {
+        if (response === true) {
+            if ((this.state.pendingChange.id === 'unitType' && this.state.testType !== '') || 
+                (this.state.pendingChange.id === 'testLevel' && this.state.testType !== '')) {
+                this.setState({ testType: ''});
+            };
+            
+            this.resetProgress(this.state.pendingChange.tab);
+            this.setState({[this.state.pendingChange.id]: this.state.pendingChange.value}, () => this.toggleModal());
+        } else {
+            this.toggleModal();
+        }
+    };
+
+    toggleModal = () => {
+        if (this.state.isChangeModalDisplayed) {
+            this.setState({pendingChange: null, isChangeModalDisplayed: false});
+        } else {
+            this.setState({isChangeModalDisplayed: true});
+        }
+    };
+
+    isResetNeeded = (id, value) => {
+        const testTypeFields = ['unitType', 'testLevel', 'testType'];
+        const questionSelectionFields = ['numberOfQuestions', 'createVersionB', 'percentAlternateQuestions', 'questionSelection'];
+
+        if (testTypeFields.includes(id) && this.state.isTestTypeComplete) {
+            this.setState({ pendingChange: {id, value, tab: 1}, isChangeModalDisplayed: true});
+            return true;
+        } else if (questionSelectionFields.includes(id) && this.state.isSelectionMethodComplete) {
+            this.setState({ pendingChange: {id, value, tab: 2}, isChangeModalDisplayed: true});
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    resetProgress = (tab) => {
+        switch (tab) {
+        case 1:
+            this.setState({isTestTypeComplete: false})
+            this.setState(this.tabTwoInitialState);
+        case 2:
+            this.setState({isSelectionMethodComplete: false})
+            this.setState(this.tabThreeInitialState);
+        default:
+            break;
+        }
+    }
+
     // Returns true if all entries on current tab are completed
     isCurrentTabCompleted = () => {
         switch (this.state.tabDisplayed) {
         case 1:
             if (this.state.unitType !== '' && this.state.testLevel !== '' && this.state.testType !== '') {
+                this.setMinMaxQuestions();
                 this.setState({isTestTypeComplete: true});
                 return true;
             } else {
@@ -89,8 +158,7 @@ class TestGenWizard extends React.Component {
             this.setState({isSelectionMethodComplete: true}, this.getTestQuestionsAuto());
             return true;
         case 3:
-            this.createVersions();
-            this.setState({isQuestionReviewComplete: true});
+            this.setState({isQuestionReviewComplete: true}, this.createVersions());
             return true;
         default:
             return true;
@@ -144,7 +212,6 @@ class TestGenWizard extends React.Component {
                     question_version: question._v
                 }
             }
-
         });
 
         return {
@@ -238,31 +305,36 @@ class TestGenWizard extends React.Component {
         }
 
         return(
-            <form className="card bg-light" noValidate>
-                <h1 className="card-header">{this.props.title}</h1>
-                <div className="pt-4 pl-4 pr-4">
-                    <ul className="list-group list-group-horizontal row">
-                        <li className={`list-group-item btn col ${typeStatus}`} 
-                            onClick={() => this.setState({ tabDisplayed: 1 })}>
-                            {`Test Type/Parameters${this.state.isTestTypeComplete ? ' \u2713' : ''}`}
-                        </li>
-                        <li className={`list-group-item btn col ${selectionStatus}`}
-                            onClick={() => this.setState({ tabDisplayed: 2 })}>
-                            {`Question Selection Method${this.state.isSelectionMethodComplete ? ' \u2713' : ''}`}
-                        </li>
-                        <li className={`list-group-item btn col ${reviewStatus}`}
-                            onClick={() => this.setState({ tabDisplayed: 3 })}>
-                            {`Question Review${this.state.isQuestionReviewComplete ? ' \u2713' : ''}`}
-                        </li>
-                        <li className={`list-group-item btn col ${generateStatus}`}
-                            onClick={() => this.setState({ tabDisplayed: 4 })}>
+            <div>
+                <ParameterChangeModal modal={this.state.isChangeModalDisplayed}
+                    toggleModal={() => this.toggleModal()}
+                    clickHandler = {(response) => this.handleChangeConfirmation(response)}/>
+                <form className="card bg-light" noValidate>
+                    <h1 className="card-header">{this.props.title}</h1>
+                    <div className="pt-4 pl-4 pr-4">
+                        <ul className="list-group list-group-horizontal row">
+                            <li className={`list-group-item btn col ${typeStatus}`}
+                                onClick={() => this.setState({ tabDisplayed: 1 })}>
+                                {`Test Type/Parameters${this.state.isTestTypeComplete ? ' \u2713' : ''}`}
+                            </li>
+                            <li className={`list-group-item btn col ${selectionStatus}`}
+                                onClick={() => this.setState({ tabDisplayed: 2 })}>
+                                {`Question Selection Method${this.state.isSelectionMethodComplete ? ' \u2713' : ''}`}
+                            </li>
+                            <li className={`list-group-item btn col ${reviewStatus}`}
+                                onClick={() => this.setState({ tabDisplayed: 3 })}>
+                                {`Question Review${this.state.isQuestionReviewComplete ? ' \u2713' : ''}`}
+                            </li>
+                            <li className={`list-group-item btn col ${generateStatus}`}
+                                onClick={() => this.setState({ tabDisplayed: 4 })}>
                                 Save/Generate Test
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
 
-                </div>
-                {selectedTabPane}
-            </form> 
+                    </div>
+                    {selectedTabPane}
+                </form>
+            </div>
         );
     }
 }
