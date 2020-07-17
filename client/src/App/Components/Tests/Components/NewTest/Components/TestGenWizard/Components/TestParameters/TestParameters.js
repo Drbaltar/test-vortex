@@ -4,9 +4,6 @@ import SelectBox from '../../../../../../../shared-components/SelectBox';
 import NavigationButtons from '../shared-components/NavigationButtons';
 
 class TestParameters extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     // Returns the possible test options based on the unit echelon 
     // and test level IAW the TC 3-01.86 dated December 2017
@@ -47,7 +44,7 @@ class TestParameters extends React.Component {
 
         return(
             <div className='p-4'>
-                <h2 style={{'textAlign': 'center'}}>Choose Test Type</h2>
+                <h2 className='pb-4'>Step 1: Choose Test Type</h2>
                 <SelectBox label="Unit Type" id="unitType"
                     options={['', 'Battery', 'Battalion']}
                     value={this.props.unitType}

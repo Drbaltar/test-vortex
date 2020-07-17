@@ -22,8 +22,10 @@ const Issues = () => {
                 </div>
                 
                 <Switch>
-                    <Route>
-                        
+                    <Route exact path={`${match.path}/new`}>
+                        <div className="col sub-body">
+                            {/* TODO: Create new issues form */}
+                        </div>
                     </Route>
                 </Switch>
             </div>

@@ -4,9 +4,6 @@ import QuestionPreview from './Components/QuestionPreview/QuestionPreview';
 import NavigationButtons from '../shared-components/NavigationButtons';
 
 class QuestionReview extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     
     // Returns true if all fields have inputs
     isAllFieldsComplete = () => {
@@ -33,7 +30,7 @@ class QuestionReview extends React.Component {
 
         return(
             <div className='p-4'>
-                <h2 style={{'textAlign': 'center'}}>Review All Test Questions</h2>
+                <h2 className='pb-4'>Step 4: Review All Test Questions</h2>
                 {questionList}
                 {loadingSpinner}
                 <NavigationButtons  previousButton={true} nextButton={true} 

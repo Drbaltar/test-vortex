@@ -196,7 +196,8 @@ class QuestionForm extends React.Component {
             Axios.get('/api/questions/topics', { params: { unitType: this.state.gunneryTable[0].unitType, 
                 table: this.state.gunneryTable[0].table, subtask: this.state.gunneryTable[0].subtask}})
                 .then((response) => this.setState({existingTopicCategories: response.data, isTopicLoading: false}))
-                .catch((response) => {
+                .catch((error) => {
+                    console.log(error);
                     this.setState({existingTopicCategories: null, isTopicLoading: false});
                 });
         });

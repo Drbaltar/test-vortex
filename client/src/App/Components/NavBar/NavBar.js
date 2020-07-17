@@ -22,7 +22,9 @@ class NavBar extends React.Component {
     }
 
     render() {
-        const collapse = (this.state.navbarCollapse) ? 'collapse navbar-collapse' : 'collapse navbar-collapse show'; 
+        const collapse = (this.state.navbarCollapse) ? 'collapse navbar-collapse' : 'collapse navbar-collapse show';
+        const welcomeMessage = (this.props.userFirstName !== '') ? 
+            <span className="navbar-text " style={{ color: 'white'}}>{`Hello, ${this.props.userFirstName}!`}</span> : null;
 
         return(
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -35,11 +37,15 @@ class NavBar extends React.Component {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className={`${collapse}`} id="testVortexNavBar">
-                    <div className="navbar-nav">
+                    <div className="navbar-nav mr-auto">
                         <NavLink to="/tests" className="nav-item nav-link" onClick={this.collapseNavBar}>Tests</NavLink>     
                         <NavLink to="/questions" className="nav-item nav-link" onClick={this.collapseNavBar}>Questions</NavLink>     
                         <NavLink to="/issues" className="nav-item nav-link" onClick={this.collapseNavBar}>Issues</NavLink>
-                        <NavLink to="/about" className="nav-item nav-link" onClick={this.collapseNavBar}>About</NavLink>      
+                    </div>
+                    <hr/>
+                    {welcomeMessage}
+                    <div className="navbar-nav ml-3">
+                        <NavLink to="/logout" className="navber-nav nav-link" onClick={() => this.props.logout()}><u>Logout</u></NavLink>
                     </div>
                 </div>
             </nav>

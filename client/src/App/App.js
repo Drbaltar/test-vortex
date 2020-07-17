@@ -1,6 +1,7 @@
 // Import React dependencies
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import Axios from 'axios';
 
 // Import CSS files
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,10 +14,33 @@ import Tests from './Components/Tests/Tests';
 import Issues from './Components/Issues/Issues';
 
 class App extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            username: '',
+            firstName: '',
+            lastName: '',
+            permissionLevel: ''
+        };
+
+    }
+
+    componentDidMount() {
+        Axios.get('/user/client-info')
+            .then((response) => this.setState(response.data));
+    }
+
+    logout = () =>  {
+        localStorage.clear();
+        window.location.href = '/logout';
+    }
+
     render() {
         return (
             <div>
-                <NavBar/>
+                <NavBar userFirstName={this.state.firstName} logout={() => this.logout()}/>
                 <div className='body'>
                     <Switch>
                         <Route exact path="/home">
@@ -35,10 +59,8 @@ class App extends React.Component {
                         <Route path="/issues">
                             <Issues/>
                         </Route>
-                        <Route exact path="/about">
-                            <div className='jumbotron'>
-                                <h1 >About Placeholder</h1>
-                            </div>
+                        <Route exact path="/*">
+                            <Redirect to="/home"/>
                         </Route>
                     </Switch>
                 </div>
