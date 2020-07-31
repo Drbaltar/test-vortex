@@ -40,6 +40,10 @@ router.get('/new-patriot-auto', (req, res) => {
 router.post('/save-new', (req, res) => {
     // Declare new test
     let newTest = new Test(req.body);
+
+    if (req.user) {
+        newTest.created_by = req.user.username;
+    }
     
     // Validate test requirements before going any further
     newTest.validate((err) => {
@@ -62,9 +66,9 @@ router.post('/save-new', (req, res) => {
 });
 
 // Route for receiving all tests created by the user that is currently logged in
-router.get('/user-tests', (req, res) => {    
+router.get('/user-tests-full', (req, res) => {    
     if (req.user) {
-        Test.find({created_by: req.user}).populate('versions.questions.question')
+        Test.find({created_by: req.user.username}).populate('versions.questions.question')
             .then(doc => res.send(doc))
             .catch(err => res.status(400).send(err));
     } else {
