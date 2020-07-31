@@ -1,7 +1,7 @@
 const PatriotKeyFormat = (unitType, testLevel, testType, version, date, testQuestions, versionOutline) => {
 
     const testAnswers = versionOutline.questions.map((questionOutline, index) => {
-        const question = testQuestions.find((question) => question._id === questionOutline.question_id);
+        const question = testQuestions.find((question) => question._id === questionOutline.question);
 
         if (question.question_type === 'Multiple Choice') {
             const correctAnswer = String.fromCharCode(65 + questionOutline.answer_order.indexOf(('correct_answer')));
@@ -13,8 +13,6 @@ const PatriotKeyFormat = (unitType, testLevel, testType, version, date, testQues
     });
 
     const numOfTables = Math.ceil(testAnswers.length / 50);
-    console.log('Num of Tables: ' + numOfTables);
-    
 
     let formattedAnswers = [];
 
