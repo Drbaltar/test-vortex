@@ -1,4 +1,5 @@
 import React from 'react';
+import Axios from 'axios';
 
 import TestGenWizard from './Components/TestGenWizard/TestGenWizard';
 import SuccessMessage from '../../../shared-components/SuccessMessage/SuccessMessage';
@@ -15,7 +16,13 @@ class NewTest extends React.Component {
         this.state = this.initialState;
     }
 
-    returnToMenu = () => {
+    saveNewTest = (newTest) => {
+        Axios.post('/api/tests/save-new', newTest)
+            .then((response) => this.setState({submissionResponse: response, successAlert: true}))
+            .catch((response) => this.setState({submissionResponse: response}));
+    }
+
+    returnToMenu = () => { 
         this.setState({submissionResponse: '', successAlert: false});
     }
 
@@ -29,7 +36,8 @@ class NewTest extends React.Component {
             );
         } else {
             newTestView = (
-                <TestGenWizard title={`Generate New Test (${this.props.testType})`}/>
+                <TestGenWizard title={`Generate New Test (${this.props.testType})`}
+                    saveNewTest={(newTest) => this.saveNewTest(newTest)}/>
             );
         }
         return(
