@@ -6,9 +6,9 @@ const PatriotKeyFormat = (unitType, testLevel, testType, version, date, testQues
         if (question.question_type === 'Multiple Choice') {
             const correctAnswer = String.fromCharCode(65 + questionOutline.answer_order.indexOf(('correct_answer')));
 
-            return (`${index + 1})  ${correctAnswer}`)
+            return (`${index + 1})  ${correctAnswer}`);
         } else {
-            return (`${index + 1})  ${question.correct_answer}`)
+            return (`${index + 1})  ${question.correct_answer}`);
         }
     });
 

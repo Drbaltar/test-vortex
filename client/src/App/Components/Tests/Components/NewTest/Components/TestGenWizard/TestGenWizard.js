@@ -100,7 +100,7 @@ class TestGenWizard extends React.Component {
             if ((this.state.pendingChange.id === 'unitType' && this.state.testType !== '') || 
                 (this.state.pendingChange.id === 'testLevel' && this.state.testType !== '')) {
                 this.setState({ testType: ''});
-            };
+            }
             
             this.resetProgress(this.state.pendingChange.tab);
             this.setState({[this.state.pendingChange.id]: this.state.pendingChange.value}, () => this.toggleModal());
@@ -135,11 +135,14 @@ class TestGenWizard extends React.Component {
     resetProgress = (tab) => {
         switch (tab) {
         case 1:
-            this.setState({isTestTypeComplete: false})
+            this.setState({isTestTypeComplete: false, isSelectionMethodComplete: false});
             this.setState(this.tabTwoInitialState);
-        case 2:
-            this.setState({isSelectionMethodComplete: false})
             this.setState(this.tabThreeInitialState);
+            break;
+        case 2:
+            this.setState({isSelectionMethodComplete: false});
+            this.setState(this.tabThreeInitialState);
+            break;
         default:
             break;
         }
@@ -208,19 +211,19 @@ class TestGenWizard extends React.Component {
                     question_type: 'MultQuestion',
                     original_question_version: question.__v,
                     answer_order: this.shuffleArray(answerArray).slice(0)
-                }
+                };
             } else if (question.question_type === 'Fill-in-the-Blank') {
                 return {
                     question: question._id,
                     question_type: 'FillBlankQuestion',
                     original_question_version: question.__v
-                }
+                };
             } else if (question.question_type === 'True or False') {
                 return {
                     question: question._id,
                     question_type: 'TFQuestion',
                     original_question_version: question.__v
-                }
+                };
             } else {
                 console.log('Incorrect question type found when building \'Version Outlines\'!');
             }
@@ -230,7 +233,7 @@ class TestGenWizard extends React.Component {
             version,
             questions,
             date_created: this.state.date
-        }
+        };
     }
 
     shuffleArray = (array) => {

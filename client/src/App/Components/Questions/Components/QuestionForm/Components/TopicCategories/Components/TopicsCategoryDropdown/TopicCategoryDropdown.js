@@ -51,7 +51,7 @@ class TopicCategoryDropdown extends React.Component {
                     {(approvedList && pendingList ? <DropdownItem divider/> : null)}
                     {pendingList}
                 </div>
-            )
+            );
         }
     }
 
