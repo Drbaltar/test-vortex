@@ -3,42 +3,35 @@ import React from 'react';
 import QuestionPreview from './Components/QuestionPreview/QuestionPreview';
 import NavigationButtons from '../shared-components/NavigationButtons';
 
-class QuestionReview extends React.Component {
+const QuestionReview = (props) => {
     
-    // Returns true if all fields have inputs
-    isAllFieldsComplete = () => {
-        return true;
-    }
+    let loadingSpinner;
+    let questionList;
 
-    render() {
-        let loadingSpinner;
-        let questionList;
-
-        if (this.props.loadingQuestions) {
-            loadingSpinner = (
-                <div className="d-flex justify-content-center mb-3">
-                    <div className="spinner-border" role="status">
-                        <span className="sr-only">Loading...</span>
-                    </div>
+    if (props.loadingQuestions) {
+        loadingSpinner = (
+            <div className="d-flex justify-content-center mb-3">
+                <div className="spinner-border" role="status">
+                    <span className="sr-only">Loading...</span>
                 </div>
-            );
-        } else if (this.props.hasSearchRan) {
-            questionList= (
-                <QuestionPreview testQuestions={this.props.testQuestions}/>
-            );
-        }
-
-        return(
-            <div className='p-4'>
-                <h2 className='pb-4'>Step 4: Review All Test Questions</h2>
-                {questionList}
-                {loadingSpinner}
-                <NavigationButtons  previousButton={true} nextButton={true} 
-                    isNextButtonDisabled={!this.isAllFieldsComplete()}
-                    clickHandler={this.props.clickHandler}/>
-            </div> 
+            </div>
+        );
+    } else if (props.hasSearchRan) {
+        questionList= (
+            <QuestionPreview testQuestions={props.testQuestions}/>
         );
     }
+
+    return(
+        <div className='p-4'>
+            <h2 className='pb-4'>Step 4: Review All Test Questions</h2>
+            {questionList}
+            {loadingSpinner}
+            <NavigationButtons  previousButton={true} nextButton={true} 
+                isNextButtonDisabled={false}
+                clickHandler={props.clickHandler}/>
+        </div> 
+    );
 }
 
 export default QuestionReview;
