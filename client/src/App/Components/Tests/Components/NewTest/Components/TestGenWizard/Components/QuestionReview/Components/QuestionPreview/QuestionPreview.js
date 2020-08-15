@@ -7,11 +7,29 @@ class QuestionPreview extends React.Component {
         super(props);
 
         this.initialState = {
+            resultsPerPage: 10,
+            pageDisplayed: 1,
             modal: false,
             selectedQuestion: null
         };
 
         this.state = this.initialState;
+    }
+
+    handleInputChange = (event) => {
+        const {target: { id, value}} = event;
+
+        this.setState({[id]: value}, () => {
+            if (id === 'resultsPerPage') {
+                this.setState({pageDisplayed: 1})
+            };
+        });
+    }
+
+    handlePageChange = (event, newPageNumber) => {
+        event.preventDefault();
+
+        this.setState({pageDisplayed: newPageNumber});
     }
 
     selectQuestion = (index) => {
@@ -20,7 +38,7 @@ class QuestionPreview extends React.Component {
 
     toggleModal = () => {
         if (this.state.modal) {
-            this.setState(this.initialState);
+            this.setState({modal: false, selectedQuestion: null});
         } else {
             this.setState(prevState => ({
                 modal: !prevState.modal
@@ -38,8 +56,24 @@ class QuestionPreview extends React.Component {
             );
         } else if (this.props.testQuestions.length > 0) {
             return (
-                <div>
-                    <p>{`${this.props.testQuestions.length} ${this.props.testQuestions.length === 1 ? 'Question' : 'Questions'} Found for the Test!`}</p>
+                <div className="container-fluid">
+                    <div className="row justify-content-between">
+                        <div className="col-auto">
+                            <p>{`${this.props.testQuestions.length} ${this.props.testQuestions.length === 1 ?
+                                'Question' : 'Questions'} Found for the Test!`}</p>
+                        </div>
+                        <form className="form-inline col-auto mb-2">
+                            <label htmlFor="resultsPerPage">Results Per Page</label>
+                            <select className="form-control ml-2" id="resultsPerPage" value={this.state.resultsPerPage}
+                                onChange={event => this.handleInputChange(event)}>
+                                <option>5</option>
+                                <option>10</option>
+                                <option>20</option>
+                                <option>50</option>
+                                <option>100</option>
+                            </select>
+                        </form> 
+                    </div>          
                 </div>
             );
         }
@@ -47,7 +81,11 @@ class QuestionPreview extends React.Component {
 
     // Returns a list of the test questions
     getTestQuestionPreview = () => {
-        // let questionList = this.props.testQuestions;
+        const numPagesNeeded = Math.ceil(this.props.testQuestions.length / this.state.resultsPerPage)
+        const questionRange = {
+            start: this.state.resultsPerPage * (this.state.pageDisplayed - 1),
+            end: this.state.resultsPerPage * this.state.pageDisplayed
+        }
 
         const filledList = this.props.testQuestions.map((entry, index) => {
             if (entry.question_type === 'Multiple Choice') {
@@ -102,15 +140,50 @@ class QuestionPreview extends React.Component {
             }
         });
 
-        return filledList;
+        return (
+            <div>
+                {filledList.slice(questionRange.start, questionRange.end)}
+                {this.getPagination(numPagesNeeded)}
+            </div>
+        )
+    }
+
+    // Returns the pagination for navigation between pages
+    getPagination = (numPagesNeeded) => {
+        let pageButtons = [];
+
+        for (let index = 1; index <= numPagesNeeded; index++) {
+            pageButtons.push(
+                <li className={`page-item ${index === this.state.pageDisplayed ? 'active' : ''}`}>
+                    <button className="page-link"
+                        onClick={(event) => this.handlePageChange(event, index)}>{index}</button>
+                </li>
+            )
+        }
+
+        return (
+            <nav aria-label="Question Review Page Navigation">
+                <ul className="pagination justify-content-center mt-2">
+                    <li className={`page-item ${this.state.pageDisplayed === 1 ? 'disabled' : ''}`}>
+                        <button className="page-link"
+                            onClick={(event) => this.handlePageChange(event, this.state.pageDisplayed - 1)}>Previous</button>
+                    </li>
+                    {pageButtons}
+                    <li className={`page-item ${this.state.pageDisplayed === numPagesNeeded ? 'disabled' : ''}`}>
+                        <button className="page-link"
+                            onClick={(event) => this.handlePageChange(event, this.state.pageDisplayed + 1)}>Next</button>
+                    </li>
+                </ul>
+            </nav>
+        )
     }
     
     render() {
         return (
             <div>
                 {this.getSearchMessage()}
-                <div className='list-group pb-3'>
-                    {this.getTestQuestionPreview()}
+                <div className='list-group'>
+                    {this.props.testQuestions.length !== 0 ? this.getTestQuestionPreview() : null}
                 </div>
                 <QuestionPreviewModal toggleModal={this.toggleModal} modal={this.state.modal}
                     testQuestion={this.state.selectedQuestion}/>
