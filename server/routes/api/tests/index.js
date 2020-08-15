@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const patriotTestGen = require('../src/test generation/patriot-test-gen');
-const Test = require('../models/patriot/test');
+const patriotTestGen = require('../../../src/test generation/patriot-test-gen');
+const Test = require('../../../models/patriot/test');
 
 // Route for getting questions for a new patriot test with automatic selection of questions
 router.get('/new-patriot-auto', (req, res) => {

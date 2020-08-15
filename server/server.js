@@ -4,10 +4,7 @@ require('dotenv').config();
 // Set up express variables
 const express = require('express');
 const app = express();
-const path = require('path');
-const cors = require('cors');
-const port = 5000;
-const bodyParser = require('body-parser');
+const port = process.env.PORT;
 
 // Connect to MongoDB
 const mongoose = require('mongoose');
@@ -70,60 +67,19 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Allow express to parse incoming JSON and application/x-www-form-urlencoded files
+const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Allow express to use 'cors' module
+const cors = require('cors');
 app.use(cors());
 
-// Add routes
-const testRouter = require('./routes/test');
-const issueRouter = require('./routes/issue');
-const questionRouter = require('./routes/question');
-const userRouter = require('./routes/user');
-
 // Set all routes
-app.use('/api/tests', testRouter);
-app.use('/api/issues', issueRouter);
-app.use('/api/questions', questionRouter);
-app.use('/user', userRouter);
+app.use('/', require('./routes'));
 
-// Set route to access the built Test Vortex React app
-const clientPath = path.join(path.resolve(__dirname, '..'), 'client', 'build');
-app.use(express.static(clientPath));
-
-// Set route to access the Test Vortex Login Page
-const loginPath = path.join(path.resolve(__dirname), 'public', 'login');
-app.use(express.static(loginPath));
-
-// Set route to access the Test Vortex Login Page
-const logoutPath = path.join(path.resolve(__dirname), 'public', 'logout');
-
-app.get('/login', (req, res) => {
-    res.sendFile(path.join(loginPath, 'login.html'));
-});
-
-app.post('/login', passport.authenticate('local'), (req, res) => {
-    res.redirect('/');
-});
-
-app.get('/logout', (req, res) => {
-    req.logout();
-    req.session.destroy((err) => {
-        if (err) {
-            res.send('An error has occurred while trying to log you out!');
-        } else {
-            res.sendFile(path.join(logoutPath, 'logout.html'));
-        }
-    });
-});
-
-app.get('/*', (req, res, next) => {
-    if (req.user) {
-        next();
-    } else {
-        res.redirect('/login');
-    }
-}, (req, res) => {
-    res.sendFile(path.join(clientPath, 'app.html'));
-});
+// Set express to serve static files in public folder
+const path = require('path');
+app.use(express.static(path.join(path.resolve(__dirname), 'public', 'login')));
+app.use(express.static(path.join(path.resolve(__dirname), 'public', 'logout')));
+app.use(express.static(path.join(path.resolve(__dirname), 'public', 'react-app')));

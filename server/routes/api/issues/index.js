@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Issue = require('../models/issue');
-const Counter = require('../models/counter');
-const documentBuilder = require('../src/document-builder');
+const Issue = require('../../../models/issue');
+const Counter = require('../../../models/counter');
+const documentBuilder = require('../../../src/document-builder');
 
 router.get('/', (req, res) => {
     res.send('<h>Issue Submission Page</h>');

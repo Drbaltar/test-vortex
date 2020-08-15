@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const ObjectId = require('mongoose').Types.ObjectId;
 
-const documentBuilder = require('../src/document-builder');
-const dbInterface = require('../src/database-interface');
+const documentBuilder = require('../../../src/document-builder');
+const dbInterface = require('../../../src/database-interface');
 
 /*------------------------CRUD Operations for 'Pending' Questions-----------------------*/
 
