@@ -40,7 +40,7 @@ export default class App extends React.Component {
     // Request information on the user currently logged into the session
     async componentDidMount() {
         // Send Axios GET request
-        await Axios.get('/api/users/client-infos')
+        await Axios.get('/api/users/client-info')
             // Update user info if request is successful
             .then((response) => this.setState(response.data))
             // Update error code if Axios request returns an error
@@ -87,7 +87,7 @@ export default class App extends React.Component {
                                 <Route path="/app/issues">
                                     <Issues/>
                                 </Route>
-                                <Route exact path="/*">
+                                <Route exact path="/app/*">
                                     <Redirect to="/app/home"/>
                                 </Route>
                             </Switch>
