@@ -12,7 +12,7 @@ const path = require('path');
 const ReactAppRouter = require('express').Router();
 
 // Middleware that checks to make sure there is a current session
-ReactAppRouter.use('/', (req, res, next) => {
+ReactAppRouter.use('/*', (req, res, next) => {
     if (req.user) {
         next();
     } else {
@@ -21,8 +21,8 @@ ReactAppRouter.use('/', (req, res, next) => {
 });
 
 // Set route to access the built Test Vortex React app
-const reactAppPath = path.join(path.resolve(__dirname, '../../'), 'public', 'react-app', 'app.html');
-ReactAppRouter.get('/', (req, res) => {
+const reactAppPath = path.join(path.resolve(__dirname, '../../../'), 'client', 'build', 'index.html');
+ReactAppRouter.get('/*', (req, res) => {
     res.sendFile(reactAppPath);
 });
 
