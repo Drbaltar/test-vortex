@@ -6,6 +6,10 @@ const testSchema = new Schema({
         type: String,
         required: 'The \'Created By\' field is required'
     },
+    test_name: {
+        type: String,
+        required: 'The \'Test Name\' field is required'
+    },
     versions: {
         type: [{
             version: {

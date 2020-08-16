@@ -1,7 +1,7 @@
 const PatriotTestFormat = (unitType, testLevel, testType, version, date, testQuestions, versionOutline) => {
     
     let testQuestionsString = versionOutline.questions.map((questionOutline, index) => {
-        const question = testQuestions.find((question) => question._id === questionOutline.question_id);
+        const question = testQuestions.find((question) => question._id === questionOutline.question);
 
         if (question.question_type === 'Multiple Choice') {
             return([{

@@ -28,6 +28,7 @@ class TestGenWizard extends React.Component {
         };
 
         this.initialState = {
+            date: this.getTodaysDateString(),
             isTestTypeComplete: false,
             isSelectionMethodComplete: false,
             isQuestionReviewComplete: false,
@@ -84,8 +85,9 @@ class TestGenWizard extends React.Component {
 
     handleClickEvent = (event) => {
         event.preventDefault();
+
         if (event.target.id === 'nextButton') {
-            if (this.isCurrentTabCompleted()) {
+            if (this.isCurrentTabCompleted() && this.state.tabDisplayed !== 4) {
                 this.setState({tabDisplayed: (this.state.tabDisplayed + 1)});
             }
         } else if (event.target.id === 'previousButton') {
@@ -98,7 +100,7 @@ class TestGenWizard extends React.Component {
             if ((this.state.pendingChange.id === 'unitType' && this.state.testType !== '') || 
                 (this.state.pendingChange.id === 'testLevel' && this.state.testType !== '')) {
                 this.setState({ testType: ''});
-            };
+            }
             
             this.resetProgress(this.state.pendingChange.tab);
             this.setState({[this.state.pendingChange.id]: this.state.pendingChange.value}, () => this.toggleModal());
@@ -133,11 +135,14 @@ class TestGenWizard extends React.Component {
     resetProgress = (tab) => {
         switch (tab) {
         case 1:
-            this.setState({isTestTypeComplete: false})
+            this.setState({isTestTypeComplete: false, isSelectionMethodComplete: false});
             this.setState(this.tabTwoInitialState);
-        case 2:
-            this.setState({isSelectionMethodComplete: false})
             this.setState(this.tabThreeInitialState);
+            break;
+        case 2:
+            this.setState({isSelectionMethodComplete: false});
+            this.setState(this.tabThreeInitialState);
+            break;
         default:
             break;
         }
@@ -161,7 +166,7 @@ class TestGenWizard extends React.Component {
             this.setState({isQuestionReviewComplete: true}, this.createVersions());
             return true;
         default:
-            return true;
+            return false;
         }
     }
 
@@ -202,22 +207,33 @@ class TestGenWizard extends React.Component {
         const questions = shuffledTest.map((question) => {
             if (question.question_type === 'Multiple Choice') {
                 return {
-                    question_id: question._id,
-                    question_version: question._v,
+                    question: question._id,
+                    question_type: 'MultQuestion',
+                    original_question_version: question.__v,
                     answer_order: this.shuffleArray(answerArray).slice(0)
-                }
-            } else {
+                };
+            } else if (question.question_type === 'Fill-in-the-Blank') {
                 return {
-                    question_id: question._id,
-                    question_version: question._v
-                }
+                    question: question._id,
+                    question_type: 'FillBlankQuestion',
+                    original_question_version: question.__v
+                };
+            } else if (question.question_type === 'True or False') {
+                return {
+                    question: question._id,
+                    question_type: 'TFQuestion',
+                    original_question_version: question.__v
+                };
+            } else {
+                console.log('Incorrect question type found when building \'Version Outlines\'!');
             }
         });
 
         return {
             version,
-            questions
-        }
+            questions,
+            date_created: this.state.date
+        };
     }
 
     shuffleArray = (array) => {
@@ -227,6 +243,12 @@ class TestGenWizard extends React.Component {
         }
 
         return array;
+    }
+
+    // Creates a string of the current date in the DDMMMYY format
+    getTodaysDateString = () => {
+        const today = new Date(Date.now());
+        return `${today.getDate()}${new Intl.DateTimeFormat('en-US', {month: 'short'}).format(today).toUpperCase()}${today.getYear()-100}`;
     }
 
     render() {
@@ -291,8 +313,9 @@ class TestGenWizard extends React.Component {
             generateStatus = generateStatus + ' selected';
             selectedTabPane = <GenerateTest unitType={this.state.unitType} testLevel={this.state.testLevel}
                 testType={this.state.testType} testQuestions={this.state.testQuestions}
-                testVersions={this.state.testVersions}
-                clickHandler={(event) => this.handleClickEvent(event)}/>;
+                testVersions={this.state.testVersions} date={this.state.date}
+                clickHandler={(event) => this.handleClickEvent(event)}
+                saveNewTest={this.props.saveNewTest}/>;
             break;
         default:
             typeStatus = typeStatus + ' selected';

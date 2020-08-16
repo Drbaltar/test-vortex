@@ -2,6 +2,7 @@ import React from 'react';
 
 import TestVersionCard from './Components/TestVersionCard/TestVersionCard';
 import NavigationButtons from '../shared-components/NavigationButtons';
+import TestSaveModal from './Components/TestSaveModal/TestSaveModal';
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -15,84 +16,113 @@ class GenerateTest extends React.Component {
         super(props);
 
         this.state = {
-            date: this.getTodaysDateString()
+            testSaveModal: false,
+            testName: ''
         };
     }
-    
-    // Creates a string of the current date in the DDMMMYY format
-    getTodaysDateString = () => {
-        const today = new Date(Date.now());
-        return `${today.getDate()}${new Intl.DateTimeFormat('en-US', {month: 'short'}).format(today).toUpperCase()}${today.getYear()-100}`;
+
+    handleInputChange = (event) => {
+        const {target: { id, value}} = event;
+
+        this.setState({[id]: value});   
+    };
+
+    handleClickEvent = (event) => {
+        event.preventDefault();
+
+        switch (event.target.id) {
+            case 'previousButton':
+                this.props.clickHandler(event);
+                break;
+            case 'saveTestButton':
+                this.toggleSaveTestModal();
+                break;
+            case 'defaultTestNameButton':
+                this.setDefaultTestName();
+                break;
+            case 'submitTestButton':
+                this.submitTest();
+                break;
+            default:
+                let [action, version] = event.target.id.split('_');
+                switch (action) {
+                    case 'openTest':
+                        pdfMake.createPdf(this.createTestDefinition(version)).open();
+                        break;
+                    case 'downloadTest':
+                        pdfMake.createPdf(this.createTestDefinition(version)).download();
+                        break;
+                    case 'openKey':
+                        pdfMake.createPdf(this.createAnswerKeyDefinition(version)).open();
+                        break;
+                    case 'downloadKey':
+                        pdfMake.createPdf(this.createAnswerKeyDefinition(version)).download();
+                        break;
+                    default:
+                        break;
+                }
+                break;
+        }
+    }
+
+    toggleSaveTestModal = () => {
+        if (this.state.testSaveModal) {
+            this.setState({testName: '', testSaveModal: false});
+        } else {
+            this.setState({testSaveModal: true});
+        }
     }
 
     // Create document definition for the test
     createTestDefinition = (version) => {
         return PatriotTestFormat(this.props.unitType, this.props.testLevel, 
-            this.props.testType, version, this.state.date, this.props.testQuestions,
+            this.props.testType, version, this.props.date, this.props.testQuestions,
             this.props.testVersions.find((testOutline) => (testOutline.version === version)));
     }
 
     // Create document definition for the answer key
     createAnswerKeyDefinition = (version) => {
         return PatriotKeyFormat(this.props.unitType, this.props.testLevel, 
-            this.props.testType, version, this.state.date, this.props.testQuestions,
+            this.props.testType, version, this.props.date, this.props.testQuestions,
             this.props.testVersions.find((testOutline) => (testOutline.version === version)));
     }
 
-    // Open the newly generated test
-    openTest = (event) => {
-        event.preventDefault();
-
-        let version = event.target.id.charAt(event.target.id.length-1);
-        
-        pdfMake.createPdf(this.createTestDefinition(version)).open();
+    setDefaultTestName = () => {
+        let testName = `${this.props.unitType} ${this.props.testLevel} ${this.props.testType} Test - ${this.props.date}`;
+        this.setState({testName});
     }
 
-    // Download the newly generated test
-    downloadTest = (event) => {
-        event.preventDefault();
+    // Closes the test save modal and submits the completed test to the server
+    submitTest = () => {
+        this.setState({testSaveModal: false}, () => {
+            let newTest = {
+                test_name: this.state.testName,
+                versions: this.props.testVersions
+            };
 
-        let version = event.target.id.charAt(event.target.id.length-1);
-        
-        pdfMake.createPdf(this.createTestDefinition(version)).download();
-    }
-
-    // Open the newly generated answer key
-    openKey = (event) => {
-        event.preventDefault();
-
-        let version = event.target.id.charAt(event.target.id.length-1);
-        
-        pdfMake.createPdf(this.createAnswerKeyDefinition(version)).open();
-    }
-
-    // Download the newly generated answer key
-    downloadKey = (event) => {
-        event.preventDefault();
-
-        let version = event.target.id.charAt(event.target.id.length-1);
-        
-        pdfMake.createPdf(this.createAnswerKeyDefinition(version)).download();
+            this.props.saveNewTest(newTest);
+        });
     }
 
     render() {
         const testCards = this.props.testVersions.map((testOutline) => {
             return (<TestVersionCard version={testOutline.version} key={`Version ${testOutline.version}`}
-                openTest={(event) => this.openTest(event)}
-                downloadTest={(event) => this.downloadTest(event)}
-                openKey={(event) => this.openKey(event)}
-                downloadKey={(event) => this.downloadKey(event)}/>
-            )
-        })
+                clickHandler={(event) => this.handleClickEvent(event)}/>
+            );
+        });
 
         return(
             <div className='p-4'>
                 <h2 className='pb-4'>Step 5: Preview/Download a Test or Save for Later</h2>
                 {testCards}
                 <NavigationButtons  previousButton={true} nextButton={true} 
-                    nextButtonID='submitButton' nextButtonText='Save Test'
+                    nextButtonID='saveTestButton' nextButtonText='Save Test'
                     isNextButtonDisabled={false}
-                    clickHandler={this.props.clickHandler}/>
+                    clickHandler={(event) => this.handleClickEvent(event)}/>
+                <TestSaveModal modal={this.state.testSaveModal} toggle={this.toggleSaveTestModal}
+                    testName={this.state.testName}
+                    inputChange={(event) => this.handleInputChange(event)}
+                    clickHandler={(event) => this.handleClickEvent(event)}/>
             </div> 
         );
     }

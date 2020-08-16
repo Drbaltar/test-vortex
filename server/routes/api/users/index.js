@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/user');
+const User = require('../../../models/user');
 
 // Route for adding new users
 router.post('/add', (req, res) => {
@@ -63,15 +63,19 @@ router.post('/add', (req, res) => {
 
 // Route for the React client to request the current user and permissions
 router.get('/client-info', (req, res) => {
-    const userInfo = {
-        username: req.user.username,
-        firstName: req.user.first_name,
-        lastName: req.user.last_name,
-        permissionLevel: req.user.permission_level
-    };
-    console.log(userInfo);
-    
-    res.send(userInfo);
+    // Return user data if found
+    if (req.user) {
+        const userInfo = {
+            username: req.user.username,
+            firstName: req.user.first_name,
+            lastName: req.user.last_name,
+            permissionLevel: req.user.permission_level
+        };
+        
+        res.send(userInfo);
+    } else {
+        res.status(401).send('User information was not found!');
+    }
 });
 
 module.exports = router;
