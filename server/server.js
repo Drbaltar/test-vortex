@@ -82,4 +82,4 @@ app.use('/', require('./routes'));
 const path = require('path');
 app.use(express.static(path.join(path.resolve(__dirname), 'public', 'login')));
 app.use(express.static(path.join(path.resolve(__dirname), 'public', 'logout')));
-app.use(express.static(path.join(path.resolve(__dirname), 'public', 'react-app')));
+app.use(express.static(path.join(path.resolve(__dirname, '../'), 'client', 'build')));
