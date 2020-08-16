@@ -28,7 +28,7 @@ class NavBar extends React.Component {
 
         return(
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-                <Link to="/home" className="navbar-brand" onClick={this.collapseNavBar}>
+                <Link to="/app/home" className="navbar-brand" onClick={this.collapseNavBar}>
                     <img src={VortexLogo} width="30" height="30" className="d-inline-block align-top pr-1" alt=""/>
                     Test Vortex
                 </Link>
@@ -38,9 +38,9 @@ class NavBar extends React.Component {
                 </button>
                 <div className={`${collapse}`} id="testVortexNavBar">
                     <div className="navbar-nav mr-auto">
-                        <NavLink to="/tests" className="nav-item nav-link" onClick={this.collapseNavBar}>Tests</NavLink>     
-                        <NavLink to="/questions" className="nav-item nav-link" onClick={this.collapseNavBar}>Questions</NavLink>     
-                        <NavLink to="/issues" className="nav-item nav-link" onClick={this.collapseNavBar}>Issues</NavLink>
+                        <NavLink to="/app/tests" className="nav-item nav-link" onClick={this.collapseNavBar}>Tests</NavLink>     
+                        <NavLink to="/app/questions" className="nav-item nav-link" onClick={this.collapseNavBar}>Questions</NavLink>     
+                        <NavLink to="/app/issues" className="nav-item nav-link" onClick={this.collapseNavBar}>Issues</NavLink>
                     </div>
                     <hr/>
                     {welcomeMessage}
