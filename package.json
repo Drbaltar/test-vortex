@@ -1,0 +1,25 @@
+{
+  "name": "test-vortex",
+  "version": "0.1.0",
+  "description": "Test Vortex is a web application built on the MERN (MongoDB, Express, React, Node.js) stack that allows users to collaborate on developing a bank of test questions and then generating tests from that question library. The intent is for the application to eventually support tests based on custom subjects and templates. However, the initial release will only support tests for the Patriot Weapon System based on the most recent TC 3-01.86.",
+  "main": "app.js",
+  "scripts": {
+    "start": "npm-run-all -s build:react-app start:express-server",
+    "build:react-app": "cd client && npm run build",
+    "start:express-server": "cd server && npm start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Drbaltar/test-vortex.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Drbaltar/test-vortex/issues"
+  },
+  "homepage": "https://github.com/Drbaltar/test-vortex#readme",
+  "dependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}
