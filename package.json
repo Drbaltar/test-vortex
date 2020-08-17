@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "postinstall": "(cd server && npm install); (cd client && npm install); (cd client && npm run build)",
-    "start": "start:express-server",
+    "start": "npm run start:express-server",
     "build-and-start": "npm-run-all -s build:react-app start:express-server",
     "build:react-app": "cd client && npm run build",
     "start:express-server": "cd server && npm start",
