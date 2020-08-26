@@ -8,7 +8,7 @@
 const Issue = require('../../../../models/issue');
 jest.mock('../../../../models/issue');
 
-// Import component being tested
+// Import module being tested
 const SubmitIssue = require('./index');
 
 // Create a valid body for a request
