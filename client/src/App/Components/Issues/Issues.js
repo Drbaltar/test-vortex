@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 import SideBar from '../shared-components/SideBar/SideBar';
+import NewIssue from './Components/NewIssue/NewIssue';
 
 const Issues = () => {
     const match = useRouteMatch();
@@ -24,7 +25,7 @@ const Issues = () => {
                 <Switch>
                     <Route exact path={`${match.path}/new`}>
                         <div className="col sub-body">
-                            {/* TODO: Create new issues form */}
+                            <NewIssue/>
                         </div>
                     </Route>
                 </Switch>
