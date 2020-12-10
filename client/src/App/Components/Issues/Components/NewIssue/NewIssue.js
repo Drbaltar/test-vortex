@@ -1,3 +1,10 @@
+/*
+*  This module serves as a React Component that 
+*  displays the view for submitting new issues
+*  Author: Kyle McCain
+*  Date: 10 December 2020
+*/
+
 import React from 'react';
 import Axios from 'axios';
 
@@ -18,20 +25,44 @@ class NewIssue extends React.Component {
 
     submitNewIssue = (issueData) => {
         Axios.post('/api/issues/submit', issueData)
-            .then((response) => this.setState({submissionResponse: response, successAlert: true}))
+            .then((response) => this.setSuccesMessage(response))
             .catch((error) => {
                 if(error.response) {
-                    this.setState({submissionResponse: error.response.data.message});
+                    this.setErrorMessage(error.response.data.message);
                 } else if (error.request) {
-                    this.setState({submissionResponse: 
+                    this.setErrorMessage( 
                         'There was an error submitting your issue! ' +
-                        'Verify you have a valid Internet connection and try to resubmit.'})
+                        'Verify you have a valid Internet connection and try to resubmit.')
                 } else {
-                    this.setState({submissionResponse: 
+                    this.setErrorMessage(  
                         'There was an internal client error when trying to submit your issue! ' +
-                        'Please try to resubmit.'})
+                        'Please try to resubmit.')
                 }
             })
+    }
+
+    setSuccesMessage = (message) => {
+        this.setState({submissionResponse: message, successAlert: true})
+    }
+
+    setErrorMessage = (message) => {
+        this.setState({submissionResponse: message})
+    }
+
+    getNewIssueView = () => {
+        return (
+            <IssueForm submitEvent={(issueData) => this.submitNewIssue(issueData)}
+                submitButtonText='Submit' cancelButtonText='Clear All'
+                errorMessage={this.state.submissionResponse}
+                clearErrorMessage={() => this.clearErrorMessage()}/>
+        )
+    }
+
+    getSuccessMessage = () => {
+        return (
+            <SuccessMessage message={this.state.submissionResponse.data}
+                clickHandler={() => this.returnToForm()}/>
+        );
     }
 
     clearErrorMessage = () => {
@@ -39,29 +70,13 @@ class NewIssue extends React.Component {
     }
 
     returnToForm = () => {
-        this.setState({submissionResponse: '', successAlert: false});
+        this.setState(this.initialState);
     }
 
     render() {
-        let newIssueView;
-        console.log(this.state.submissionResponse);
-
-        if (this.state.successAlert) {
-            newIssueView = (
-                <SuccessMessage message={this.state.submissionResponse.data}
-                    clickHandler={() => this.returnToForm()}/>
-            );
-        } else {
-            newIssueView = (
-                <IssueForm submitEvent={(issueData) => this.submitNewIssue(issueData)}
-                    submitButtonText='Submit' cancelButtonText='Clear All'
-                    errorMessage={this.state.submissionResponse}
-                    clearErrorMessage={() => this.clearErrorMessage()}/>
-            );
-        }
         return(
             <div>
-                {newIssueView}
+                {this.state.successAlert ? this.getSuccessMessage() : this.getNewIssueView()}
             </div>
         );
     }
