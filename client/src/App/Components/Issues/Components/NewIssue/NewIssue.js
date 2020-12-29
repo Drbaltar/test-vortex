@@ -32,21 +32,21 @@ class NewIssue extends React.Component {
                 } else if (error.request) {
                     this.setErrorMessage( 
                         'There was an error submitting your issue! ' +
-                        'Verify you have a valid Internet connection and try to resubmit.')
+                        'Verify you have a valid Internet connection and try to resubmit.');
                 } else {
                     this.setErrorMessage(  
                         'There was an internal client error when trying to submit your issue! ' +
-                        'Please try to resubmit.')
+                        'Please try to resubmit.');
                 }
-            })
+            });
     }
 
     setSuccesMessage = (message) => {
-        this.setState({submissionResponse: message, successAlert: true})
+        this.setState({submissionResponse: message, successAlert: true});
     }
 
     setErrorMessage = (message) => {
-        this.setState({submissionResponse: message})
+        this.setState({submissionResponse: message});
     }
 
     getNewIssueView = () => {
@@ -55,7 +55,7 @@ class NewIssue extends React.Component {
                 submitButtonText='Submit' cancelButtonText='Clear All'
                 errorMessage={this.state.submissionResponse}
                 clearErrorMessage={() => this.clearErrorMessage()}/>
-        )
+        );
     }
 
     getSuccessMessage = () => {
@@ -66,7 +66,7 @@ class NewIssue extends React.Component {
     }
 
     clearErrorMessage = () => {
-        this.setState({submissionResponse: ''})
+        this.setState({submissionResponse: ''});
     }
 
     returnToForm = () => {

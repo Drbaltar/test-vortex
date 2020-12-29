@@ -50,12 +50,12 @@ export default class App extends React.Component {
                     this.setState({errorCode: error.response.status});
                 } else if (error.request) {
                     // Request failed
-                    this.setState({errorCode: 408})
+                    this.setState({errorCode: 408});
                 }
             });
 
         // Update state to reflect user data was requested
-        this.setState({ userDataRequested: true })
+        this.setState({ userDataRequested: true });
     }
 
     // Redirect user to '/logout' server route
@@ -66,38 +66,38 @@ export default class App extends React.Component {
 
     render() {
         if (this.state.userDataRequested && !this.state.errorCode) {
-                return (
-                    <div>
-                        <NavBar userFirstName={this.state.firstName} logout={() => this.logout()}/>
-                        <div className='body'>
-                            <Switch>
-                                <Route exact path="/app/home">
-                                    <div className='jumbotron'>
-                                        <h1 >Test Vortex</h1>
-                                        <hr/>
-                                        <h4>A collaborative web application used to generate standardized tests!</h4>
-                                    </div>
-                                </Route>
-                                <Route path="/app/tests">
-                                    <Tests/>
-                                </Route>
-                                <Route path="/app/questions">
-                                    <Questions/>
-                                </Route>
-                                <Route path="/app/issues">
-                                    <Issues/>
-                                </Route>
-                                <Route exact path="/app/*">
-                                    <Redirect to="/app/home"/>
-                                </Route>
-                            </Switch>
-                        </div>
-                    </div> 
-                );
+            return (
+                <div>
+                    <NavBar userFirstName={this.state.firstName} logout={() => this.logout()}/>
+                    <div className='body'>
+                        <Switch>
+                            <Route exact path="/app/home">
+                                <div className='jumbotron'>
+                                    <h1 >Test Vortex</h1>
+                                    <hr/>
+                                    <h4>A collaborative web application used to generate standardized tests!</h4>
+                                </div>
+                            </Route>
+                            <Route path="/app/tests">
+                                <Tests/>
+                            </Route>
+                            <Route path="/app/questions">
+                                <Questions/>
+                            </Route>
+                            <Route path="/app/issues">
+                                <Issues/>
+                            </Route>
+                            <Route exact path="/app/*">
+                                <Redirect to="/app/home"/>
+                            </Route>
+                        </Switch>
+                    </div>
+                </div> 
+            );
         } else {
             return (
                 <p>{this.state.errorCode || 'Awaiting User Information'}</p>
-            )
+            );
         }
     }
-};
+}

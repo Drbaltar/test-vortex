@@ -31,38 +31,38 @@ class GenerateTest extends React.Component {
         event.preventDefault();
 
         switch (event.target.id) {
-            case 'previousButton':
-                this.props.clickHandler(event);
+        case 'previousButton':
+            this.props.clickHandler(event);
+            break;
+        case 'saveTestButton':
+            this.toggleSaveTestModal();
+            break;
+        case 'defaultTestNameButton':
+            this.setDefaultTestName();
+            break;
+        case 'submitTestButton':
+            this.submitTest();
+            break;
+        default: {
+            let [action, version] = event.target.id.split('_');
+            switch (action) {
+            case 'openTest':
+                pdfMake.createPdf(this.createTestDefinition(version)).open();
                 break;
-            case 'saveTestButton':
-                this.toggleSaveTestModal();
+            case 'downloadTest':
+                pdfMake.createPdf(this.createTestDefinition(version)).download();
                 break;
-            case 'defaultTestNameButton':
-                this.setDefaultTestName();
+            case 'openKey':
+                pdfMake.createPdf(this.createAnswerKeyDefinition(version)).open();
                 break;
-            case 'submitTestButton':
-                this.submitTest();
+            case 'downloadKey':
+                pdfMake.createPdf(this.createAnswerKeyDefinition(version)).download();
                 break;
             default:
-                let [action, version] = event.target.id.split('_');
-                switch (action) {
-                    case 'openTest':
-                        pdfMake.createPdf(this.createTestDefinition(version)).open();
-                        break;
-                    case 'downloadTest':
-                        pdfMake.createPdf(this.createTestDefinition(version)).download();
-                        break;
-                    case 'openKey':
-                        pdfMake.createPdf(this.createAnswerKeyDefinition(version)).open();
-                        break;
-                    case 'downloadKey':
-                        pdfMake.createPdf(this.createAnswerKeyDefinition(version)).download();
-                        break;
-                    default:
-                        break;
-                }
                 break;
-        }
+            }
+            break;
+        }}
     }
 
     toggleSaveTestModal = () => {
