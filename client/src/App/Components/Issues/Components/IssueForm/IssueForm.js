@@ -1,72 +1,21 @@
 /*
 *  This module serves as a React Component that acts as the input
 *  form for a user to input a new application or question issue
-*  Author: Kyle McCain
-*  Date: 3 September 2020
 */
 
-// Import React module
-import React from 'react';
+import React, { Component } from 'react';
 
-// Import child components
 import SelectBox from '../../../shared-components/SelectBox';
 import TextArea from '../../../shared-components/TextArea';
-import FormButtons from '../../../shared-components/FormButtons';
 import ErrorMessage from '../../../shared-components/ErrorMessage';
+import FormButtons from '../../../shared-components/FormButtons';
 
-// Define new IssueForm class that holds state for input data of new issue
-class IssueForm extends React.Component {
+class IssueForm extends Component {
+
     constructor (props) {
         super(props);
 
-        let inputValidity = {
-            isIssueTypeValid: null,
-            isIssueCategoryValid: null,
-            isIssueDescriptionValid: null,
-            isQuestionIDValid: null
-        }
-
-        this.initialState = {
-            issueType: '',
-            issueCategory: '',
-            issueDescription: '',
-            questionID: '',
-            inputValidity
-        }
-
-        this.state = this.initialState;
-    }
-
-    // Handle form input changes
-    handleInputChange = (event) => {
-        const {target: { id, value}} = event;
-
-        if (id === 'issueType') {
-            this.setState({[id]: value, issueCategory: ''})
-        } else {
-            this.setState({[id]: value});
-        }
-    };
-
-    // Handle form click events
-    handleClickEvent = (event) => {
-        event.preventDefault();
-        if (event.target.id === 'clearAllButton') {
-            this.setState(this.initialState);
-            this.props.clearErrorMessage();
-        } else {
-            if (this.isAllInputValid()) {
-                if (event.target.id === 'submitButton') {
-                    this.props.submitEvent(this.getDataToSubmit());
-                }
-            }
-        }
-    }
-
-    // Returns the applicable array of categories based on issue type
-    getIssueCategories = () => {
-        // Create array of application categories
-        let applicationCategories = [
+        this.applicationCategories = [
             '',
             'Application Crash',
             'Entry/List Not Populating Information',
@@ -77,9 +26,8 @@ class IssueForm extends React.Component {
             'Recommend Application Change',
             'Other'
         ];
-
-        // Create array of question categories
-        let questionCategories = [
+    
+        this.questionCategories = [
             '',
             'Incorrect Question Information',
             'Outdated Information',
@@ -87,45 +35,72 @@ class IssueForm extends React.Component {
             'Other'
         ];
 
+        this.initialState = {
+            issueType: '',
+            issueCategory: '',
+            issueDescription: '',
+            questionID: '',
+            inputValidity: {
+                isIssueTypeValid: null,
+                isIssueCategoryValid: null,
+                isIssueDescriptionValid: null,
+                isQuestionIDValid: null
+            }
+        };
+
+        this.state = this.initialState;
+    }
+
+    handleInputChange = (event) => {
+        const {target: { id, value}} = event;
+
+        if (id === 'issueType') {
+            this.setState({[id]: value, issueCategory: ''});
+        } else {
+            this.setState({[id]: value});
+        }
+    }
+
+    handleClickEvent = (event) => {
+        event.preventDefault();
+
+        if (event.target.id === 'clearAllButton') {
+            this.setState(this.initialState);
+            this.props.clearErrorMessage();
+        } else if (event.target.id === 'submitButton' && this.isAllInputValid()) {
+            this.props.submitEvent(this.getDataToSubmit());
+        }
+    }
+
+    getIssueCategories = () => {
         if (this.state.issueType === 'Application Issue') {
-            return applicationCategories;
+            return this.applicationCategories;
         } else if (this.state.issueType === 'Question Issue') {
-            return questionCategories;
+            return this.questionCategories;
         } else {
             return [];
         }
     }
 
-    // // Returns field to input question ID
-    // getQuestionIDField = () => {
-
-    // }
-
-    // Check to see if all input form entries are valid
     isAllInputValid = () => {
-        let isIssueTypeValid = (this.state.issueType.length > 0 ? true : false);
-        let isIssueCategoryValid = (this.state.issueCategory.length > 0 ? true : false);
-        let isIssueDescriptionValid = (this.state.issueDescription.length > 9  ? true : false);
+        let inputValidity = this.getInputValidity();
+        this.setState({ inputValidity });
 
-        let inputValidity = {
-            isIssueTypeValid,
-            isIssueCategoryValid,
-            isIssueDescriptionValid,
-        };
-
-        let isAllValid = true;
-
-        // Check all validity flags to see if any are false and update overall flag
         for (const entry in inputValidity) {
             if (!inputValidity[entry]) {
-                isAllValid = false;
-                break;
+                return false;
             }
         }
-        
-        this.setState({inputValidity});
 
-        return isAllValid;
+        return true;
+    };
+
+    getInputValidity = () => {
+        return {
+            isIssueTypeValid: this.state.issueType.length > 0 ? true : false,
+            isIssueCategoryValid: this.state.issueCategory.length > 0 ? true : false,
+            isIssueDescriptionValid: this.state.issueDescription.length > 9  ? true : false,
+        };
     };
 
     getDataToSubmit = () => {
@@ -133,10 +108,10 @@ class IssueForm extends React.Component {
             issue_type: this.state.issueType,
             issue_category: this.state.issueCategory,
             issue_description: this.state.issueDescription
-        }
+        };
 
         if(this.state.questionID !== '') {
-            data.question_id = this.state.questionID
+            data.question_id = this.state.questionID;
         }
 
         return data;
@@ -144,11 +119,10 @@ class IssueForm extends React.Component {
 
     getErrorMessage = () => {
         if (this.props.errorMessage !== '') {
-            return (<ErrorMessage message={this.props.errorMessage}/>)
+            return (<ErrorMessage message={this.props.errorMessage}/>);
         }
     }
 
-    // Render component
     render() {
         return(
             <form className="card bg-light">
@@ -182,7 +156,7 @@ class IssueForm extends React.Component {
                         clickHandler={(event) => this.handleClickEvent(event)}/>
                 </div>
             </form>
-        )
+        );
     }
 }
 
