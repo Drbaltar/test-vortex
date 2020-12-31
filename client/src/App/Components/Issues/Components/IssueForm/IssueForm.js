@@ -119,7 +119,7 @@ class IssueForm extends Component {
 
     getErrorMessage = () => {
         if (this.props.errorMessage !== '') {
-            return (<ErrorMessage message={this.props.errorMessage}/>);
+            return <ErrorMessage message={this.props.errorMessage}/>;
         }
     }
 
@@ -145,7 +145,6 @@ class IssueForm extends Component {
                         inputChange={(event) => this.handleInputChange(event)}
                         isValid={this.state.inputValidity.isIssueDescriptionValid}
                         errorMessage='The issue description must be at least 10 characters!'/>
-                    {/* question_id */}
                 </div>
                 {this.getErrorMessage()}
                 <div className="card-footer">
