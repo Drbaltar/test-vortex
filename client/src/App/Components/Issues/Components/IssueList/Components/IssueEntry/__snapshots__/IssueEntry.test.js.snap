@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IssueEntry renders correctly 1`] = `
+<div
+  className="btn btn-block btn-outline-dark p-3"
+  onClick={[Function]}
+>
+  <ListEntry
+    entryFields={
+      Array [
+        Object {
+          "field": "Application Issue",
+          "label": "Issue Type:",
+        },
+        Object {
+          "field": "Application Crash",
+          "label": "Issue Category:",
+        },
+        Object {
+          "field": "The application keeps crashing!",
+          "label": "Issue Description:",
+        },
+        Object {
+          "field": "kmccain",
+          "label": "Submitted By:",
+        },
+      ]
+    }
+  />
+</div>
+`;
