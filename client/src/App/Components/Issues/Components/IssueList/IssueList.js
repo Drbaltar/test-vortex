@@ -22,7 +22,7 @@ const getErrorMessage = (length) => {
 
 const getIssueList = (list, selectEntry) => {
     return list.map((entry, index) =>
-        <IssueEntry issue={entry} key={index} select={selectEntry}/>
+        <IssueEntry issue={entry} key={index} select={selectEntry} index={index}/>
     );
 };
 

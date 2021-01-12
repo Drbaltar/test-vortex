@@ -78,6 +78,11 @@ describe('IssueList', () => {
             expect(wrapper.find('IssueEntry').first().prop('issue')).toEqual(exampleList[0]);
         });
 
+        it('passes the index entry to the IssueEntry component', () => {
+            expect(wrapper.find('IssueEntry').at(0).prop('index')).toEqual(0);
+            expect(wrapper.find('IssueEntry').at(1).prop('index')).toEqual(1);
+        });
+
         it('passes the function for selecting an entry to the IssueEntry component', () => {
             expect(wrapper.find('IssueEntry').first().prop('select')).toEqual(mockSelectFunction);
         });
