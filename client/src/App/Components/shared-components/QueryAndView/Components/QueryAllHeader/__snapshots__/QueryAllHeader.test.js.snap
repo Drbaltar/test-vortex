@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QueryAllHeader renders correctly 1`] = `
+<div>
+  <QueryButton
+    hasQueryRan={true}
+    query={[MockFunction]}
+  />
+</div>
+`;
