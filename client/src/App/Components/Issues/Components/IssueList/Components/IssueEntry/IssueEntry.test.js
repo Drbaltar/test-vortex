@@ -9,9 +9,10 @@ describe('IssueEntry', () => {
         issue_description: 'The application keeps crashing!',
         submitted_by: 'kmccain'
     };
+    const testIndex = 5;
     const mockSelect = jest.fn();
 
-    const wrapper = shallow(<IssueEntry issue={testEntry} select={mockSelect}/>);
+    const wrapper = shallow(<IssueEntry issue={testEntry} select={mockSelect} index={testIndex}/>);
     const listEntryProps = wrapper.find('ListEntry').prop('entryFields');
 
     it('renders correctly', () => {
@@ -47,8 +48,8 @@ describe('IssueEntry', () => {
             expect(wrapper.find('.btn').simulate('click'));
         });
 
-        it('the select function should be called', () => {
-            expect(mockSelect).toHaveBeenCalled();
+        it('the select function should be called with the index', () => {
+            expect(mockSelect).toHaveBeenCalledWith(testIndex);
         });
     });
 });

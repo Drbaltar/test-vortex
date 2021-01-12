@@ -2,11 +2,11 @@ import React from 'react';
 import ListEntry from '../../../../../shared-components/ListEntry/ListEntry';
 
 const IssueEntry = (props) => {
-    const { issue, select } = props;
+    const { issue, select, index } = props;
 
     return (
         <div className="btn btn-block btn-outline-dark p-3"
-            onClick={() => select()}>
+            onClick={() => select(index)}>
             <ListEntry entryFields={getIssueFields(issue)}/>
         </div>
     );
@@ -31,6 +31,6 @@ const getIssueFields = (issue) => {
             field: issue.submitted_by
         }
     ];
-};
+}; 
 
 export default IssueEntry;
