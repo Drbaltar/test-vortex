@@ -6,11 +6,8 @@ export default class SubmissionBody extends Component {
         super(props);
 
         this.initialState = {
-            queryResults: [],
-            hasQueryRan: false,
-            loading: false,
             submissionResponse: '',
-            successAlert: false
+            successFlag: false
         };
 
         this.state = this.initialState;
@@ -23,23 +20,42 @@ export default class SubmissionBody extends Component {
     }
 
     getOverallView = () => {
-        if(this.state.successAlert && this.state.submissionResponse != '') {
-            return this.getSuccessMessage();
+        if(this.state.successFlag && this.state.submissionResponse != '') {
+            return this.getSuccessView();
         } else {
-            return this.props.queryView();
+            return this.getFormView();
         }
     }
 
-    getSuccessMessage = () => {
+    getFormView = () => {
+        return React.cloneElement(this.props.children,
+            { 
+                submissionResponse: this.state.submissionResponse,
+                submit: (e, data) => this.handleSubmitClick(e, data)
+            }
+        );
+    }
+
+    getSuccessView = () => {
         return (
             <SuccessMessage
                 message={this.state.submissionResponse}
-                clickHandler={(e) => e.preventDefault() && this.revertToInitialState()}
+                clickHandler={(e) => this.handleReturnClick(e)}
             />
         );
     }
 
-    revertToInitialState = () => {
+    handleReturnClick = (e) => {
+        e.preventDefault();
+
         this.setState(this.initialState);
+    }
+
+    handleSubmitClick = (e, data) => {
+        e.preventDefault();
+        
+        this.props.submit(data)
+            .then(response => this.setState({ submissionResponse: response, successFlag: true }))
+            .catch(error => this.setState({ submissionResponse: error }));
     }
 }

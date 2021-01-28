@@ -1,3 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SubmissionBody renders correctly 1`] = `<div />`;
+exports[`SubmissionBody renders correctly 1`] = `
+<div>
+  <FormView
+    submissionResponse=""
+    submit={[Function]}
+  />
+</div>
+`;
