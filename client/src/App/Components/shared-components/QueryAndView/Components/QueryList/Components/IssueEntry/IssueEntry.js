@@ -1,10 +1,10 @@
 import React from 'react';
-import ListEntry from '../../../../../shared-components/ListEntry/ListEntry';
+import ListEntry from '../ListEntry/ListEntry';
 
 const IssueEntry = (props) => {
     const { entry, index, select } = props;
 
-    return <ListEntry entryFields={getIssueFields(entry)} index={index} select={select}/>
+    return <ListEntry entryFields={getIssueFields(entry)} index={index} select={select}/>;
 };
 
 const getIssueFields = (issue) => {
