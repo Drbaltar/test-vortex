@@ -1,8 +1,3 @@
-/*
-*  This module serves as a React Component that acts as the input
-*  form for a user to input a new application or question issue
-*/
-
 import React, { Component } from 'react';
 
 import SelectBox from '../../../shared-components/SelectBox';
