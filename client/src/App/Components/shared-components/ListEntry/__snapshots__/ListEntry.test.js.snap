@@ -2,63 +2,68 @@
 
 exports[`ListEntry renders correctly 1`] = `
 <div
-  className="row"
+  className="btn btn-block btn-outline-dark p-3"
+  onClick={[Function]}
 >
   <div
-    className="col-sm"
-    key="0"
+    className="row"
   >
-    <label>
-      Test Label 1:
-    </label>
-    <input
-      className="form-control"
-      placeholder="Test Field 1:"
-      readOnly={true}
-      type="text"
-    />
-  </div>
-  <div
-    className="col-sm"
-    key="1"
-  >
-    <label>
-      Test Label 2:
-    </label>
-    <input
-      className="form-control"
-      placeholder="Test Field 2:"
-      readOnly={true}
-      type="text"
-    />
-  </div>
-  <div
-    className="col-sm"
-    key="2"
-  >
-    <label>
-      Test Label 3:
-    </label>
-    <input
-      className="form-control"
-      placeholder="Test Field 3:"
-      readOnly={true}
-      type="text"
-    />
-  </div>
-  <div
-    className="col-sm"
-    key="3"
-  >
-    <label>
-      Test Label 4:
-    </label>
-    <input
-      className="form-control"
-      placeholder="Test Field 4:"
-      readOnly={true}
-      type="text"
-    />
+    <div
+      className="col-sm"
+      key="0"
+    >
+      <label>
+        Test Label 1:
+      </label>
+      <input
+        className="form-control"
+        placeholder="Test Field 1:"
+        readOnly={true}
+        type="text"
+      />
+    </div>
+    <div
+      className="col-sm"
+      key="1"
+    >
+      <label>
+        Test Label 2:
+      </label>
+      <input
+        className="form-control"
+        placeholder="Test Field 2:"
+        readOnly={true}
+        type="text"
+      />
+    </div>
+    <div
+      className="col-sm"
+      key="2"
+    >
+      <label>
+        Test Label 3:
+      </label>
+      <input
+        className="form-control"
+        placeholder="Test Field 3:"
+        readOnly={true}
+        type="text"
+      />
+    </div>
+    <div
+      className="col-sm"
+      key="3"
+    >
+      <label>
+        Test Label 4:
+      </label>
+      <input
+        className="form-control"
+        placeholder="Test Field 4:"
+        readOnly={true}
+        type="text"
+      />
+    </div>
   </div>
 </div>
 `;
