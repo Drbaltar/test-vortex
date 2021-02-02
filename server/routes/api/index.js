@@ -8,6 +8,15 @@
 // Create API router
 const APIRouter = require('express').Router();
 
+// Middleware that checks to make sure there is a current session
+APIRouter.use('/*', (req, res, next) => {
+    if (req.user) {
+        next();
+    } else {
+        res.status(401).send('You are not currently logged into a session!');
+    }
+});
+
 // Add route handlers
 APIRouter.use('/issues', require('./issues'));
 APIRouter.use('/questions', require('./questions'));
