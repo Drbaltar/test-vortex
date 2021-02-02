@@ -8,7 +8,7 @@ const QueryButton = (props) => {
             className="btn btn-primary"
             style={{float: 'right'}}
             id="queryButton"
-            onClick={() => query()}>
+            onClick={query}>
             {getButtonText(hasQueryRan)}
         </div>
     );

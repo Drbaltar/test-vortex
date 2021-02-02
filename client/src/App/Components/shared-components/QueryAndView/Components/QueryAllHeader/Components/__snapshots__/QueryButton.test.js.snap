@@ -4,7 +4,7 @@ exports[`QueryButton renders correctly 1`] = `
 <div
   className="btn btn-primary"
   id="queryButton"
-  onClick={[Function]}
+  onClick={[MockFunction]}
   style={
     Object {
       "float": "right",
