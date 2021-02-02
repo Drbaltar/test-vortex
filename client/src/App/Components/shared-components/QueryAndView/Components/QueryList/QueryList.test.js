@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import QueryList from './QueryList';
-import IssueEntry from '../../../../Issues/Components/IssueList/Components/IssueEntry/IssueEntry';
+import IssueEntry from './Components/IssueEntry/IssueEntry';
 
 const singleEntry = [
     {
