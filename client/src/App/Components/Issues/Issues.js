@@ -3,6 +3,7 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 import SideBar from '../shared-components/SideBar/SideBar';
 import NewIssue from './Components/NewIssue/NewIssue';
+import ViewIssues from './Components/ViewIssues/ViewIssues';
 
 const Issues = () => {
     const match = useRouteMatch();
@@ -27,6 +28,9 @@ const Issues = () => {
                         <div className="col sub-body">
                             <NewIssue/>
                         </div>
+                    </Route>
+                    <Route exact path={`${match.path}/view`}>
+                        <ViewIssues />
                     </Route>
                 </Switch>
             </div>
