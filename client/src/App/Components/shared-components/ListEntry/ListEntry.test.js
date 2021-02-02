@@ -21,8 +21,12 @@ const exampleEntry = [
     }
 ];
 
+const exampleIndex = 2;
+
+const mockSelect = jest.fn();
+
 describe('ListEntry', () => {
-    const wrapper = shallow(<ListEntry entryFields={exampleEntry}/>);
+    const wrapper = shallow(<ListEntry entryFields={exampleEntry} index={exampleIndex} select={mockSelect}/>);
 
     it('renders correctly', () => {
         expect(wrapper).toMatchSnapshot();
@@ -36,6 +40,16 @@ describe('ListEntry', () => {
         let fieldNodes = wrapper.find('.col-sm');
 
         expect(getFieldValues(fieldNodes)).toEqual(exampleEntry);
+    });
+
+    describe('when the entry is clicked', () => {        
+        beforeAll(() => {
+            wrapper.find('.btn').simulate('click', { preventDefault() {} });
+        });
+
+        it('calls the select function with the correct index', () => {
+            expect(mockSelect).toHaveBeenCalledWith(exampleIndex);
+        });
     });
 });
 

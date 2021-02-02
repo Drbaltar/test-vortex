@@ -2,14 +2,9 @@ import React from 'react';
 import ListEntry from '../../../../../shared-components/ListEntry/ListEntry';
 
 const IssueEntry = (props) => {
-    const { issue, select, index } = props;
+    const { entry, index, select } = props;
 
-    return (
-        <div className="btn btn-block btn-outline-dark p-3"
-            onClick={() => select(index)}>
-            <ListEntry entryFields={getIssueFields(issue)}/>
-        </div>
-    );
+    return <ListEntry entryFields={getIssueFields(entry)} index={index} select={select}/>
 };
 
 const getIssueFields = (issue) => {
