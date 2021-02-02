@@ -15,7 +15,7 @@ const QueryButton = (props) => {
 };
 
 const getButtonText = (hasQueryRan) => {
-    return hasQueryRan ? '&#8635; Refresh List' : 'Search';
+    return hasQueryRan ? '\u21BB Refresh List' : 'Search';
 };
 
 export default QueryButton;

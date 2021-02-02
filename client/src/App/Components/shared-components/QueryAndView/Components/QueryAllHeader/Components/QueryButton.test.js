@@ -18,7 +18,7 @@ describe('QueryButton', () => {
 
     it('sets the text of the button to `Refresh List` if hasQueryRan prop is true', () => {
         wrapper.setProps({ hasQueryRan: true });
-        expect(wrapper.find('.btn').text()).toBe('&#8635; Refresh List');
+        expect(wrapper.find('.btn').text()).toBe('\u21BB Refresh List');
     });
 
     describe('when the user clicks on the button', () => {
