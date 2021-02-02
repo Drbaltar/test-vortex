@@ -1,3 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`QueryAndView renders correctly 1`] = `<div />`;
+exports[`QueryAndView renders correctly 1`] = `
+<div>
+  <QueryHeader
+    hasQueryRan={false}
+    query={[Function]}
+  />
+</div>
+`;
