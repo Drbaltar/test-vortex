@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import SuccessMessage from '../SuccessMessage/SuccessMessage';
 
 export default class SubmissionBody extends Component {
@@ -15,9 +16,9 @@ export default class SubmissionBody extends Component {
     }
 
     render() {
-        return(<div>
+        return <div className='col sub-body'>
             {this.getOverallView()}
-        </div>);
+        </div>;
     }
 
     getOverallView = () => {
@@ -29,11 +30,13 @@ export default class SubmissionBody extends Component {
     }
 
     getFormView = () => {
-        return React.cloneElement(this.FormView,
-            { 
-                submissionResponse: this.state.submissionResponse,
-                submit: (e, data) => this.handleSubmitClick(e, data)
-            }
+        return (
+            React.cloneElement(this.FormView,
+                { 
+                    submissionResponse: this.state.submissionResponse,
+                    submit: (e, data) => this.handleSubmitClick(e, data)
+                }
+            )
         );
     }
 
