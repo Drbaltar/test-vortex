@@ -1,10 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`QueryAndView renders correctly 1`] = `
-<div>
-  <QueryHeader
-    hasQueryRan={false}
-    query={[Function]}
-  />
-</div>
+<BodyCard
+  title="View Entries"
+>
+  <div
+    id="query-view-body"
+  >
+    <QueryHeader
+      hasQueryRan={false}
+      query={[Function]}
+    />
+  </div>
+</BodyCard>
 `;
