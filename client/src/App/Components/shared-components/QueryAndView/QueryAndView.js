@@ -84,7 +84,8 @@ export default class QueryAndView extends Component {
                 title: this.props.title,
                 data: this.state.selectedEntry,
                 submissionResponse: this.props.submissionResponse,
-                submit: this.props.submit
+                submit: this.props.submit,
+                clearErrorMessage: this.props.clearErrorMessage
             });
     }
 

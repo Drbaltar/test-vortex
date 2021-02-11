@@ -43,6 +43,7 @@ const testQueryResponse = [
 
 const mockQueryFunction = jest.fn();
 const mockSumbitFunction = jest.fn();
+const mockClearError = jest.fn();
 const mockPreventDefault = jest.fn();
 const mockEvent = { preventDefault: mockPreventDefault };
 
@@ -50,7 +51,10 @@ const testQueryPath = '/search';
 const testTitle = 'View Entries';
 
 describe('QueryAndView', () => {
-    const wrapper = shallow(<QueryAndView title={testTitle} query={mockQueryFunction} queryPath={testQueryPath} submit={mockSumbitFunction}>
+    const wrapper = shallow(<QueryAndView 
+        title={testTitle} query={mockQueryFunction} 
+        queryPath={testQueryPath} submit={mockSumbitFunction}
+        clearErrorMessage={mockClearError}>
         <QueryHeader />
         <QueryList />
         <DetailView />
@@ -202,6 +206,10 @@ describe('QueryAndView', () => {
 
                 it('passes the submit function to the detail view component', () => {
                     expect(wrapper.find('DetailView').prop('submit')).toBe(mockSumbitFunction);
+                });
+
+                it('passes the clear error message prop to the DetailView component', () => {
+                    expect(wrapper.find('DetailView').prop('clearErrorMessage')).toBe(mockClearError);
                 });
 
                 describe('when the detail view calls the submit function', () => {
