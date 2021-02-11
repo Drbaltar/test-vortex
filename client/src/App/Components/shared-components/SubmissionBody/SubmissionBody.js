@@ -33,8 +33,9 @@ export default class SubmissionBody extends Component {
         return (
             React.cloneElement(this.FormView,
                 { 
-                    submissionResponse: this.state.submissionResponse,
-                    submit: (e, data) => this.handleSubmitClick(e, data)
+                    errorMessage: this.state.submissionResponse,
+                    clearErrorMessage: () => this.clearResponse(),
+                    submit: (buttonID, data) => this.handleSubmitClick(buttonID, data)
                 }
             )
         );
@@ -49,17 +50,39 @@ export default class SubmissionBody extends Component {
         );
     }
 
-    handleSubmitClick = (e, data) => {
-        e.preventDefault();
+    handleSubmitClick = (buttonID, data) => {
+        const requestType = this.props.submitMapping[buttonID];
+        
+        requestType.requestFunction(requestType.requestURI, data)
+            .then(response => this.setSuccessMessage(response.data))
+            .catch(error => this.setErrorMessage(error));
+    }
 
-        this.props.submit(data)
-            .then(response => this.setState({ submissionResponse: response, successFlag: true }))
-            .catch(error => this.setState({ submissionResponse: error }));
+    setSuccessMessage = (message) => {
+        this.setState({submissionResponse: message, successFlag: true});
+    }
+
+    setErrorMessage = (error) => {
+        let errorMessage;
+
+        if (error.response) {
+            errorMessage = error.response.data.message ? error.response.data.message : error.response.data;
+        } else if (error.request) {
+            errorMessage = 'There was an issue processing your request to the server. Please try to resubmit.';
+        } else {
+            errorMessage = 'There was an issue when creating your request to the server. Please try to resubmit.';
+        }
+
+        this.setState({ submissionResponse: errorMessage });
     }
 
     handleReturnClick = (e) => {
         e.preventDefault();
 
+        this.clearResponse();
+    }
+
+    clearResponse = () => {
         this.setState(this.initialState);
     }
 }

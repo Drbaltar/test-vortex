@@ -5,7 +5,8 @@ exports[`SubmissionBody renders correctly 1`] = `
   className="col sub-body"
 >
   <FormView
-    submissionResponse=""
+    clearErrorMessage={[Function]}
+    errorMessage=""
     submit={[Function]}
   />
 </div>
