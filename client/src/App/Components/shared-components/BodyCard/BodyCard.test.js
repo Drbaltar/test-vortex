@@ -62,7 +62,6 @@ describe('BodyCard', () => {
 
         it('does not render anything in the the child footer component', () => {
             expect(singleComponentBodyCard.find('.card-footer').exists()).toBe(false);
-    
         });
     });
 });
