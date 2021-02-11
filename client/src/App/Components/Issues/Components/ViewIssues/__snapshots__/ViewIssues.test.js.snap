@@ -2,7 +2,15 @@
 
 exports[`ViewIssues renders correctly 1`] = `
 <SubmissionBody
-  submit={[Function]}
+  submitMapping={
+    Object {
+      "deleteButton": Object {
+        "param": true,
+        "requestFunction": [MockFunction],
+        "requestURI": "/api/issues/delete/byID/",
+      },
+    }
+  }
 >
   <QueryAndView
     query={[MockFunction]}
@@ -16,7 +24,14 @@ exports[`ViewIssues renders correctly 1`] = `
     >
       <IssueEntry />
     </QueryList>
-    <IssueForm />
+    <IssueForm>
+      <FormButtons
+        cancelButtonID="clearAllButton"
+        cancelButtonText="Revert Changes"
+        deleteButtonID="deleteButton"
+        deleteButtonText="Close Issue"
+      />
+    </IssueForm>
   </QueryAndView>
 </SubmissionBody>
 `;

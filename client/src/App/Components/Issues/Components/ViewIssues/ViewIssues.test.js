@@ -1,9 +1,17 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import ViewIssues from './ViewIssues';
-import axios from 'axios';
+import Axios from 'axios';
 
 jest.mock('axios');
+
+const submitMapping = {
+    deleteButton: {
+        requestFunction: Axios.delete,
+        requestURI: '/api/issues/delete/byID/',
+        param: true
+    }
+};
 
 describe('ViewIssues', () => {
     const wrapper = shallow(<ViewIssues />);
@@ -16,8 +24,8 @@ describe('ViewIssues', () => {
         expect(wrapper.find('SubmissionBody').exists()).toBe(true);
     });
 
-    it('passes the submit function to the SubmissionBody component', () => {
-        expect(wrapper.find('SubmissionBody').prop('submit')).toBeInstanceOf(Function);
+    it('passes the submit mapping prop to the SubmissionBody component', () => {
+        expect(wrapper.find('SubmissionBody').prop('submitMapping')).toEqual(submitMapping);
     });
 
     it('passes the QueryAndView component to SubmissionBody component', () => {
@@ -60,9 +68,29 @@ describe('ViewIssues', () => {
         expect(wrapper.find('QueryList').children().name()).toEqual('IssueEntry');
     });
 
+    it('passes the FormButtons to the IssueForm component', () => {
+        expect(wrapper.find('IssueForm').children().name()).toEqual('FormButtons');
+    });
+
+    it('passes the cancel button text to the FormButton component', () => {
+        expect(wrapper.find('FormButtons').prop('cancelButtonText')).toEqual('Revert Changes');
+    });
+
+    it('passes the cancel button id to the FormButton component', () => {
+        expect(wrapper.find('FormButtons').prop('cancelButtonID')).toEqual('clearAllButton');
+    });
+
+    it('passes the delete button text to the FormButton component', () => {
+        expect(wrapper.find('FormButtons').prop('deleteButtonText')).toEqual('Close Issue');
+    });
+
+    it('passes the delete button id to the FormButton component', () => {
+        expect(wrapper.find('FormButtons').prop('deleteButtonID')).toEqual('deleteButton');
+    });
+
     describe('when the query function is called by QueryAndView', () => {
         beforeAll(() => {
-            axios.mockImplementation(() => {
+            Axios.mockImplementation(() => {
                 return {
                     get: () => {
                         return Promise.resolve();
@@ -75,7 +103,7 @@ describe('ViewIssues', () => {
         });
 
         it('calls the axios get function ', () => {
-            expect(axios.get).toHaveBeenCalled();
+            expect(Axios.get).toHaveBeenCalled();
         });
     });
 });
