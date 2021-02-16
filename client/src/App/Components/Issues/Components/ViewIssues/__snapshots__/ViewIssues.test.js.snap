@@ -7,7 +7,7 @@ exports[`ViewIssues renders correctly 1`] = `
       "deleteButton": Object {
         "param": true,
         "requestFunction": [MockFunction],
-        "requestURI": "/api/issues/delete/byID/",
+        "requestURI": "/api/issues/byID/",
       },
     }
   }

@@ -29,7 +29,7 @@ const ViewIssues = () => {
 const submitMapping = {
     deleteButton: {
         requestFunction: Axios.delete,
-        requestURI: '/api/issues/delete/byID/',
+        requestURI: '/api/issues/byID/',
         param: true
     }
 };
