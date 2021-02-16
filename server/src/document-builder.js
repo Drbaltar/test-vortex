@@ -1,15 +1,6 @@
-const Issue = require('../models/issue');
 const MultQuestion = require('../models/patriot/mult-question');
 const TFQuestion = require('../models/patriot/tf-question');
 const FillBlankQuestion = require('../models/patriot/fill-blank-question');
-
-const buildIssueDocument = (req) => {
-    return new Issue({
-        question_id: req.body.questionID,
-        issue_type: req.body.issueType,
-        issue_description: req.body.issueDescription
-    });
-};
 
 const buildMultQuestionDocument = (status, req) => {
     const gunneryTableEntries = req.body.gunneryTable.map((entry) => {
@@ -105,7 +96,6 @@ const buildFillBlankQuestionDocument = (status, req) => {
 };
 
 module.exports = {
-    buildIssueDocument,
     buildMultQuestionDocument,
     buildTFQuestionDocument,
     buildFillBlankQuestionDocument

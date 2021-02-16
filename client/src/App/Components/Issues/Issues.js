@@ -2,6 +2,8 @@ import React from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 import SideBar from '../shared-components/SideBar/SideBar';
+import NewIssue from './Components/NewIssue/NewIssue';
+import ViewIssues from './Components/ViewIssues/ViewIssues';
 
 const Issues = () => {
     const match = useRouteMatch();
@@ -9,9 +11,7 @@ const Issues = () => {
     const sideBarMenu = [{
         title: 'Issues',
         submenu: [{ title: 'Submit (New)', link: 'new'},
-            { title: 'View (Existing)', link: 'view'},
-            { title: 'Update (Existing)', link: 'update'},  
-            { title: 'Close (Existing)', link: 'close'}]
+            { title: 'View (Existing)', link: 'view'}]
     }];
 
     return(
@@ -23,9 +23,10 @@ const Issues = () => {
                 
                 <Switch>
                     <Route exact path={`${match.path}/new`}>
-                        <div className="col sub-body">
-                            {/* TODO: Create new issues form */}
-                        </div>
+                        <NewIssue/>
+                    </Route>
+                    <Route exact path={`${match.path}/view`}>
+                        <ViewIssues />
                     </Route>
                 </Switch>
             </div>

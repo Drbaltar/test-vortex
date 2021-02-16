@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ViewIssues renders correctly 1`] = `
+<SubmissionBody
+  submitMapping={
+    Object {
+      "deleteButton": Object {
+        "param": true,
+        "requestFunction": [MockFunction],
+        "requestURI": "/api/issues/byID/",
+      },
+    }
+  }
+>
+  <QueryAndView
+    query={[MockFunction]}
+    queryPath="/api/issues/all"
+    title="View Existing Issues"
+  >
+    <QueryAllHeader />
+    <QueryList
+      entryType="Issue"
+      list={Array []}
+    >
+      <IssueEntry />
+    </QueryList>
+    <IssueForm>
+      <FormButtons
+        cancelButtonID="clearAllButton"
+        cancelButtonText="Revert Changes"
+        deleteButtonID="deleteButton"
+        deleteButtonText="Close Issue"
+      />
+    </IssueForm>
+  </QueryAndView>
+</SubmissionBody>
+`;

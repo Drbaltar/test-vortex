@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BodyCard renders correctly 1`] = `
+<form
+  className="card bg-light"
+  noValidate={true}
+>
+  <h1
+    className="card-header"
+  >
+    Approve Test Question
+  </h1>
+  <div
+    className="p-4"
+  >
+    <TestBodyComponent />
+  </div>
+  <div
+    className="card-footer"
+  >
+    <TestFooterComponent />
+  </div>
+</form>
+`;

@@ -44,8 +44,8 @@ test('Correctly receives user info and updates state', () => {
         expect(app.state('userDataRequested')).toEqual(true);
         // Test that error message is not changed
         expect(app.state('errorCode')).toBeNull();
-    })
-})
+    });
+});
 
 // Test for mock Axios response with authentication error from server
 test('Handles authentication errors in user info Axios request', () => {
@@ -69,5 +69,5 @@ test('Handles authentication errors in user info Axios request', () => {
         expect(app.state('userDataRequested')).toEqual(true);
         // Test that error message is updated correctly
         expect(app.state('errorCode')).toEqual(401);
-    })
-})
+    });
+});

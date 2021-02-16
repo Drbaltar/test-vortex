@@ -9,10 +9,7 @@ const Tests = () => {
 
     const sideBarMenu = [{
         title: 'Patriot Tests',
-        submenu: [{ title: 'Generate (New)', link: 'generate-patriot'},
-            { title: 'View (Existing)', link: 'view-patriot'},
-            { title: 'Update (Existing)', link: 'update-patriot'},  
-            { title: 'Delete (Existing)', link: 'delete-patriot'}]
+        submenu: [{ title: 'Generate (New)', link: 'generate-patriot'}]
     }];
 
     return( 

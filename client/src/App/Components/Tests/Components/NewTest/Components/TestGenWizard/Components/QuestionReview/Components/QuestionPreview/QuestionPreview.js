@@ -21,8 +21,8 @@ class QuestionPreview extends React.Component {
 
         this.setState({[id]: value}, () => {
             if (id === 'resultsPerPage') {
-                this.setState({pageDisplayed: 1})
-            };
+                this.setState({pageDisplayed: 1});
+            }
         });
     }
 
@@ -81,11 +81,11 @@ class QuestionPreview extends React.Component {
 
     // Returns a list of the test questions
     getTestQuestionPreview = () => {
-        const numPagesNeeded = Math.ceil(this.props.testQuestions.length / this.state.resultsPerPage)
+        const numPagesNeeded = Math.ceil(this.props.testQuestions.length / this.state.resultsPerPage);
         const questionRange = {
             start: this.state.resultsPerPage * (this.state.pageDisplayed - 1),
             end: this.state.resultsPerPage * this.state.pageDisplayed
-        }
+        };
 
         const filledList = this.props.testQuestions.map((entry, index) => {
             if (entry.question_type === 'Multiple Choice') {
@@ -145,7 +145,7 @@ class QuestionPreview extends React.Component {
                 {filledList.slice(questionRange.start, questionRange.end)}
                 {this.getPagination(numPagesNeeded)}
             </div>
-        )
+        );
     }
 
     // Returns the pagination for navigation between pages
@@ -158,7 +158,7 @@ class QuestionPreview extends React.Component {
                     <button className="page-link"
                         onClick={(event) => this.handlePageChange(event, index)}>{index}</button>
                 </li>
-            )
+            );
         }
 
         return (
@@ -175,7 +175,7 @@ class QuestionPreview extends React.Component {
                     </li>
                 </ul>
             </nav>
-        )
+        );
     }
     
     render() {

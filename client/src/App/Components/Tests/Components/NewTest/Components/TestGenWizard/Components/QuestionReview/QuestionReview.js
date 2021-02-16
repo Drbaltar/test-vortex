@@ -32,6 +32,6 @@ const QuestionReview = (props) => {
                 clickHandler={props.clickHandler}/>
         </div> 
     );
-}
+};
 
 export default QuestionReview;
