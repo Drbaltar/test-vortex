@@ -196,8 +196,8 @@ class IssueForm extends Component {
             data.question_id = this.state.questionID;
         }
 
-        if(this.props._id) {
-            data._id = this.props._id;
+        if(this.props.data) {
+            data._id = this.props.data._id;
         }
 
         return data;
