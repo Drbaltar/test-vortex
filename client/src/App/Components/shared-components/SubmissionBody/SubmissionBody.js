@@ -51,11 +51,20 @@ export default class SubmissionBody extends Component {
     }
 
     handleSubmitClick = (buttonID, data) => {
-        const requestType = this.props.submitMapping[buttonID];
-        
-        requestType.requestFunction(requestType.requestURI, data)
+        const { requestFunction, requestURI, param } = this.props.submitMapping[buttonID];
+        const fullURI = this.getFullURI(requestURI, param, data)
+
+        requestFunction(fullURI, param ? null : data)
             .then(response => this.setSuccessMessage(response.data))
             .catch(error => this.setErrorMessage(error));
+    }
+
+    getFullURI = (baseURI, param, data) => {
+        if (param) {
+            return baseURI + data._id;
+        } else {
+            return baseURI;
+        }
     }
 
     setSuccessMessage = (message) => {

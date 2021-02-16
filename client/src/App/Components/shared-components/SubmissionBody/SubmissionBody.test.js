@@ -9,6 +9,7 @@ const mockPreventDefault = jest.fn();
 const mockEvent = { preventDefault: mockPreventDefault };
 
 const testSubmissionPayload = {
+    _id: 12345678,
     payload: 'Test Payload'
 };
 
@@ -19,6 +20,10 @@ class FormView extends React.Component {
 
     callSubmitFunction = async () => {
         await this.props.submit('submitButton', testSubmissionPayload);
+    }
+
+    callSubmitFunctionWithDelete = async () => {
+        await this.props.submit('deleteButton', testSubmissionPayload);
     }
 
     clearErrorMessage = () => {
@@ -255,6 +260,18 @@ describe('SubmissionBody', () => {
 
         afterAll(() => {
             wrapper.setState(initialState);
+        });
+    });
+
+    describe('when the submit is called with a mapping where param is set to true', () => {
+        beforeAll(() => {
+            Axios.delete.mockResolvedValueOnce('The entry was deleted.')
+            wrapper.find('FormView').shallow().instance().callSubmitFunctionWithDelete();
+        });
+        
+        it('calls the correct Axios function with the _id attribute', () => {
+            expect(Axios.delete).toHaveBeenCalledWith('/api/issues/delete/byID/12345678', null)
+            Axios.delete.mockClear();
         });
     });
 });
