@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import BodyCard from '../BodyCard/BodyCard';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import ErrorMessage from '../ErrorMessage';
 
@@ -28,12 +29,14 @@ export default class QueryAndView extends Component {
     }
 
     getQueryView = () => {
-        return <div>
-            {this.getQueryHeader()}
-            {this.state.isLoading ? this.getLoadingSpinnner() : null}
-            {this.state.queryErrorMessage !== '' ? this.getErrorMessage() : null}
-            {this.state.hasQueryRan ? this.getQueryList() : null}
-        </div>;
+        return <BodyCard title={this.props.title}>
+            <div id='query-view-body'>
+                {this.getQueryHeader()}
+                {this.state.isLoading ? this.getLoadingSpinnner() : null}
+                {this.state.queryErrorMessage !== '' ? this.getErrorMessage() : null}
+                {this.state.hasQueryRan ? this.getQueryList() : null}
+            </div>
+        </BodyCard>;
     }
 
     getQueryHeader = () => {
@@ -57,17 +60,32 @@ export default class QueryAndView extends Component {
         return React.cloneElement(this.QueryList,
             {
                 list: this.state.queryResults,
-                showDetail: (e, index) => this.handleShowDetailClick(e, index)
+                selectEntry: (index) => this.handleShowDetailClick(index)
             });
     }
 
     getDetailView = () => {
+        return <div>
+            {this.getReturnButton()}
+            {this.getDetailViewComponent()}
+        </div>;
+    }
+
+    getReturnButton = () => {
+        return <div className="btn btn-secondary mt-4 sub-body" style={{marginLeft: '20px'}} id="returnButton"
+            onClick={(e) => this.handleReturnButtonClick(e)}>
+            &#8678; Return to Menu
+        </div>;
+    }
+
+    getDetailViewComponent = () => {
         return React.cloneElement(this.DetailView, 
             {
+                title: this.props.title,
                 data: this.state.selectedEntry,
                 submissionResponse: this.props.submissionResponse,
                 submit: this.props.submit,
-                cancel: (e) => this.handleCancelDetailClick(e)
+                clearErrorMessage: this.props.clearErrorMessage
             });
     }
 
@@ -81,13 +99,11 @@ export default class QueryAndView extends Component {
             .catch((error) => this.setState({ isLoading: false, queryErrorMessage: error }));
     }
 
-    handleShowDetailClick = (e, selectedIndex) => {
-        e.preventDefault();
-
+    handleShowDetailClick = (selectedIndex) => {
         this.setDetailViewParameters(selectedIndex);
     }
 
-    handleCancelDetailClick = (e) => {
+    handleReturnButtonClick = (e) => {
         e.preventDefault();
 
         this.setState({ selectedEntry: null, detailViewFlag: false });

@@ -2,15 +2,24 @@ import React from 'react';
 
 const BodyCard = (props) => {
     const { title } = props;
-    const bodyContents = props.children;
+
+    let bodyContents, footerContents;
+
+    if (Array.isArray(props.children)) {
+        bodyContents = props.children[0];
+        footerContents = props.children.length > 1 ? props.children[1] : null;
+    } else {
+        bodyContents = props.children;
+        footerContents = null;
+    }
+
 
     return (
-        <div className="col sub-body">
-            <form className="card bg-light" noValidate>
-                {getCardHeader(title)}
-                {getCardBody(bodyContents)}
-            </form>
-        </div>
+        <form className="card bg-light" noValidate>
+            {getCardHeader(title)}
+            {getCardBody(bodyContents)}
+            {footerContents ? getCardFooter(footerContents) : null}
+        </form>
     );
 };
 
@@ -22,6 +31,14 @@ const getCardBody = (bodyContents) => {
     return (
         <div className="p-4">
             {bodyContents}
+        </div>
+    );
+};
+
+const getCardFooter = (footerContents) => {
+    return (
+        <div className='card-footer'>
+            {footerContents}
         </div>
     );
 };

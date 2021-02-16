@@ -5,17 +5,17 @@ const FormButtons = (props) => {
     let cancelButton;
     let deleteButton;
 
-    if (props.submitButtonText) {
+    if (props.submit || props.submitButtonText) {
         submitButton = (
-            <button className="btn btn-success" id={props.submitButtonID}
-                onClick={props.clickHandler}>{props.submitButtonText}</button>
+            <button className="btn btn-success" id={props.submitButtonID || 'submitButton'}
+                onClick={props.clickHandler}>{props.submitButtonText || 'Submit'}</button>
         );
     }
 
-    if (props.cancelButtonText) {
+    if (props.cancel || props.cancelButtonText) {
         cancelButton = (
-            <button className="btn btn-secondary ml-4" id={props.cancelButtonID}
-                onClick={props.clickHandler}>{props.cancelButtonText}</button>
+            <button className="btn btn-secondary ml-4" id={props.cancelButtonID || 'cancelButton'}
+                onClick={props.clickHandler}>{props.cancelButtonText || 'Cancel'}</button>
         );
     }
 

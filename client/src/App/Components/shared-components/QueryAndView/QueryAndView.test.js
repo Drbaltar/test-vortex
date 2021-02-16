@@ -43,12 +43,18 @@ const testQueryResponse = [
 
 const mockQueryFunction = jest.fn();
 const mockSumbitFunction = jest.fn();
+const mockClearError = jest.fn();
 const mockPreventDefault = jest.fn();
 const mockEvent = { preventDefault: mockPreventDefault };
+
 const testQueryPath = '/search';
+const testTitle = 'View Entries';
 
 describe('QueryAndView', () => {
-    const wrapper = shallow(<QueryAndView query={mockQueryFunction} queryPath={testQueryPath} submit={mockSumbitFunction}>
+    const wrapper = shallow(<QueryAndView 
+        title={testTitle} query={mockQueryFunction} 
+        queryPath={testQueryPath} submit={mockSumbitFunction}
+        clearErrorMessage={mockClearError}>
         <QueryHeader />
         <QueryList />
         <DetailView />
@@ -60,6 +66,18 @@ describe('QueryAndView', () => {
 
     it('sets the initial values of state correctly', () => {
         expect(wrapper.state()).toEqual(initialState);
+    });
+
+    it('renders the BodyCard component for the query view', () => {
+        expect(wrapper.find('BodyCard').exists()).toBe(true);
+    });
+
+    it('passes the title to the BodyCard component', () => {
+        expect(wrapper.find('BodyCard').prop('title')).toEqual(testTitle);
+    });
+
+    it('passes the form body to the BodyCard component', () => {
+        expect(wrapper.find('BodyCard').childAt(0).prop('id')).toEqual('query-view-body');
     });
 
     it('sets the correct initial query header hasQueryRan prop and query function', () => {
@@ -143,20 +161,15 @@ describe('QueryAndView', () => {
             });
 
             it('passes a function for handling detail view click', () => {
-                expect(wrapper.find('QueryList').prop('showDetail')).toBeInstanceOf(Function);
+                expect(wrapper.find('QueryList').prop('selectEntry')).toBeInstanceOf(Function);
             });
 
             describe('when an entry in the query list is selected', () => {
                 const testIndex = 1;
 
                 beforeAll(() => {
-                    const showDetail = wrapper.find('QueryList').prop('showDetail');
-                    showDetail(mockEvent, testIndex);
-                });
-
-                it('prevents default button behavior', () => {
-                    expect(mockPreventDefault).toHaveBeenCalledTimes(1);
-                    mockPreventDefault.mockClear();
+                    const selectEntry = wrapper.find('QueryList').prop('selectEntry');
+                    selectEntry(testIndex);
                 });
 
                 it('sets the detail view flag to true', () => {
@@ -167,8 +180,24 @@ describe('QueryAndView', () => {
                     expect(wrapper.state().selectedEntry).toEqual(testQueryResponse[testIndex]);
                 });
 
+                it('renders the return button', () => {
+                    expect(wrapper.find('#returnButton').exists()).toBe(true);
+                });
+
+                it('sets the text of the return button to the correct value', () => {
+                    expect(wrapper.find('#returnButton').text()).toEqual('\u21e6 Return to Menu');
+                });
+
+                it('set the onClick prop of return button to the returnToMenu handler', () => {
+                    expect(wrapper.find('#returnButton').prop('onClick')).toBeInstanceOf(Function);
+                });
+
                 it('renders the detail view component', () => {
                     expect(wrapper.find('DetailView').exists()).toBe(true);
+                });
+
+                it('passes the title to the the detail view component', () => {
+                    expect(wrapper.find('DetailView').prop('title')).toEqual(testTitle);
                 });
 
                 it('passes the selected entry to the detail view component', () => {
@@ -179,8 +208,8 @@ describe('QueryAndView', () => {
                     expect(wrapper.find('DetailView').prop('submit')).toBe(mockSumbitFunction);
                 });
 
-                it('passes the cancel function to the detail view component', () => {
-                    expect(wrapper.find('DetailView').prop('cancel')).toBeInstanceOf(Function);
+                it('passes the clear error message prop to the DetailView component', () => {
+                    expect(wrapper.find('DetailView').prop('clearErrorMessage')).toBe(mockClearError);
                 });
 
                 describe('when the detail view calls the submit function', () => {
@@ -210,7 +239,7 @@ describe('QueryAndView', () => {
                     });
                 });
 
-                describe('when the detail view registers a click on the cancel button', () => {
+                describe('when the detail view registers a click on the return button', () => {
                     beforeAll(() => {
                         wrapper.setState({
                             queryResults: testQueryResponse,
@@ -221,8 +250,7 @@ describe('QueryAndView', () => {
                             detailViewFlag: true
                         });
                         
-                        const cancel = wrapper.find('DetailView').prop('cancel');
-                        cancel(mockEvent);
+                        wrapper.find('#returnButton').simulate('click', mockEvent);
                     });
 
                     it('prevents default button behavior', () => {

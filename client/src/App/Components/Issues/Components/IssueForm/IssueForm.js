@@ -3,12 +3,14 @@ import React, { Component } from 'react';
 import SelectBox from '../../../shared-components/SelectBox';
 import TextArea from '../../../shared-components/TextArea';
 import ErrorMessage from '../../../shared-components/ErrorMessage';
-import FormButtons from '../../../shared-components/FormButtons';
+import BodyCard from '../../../shared-components/BodyCard/BodyCard';
 
 class IssueForm extends Component {
 
     constructor (props) {
         super(props);
+
+        this.FormFooter = this.props.children;
 
         this.applicationCategories = [
             '',
@@ -30,6 +32,31 @@ class IssueForm extends Component {
             'Other'
         ];
 
+        if (props.data) {
+            this.setFilledInitialState(props.data);
+        } else {
+            this.setBlankInitialState();
+        }
+
+        this.state = this.initialState;
+    }
+
+    setFilledInitialState = (data) => {
+        this.initialState = {
+            issueType: data.issue_type,
+            issueCategory: data.issue_category,
+            issueDescription: data.issue_description,
+            questionID: data.question_id || '',
+            inputValidity: {
+                isIssueTypeValid: null,
+                isIssueCategoryValid: null,
+                isIssueDescriptionValid: null,
+                isQuestionIDValid: null
+            }
+        };
+    }
+
+    setBlankInitialState = () => {
         this.initialState = {
             issueType: '',
             issueCategory: '',
@@ -42,8 +69,78 @@ class IssueForm extends Component {
                 isQuestionIDValid: null
             }
         };
+    }
 
-        this.state = this.initialState;
+    render() {
+        return(
+            <BodyCard title={this.props.title}>
+                {this.getFormBody()}
+                {this.getFormFooter()}
+            </BodyCard>
+        );
+    }
+
+    getFormBody = () => {
+        return (
+            <div id='issue-form-body'>
+                {this.getIssueTypeField()}
+                {this.getIssueCategoryField()}
+                {this.getIssueDescriptionField()}
+                {this.props.errorMessage ? this.getErrorMessage() : null}
+            </div>
+        );
+    }
+
+    getIssueTypeField = () => {
+        return (
+            <SelectBox label="Issue Type" id="issueType"
+                options={['', 'Application Issue', 'Question Issue']}
+                value={this.state.issueType}
+                inputChange={(event) => this.handleInputChange(event)}
+                isValid={this.state.inputValidity.isIssueTypeValid}
+                errorMessage='You must select the issue type!'/>
+        );
+    }
+
+    getIssueCategoryField = () => {
+        return (
+            <SelectBox label="Issue Category" id="issueCategory"
+                options={this.getIssueCategories()}
+                value={this.state.issueCategory}
+                inputChange={(event) => this.handleInputChange(event)}
+                isValid={this.state.inputValidity.isIssueCategoryValid}
+                errorMessage='You must select the issue category!'/>
+        );
+    }
+
+    getIssueCategories = () => {
+        if (this.state.issueType === 'Application Issue') {
+            return this.applicationCategories;
+        } else if (this.state.issueType === 'Question Issue') {
+            return this.questionCategories;
+        } else {
+            return [];
+        }
+    }
+
+    getIssueDescriptionField = () => {
+        return (
+            <TextArea label="Issue Description" id="issueDescription" type="text" rows="4"
+                value={this.state.issueDescription}
+                inputChange={(event) => this.handleInputChange(event)}
+                isValid={this.state.inputValidity.isIssueDescriptionValid}
+                errorMessage='The issue description must be at least 10 characters!'/>
+        );
+    }
+
+    getErrorMessage = () => {
+        return <ErrorMessage message={this.props.errorMessage}/>;
+    }
+
+    getFormFooter = () => {
+        return React.cloneElement(this.FormFooter, {
+            clickHandler: (e) => this.handleClickEvent(e)
+        });
     }
 
     handleInputChange = (event) => {
@@ -62,18 +159,8 @@ class IssueForm extends Component {
         if (event.target.id === 'clearAllButton') {
             this.setState(this.initialState);
             this.props.clearErrorMessage();
-        } else if (event.target.id === 'submitButton' && this.isAllInputValid()) {
-            this.props.submitEvent(this.getDataToSubmit());
-        }
-    }
-
-    getIssueCategories = () => {
-        if (this.state.issueType === 'Application Issue') {
-            return this.applicationCategories;
-        } else if (this.state.issueType === 'Question Issue') {
-            return this.questionCategories;
-        } else {
-            return [];
+        } else if (this.isAllInputValid()) {
+            this.props.submit(event.target.id, this.getDataToSubmit());
         }
     }
 
@@ -109,48 +196,11 @@ class IssueForm extends Component {
             data.question_id = this.state.questionID;
         }
 
-        return data;
-    }
-
-    getErrorMessage = () => {
-        if (this.props.errorMessage !== '') {
-            return <ErrorMessage message={this.props.errorMessage}/>;
+        if(this.props.data) {
+            data._id = this.props.data._id;
         }
-    }
 
-    render() {
-        return(
-            <form className="card bg-light">
-                <h1 className="card-header">Submit New Issue</h1>
-                <div className="p-4">
-                    <SelectBox label="Issue Type" id="issueType"
-                        options={['', 'Application Issue', 'Question Issue']}
-                        value={this.state.issueType}
-                        inputChange={(event) => this.handleInputChange(event)}
-                        isValid={this.state.inputValidity.isIssueTypeValid}
-                        errorMessage='You must select the issue type!'/>
-                    <SelectBox label="Issue Category" id="issueCategory"
-                        options={this.getIssueCategories()}
-                        value={this.state.issueCategory}
-                        inputChange={(event) => this.handleInputChange(event)}
-                        isValid={this.state.inputValidity.isIssueCategoryValid}
-                        errorMessage='You must select the issue category!'/>
-                    <TextArea label="Issue Description" id="issueDescription" type="text" rows="4"
-                        value={this.state.issueDescription}
-                        inputChange={(event) => this.handleInputChange(event)}
-                        isValid={this.state.inputValidity.isIssueDescriptionValid}
-                        errorMessage='The issue description must be at least 10 characters!'/>
-                </div>
-                {this.getErrorMessage()}
-                <div className="card-footer">
-                    <FormButtons submitButtonID={'submitButton'}
-                        submitButtonText="Submit" 
-                        cancelButtonID={'clearAllButton'}
-                        cancelButtonText="Clear All"
-                        clickHandler={(event) => this.handleClickEvent(event)}/>
-                </div>
-            </form>
-        );
+        return data;
     }
 }
 

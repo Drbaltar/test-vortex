@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IssueForm renders correctly 1`] = `
+<BodyCard
+  title="Edit Issue"
+>
+  <div
+    id="issue-form-body"
+  >
+    <SelectBox
+      errorMessage="You must select the issue type!"
+      id="issueType"
+      inputChange={[Function]}
+      isValid={null}
+      label="Issue Type"
+      options={
+        Array [
+          "",
+          "Application Issue",
+          "Question Issue",
+        ]
+      }
+      value=""
+    />
+    <SelectBox
+      errorMessage="You must select the issue category!"
+      id="issueCategory"
+      inputChange={[Function]}
+      isValid={null}
+      label="Issue Category"
+      options={Array []}
+      value=""
+    />
+    <TextField
+      errorMessage="The issue description must be at least 10 characters!"
+      id="issueDescription"
+      inputChange={[Function]}
+      isValid={null}
+      label="Issue Description"
+      rows="4"
+      type="text"
+      value=""
+    />
+  </div>
+  <TestFooter
+    clickHandler={[Function]}
+  />
+</BodyCard>
+`;

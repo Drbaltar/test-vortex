@@ -10,12 +10,20 @@ class TestBodyComponent extends React.Component {
     render() { <div />; }
 }
 
+class TestFooterComponent extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() { <div />; }
+}
+
 const testTitle = 'Approve Test Question';
 
 describe('BodyCard', () => {
     const wrapper = shallow(<BodyCard title={testTitle}>
         <TestBodyComponent />
-        <TestBodyComponent />
+        <TestFooterComponent />
     </BodyCard>);
 
     it('renders correctly', () => {
@@ -26,12 +34,34 @@ describe('BodyCard', () => {
         expect(wrapper.find('.card-header').text()).toEqual(testTitle);
     });
 
-    it('renders the children components in the body of the card', () => {
+    it('renders the child body components in the body of the card', () => {
         expect(wrapper.find('TestBodyComponent').exists()).toBe(true);
     });
 
-    it('renders all children components', () => {
-        expect(wrapper.find('TestBodyComponent').length).toBe(2);
+    it('renders the child footer component', () => {
+        expect(wrapper.find('TestFooterComponent').exists()).toBe(true);
 
+    });
+
+    it('renders the child footer components in the footer of the card', () => {
+        expect(wrapper.find('.card-footer').children().name()).toEqual('TestFooterComponent');
+    });
+
+    describe('when only one component is passed as a child', () => {
+        let singleComponentBodyCard;
+
+        beforeAll(() => {
+            singleComponentBodyCard = shallow(<BodyCard title={testTitle}>
+                <TestBodyComponent />
+            </BodyCard>);
+        });
+
+        it('renders the component in the BodyCard body', () => {
+            expect(singleComponentBodyCard.find('.p-4').children().name()).toEqual('TestBodyComponent');
+        });
+
+        it('does not render anything in the the child footer component', () => {
+            expect(singleComponentBodyCard.find('.card-footer').exists()).toBe(false);
+        });
     });
 });

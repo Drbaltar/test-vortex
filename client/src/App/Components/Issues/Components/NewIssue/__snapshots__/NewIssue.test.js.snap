@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NewIssue renders correctly 1`] = `
+<SubmissionBody
+  submitMapping={
+    Object {
+      "submitButton": Object {
+        "requestFunction": [Function],
+        "requestURI": "/api/issues/submit",
+      },
+    }
+  }
+>
+  <IssueForm
+    title="Submit New Issue"
+  >
+    <FormButtons
+      cancelButtonID="clearAllButton"
+      cancelButtonText="Clear All"
+      submit={true}
+    />
+  </IssueForm>
+</SubmissionBody>
+`;

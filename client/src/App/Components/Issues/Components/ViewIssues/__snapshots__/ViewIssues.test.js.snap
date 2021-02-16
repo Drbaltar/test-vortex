@@ -1,24 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ViewIssues renders correctly 1`] = `
-<BodyCard
-  title="View Existing Issues"
+<SubmissionBody
+  submitMapping={
+    Object {
+      "deleteButton": Object {
+        "param": true,
+        "requestFunction": [MockFunction],
+        "requestURI": "/api/issues/byID/",
+      },
+    }
+  }
 >
-  <SubmissionBody
-    submit={[Function]}
+  <QueryAndView
+    query={[MockFunction]}
+    queryPath="/api/issues/all"
+    title="View Existing Issues"
   >
-    <QueryAndView
-      query={[MockFunction]}
-      queryPath="/api/issues/all"
+    <QueryAllHeader />
+    <QueryList
+      entryType="Issue"
+      list={Array []}
     >
-      <QueryAllHeader />
-      <QueryList
-        entryType="Issue"
-        list={Array []}
-      >
-        <IssueEntry />
-      </QueryList>
-    </QueryAndView>
-  </SubmissionBody>
-</BodyCard>
+      <IssueEntry />
+    </QueryList>
+    <IssueForm>
+      <FormButtons
+        cancelButtonID="clearAllButton"
+        cancelButtonText="Revert Changes"
+        deleteButtonID="deleteButton"
+        deleteButtonText="Close Issue"
+      />
+    </IssueForm>
+  </QueryAndView>
+</SubmissionBody>
 `;

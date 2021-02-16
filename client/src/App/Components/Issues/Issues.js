@@ -23,9 +23,7 @@ const Issues = () => {
                 
                 <Switch>
                     <Route exact path={`${match.path}/new`}>
-                        <div className="col sub-body">
-                            <NewIssue/>
-                        </div>
+                        <NewIssue/>
                     </Route>
                     <Route exact path={`${match.path}/view`}>
                         <ViewIssues />

@@ -13,7 +13,8 @@ APIRouter.use('/*', (req, res, next) => {
     if (req.user) {
         next();
     } else {
-        res.status(401).send('You are not currently logged into a session!');
+        res.status(401).send('You are not currently logged into a session! ' + 
+        'Please refresh the page to return to the login screen.');
     }
 });
 

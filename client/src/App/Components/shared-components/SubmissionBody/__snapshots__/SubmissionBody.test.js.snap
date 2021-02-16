@@ -1,9 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SubmissionBody renders correctly 1`] = `
-<div>
+<div
+  className="col sub-body"
+>
   <FormView
-    submissionResponse=""
+    clearErrorMessage={[Function]}
+    errorMessage=""
     submit={[Function]}
   />
 </div>
