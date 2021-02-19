@@ -1,14 +1,19 @@
-const MultQuestion = require('../models/patriot/mult-question');
-const TFQuestion = require('../models/patriot/tf-question');
-const FillBlankQuestion = require('../models/patriot/fill-blank-question');
+const { 
+    MultChoiceQuestion,
+    TFQuestion,
+    FillBlankQuestion, 
+    PendingMultChoiceQuestion,
+    PendingTFQuestion,
+    PendingFillBlankQuestion
+} = require('../models/questions/patriot');
 
 /*------------------------CRUD Operations for 'Pending' Database-----------------------*/
 
 // Returns the entire collection of pending questions
 const getAllPendingQuestions = (callback) => {
-    // Use the MultQuestion model to query for the pending questions, but the 
+    // Use the MultChoiceQuestion model to query for the pending questions, but the 
     // result will include all 'True or False' and 'Fill-in-the-Blank' as well
-    MultQuestion.PendingMultQuestion.find().exec((err, response) => {
+    PendingMultChoiceQuestion.find().exec((err, response) => {
         callback(err, response);
     });
 };
@@ -21,13 +26,13 @@ const getPendingQuestion = (id, questionType, callback) => {
     // Find out what type of question is being submitted and build appropriate document
     switch (questionType) {
     case 'Multiple Choice':
-        entry = MultQuestion.PendingMultQuestion;
+        entry = PendingMultChoiceQuestion;
         break;
     case 'True or False':
-        entry = TFQuestion.PendingTFQuestion;
+        entry = PendingTFQuestion;
         break;
     case 'Fill-in-the-Blank':
-        entry = FillBlankQuestion.PendingFillBlankQuestion;
+        entry = PendingFillBlankQuestion;
         break;
     default:
         callback (null, 'The \'Question Type\' entry is not a valid entry');
@@ -41,9 +46,9 @@ const getPendingQuestion = (id, questionType, callback) => {
 
 // Deletes the pending question entry based on the passed in ID
 const deletePendingQuestion = (id, callback) => {
-    // Use the MultQuestion model to query for the pending questions, but the 
+    // Use the MultChoiceQuestion model to query for the pending questions, but the 
     // result will include all 'True or False' and 'Fill-in-the-Blank' as well
-    MultQuestion.PendingMultQuestion.findByIdAndDelete(id, (err, response) => {
+    PendingMultChoiceQuestion.findByIdAndDelete(id, (err, response) => {
         callback(err, response);
     });
 };
@@ -52,8 +57,8 @@ const deletePendingQuestion = (id, callback) => {
 
 // Returns the appropriate document for the entry ID passed in
 const getExistingQuestion = (id, callback) => {
-    // Declare the existing question entry using MultQuestion model to represent 'Existing' database
-    let entry = MultQuestion.MultQuestion;
+    // Declare the existing question entry using MultChoiceQuestion model to represent 'Existing' database
+    let entry = MultChoiceQuestion;
 
     entry.findById(id, (err, doc) => {
         callback(err, doc);
@@ -62,8 +67,8 @@ const getExistingQuestion = (id, callback) => {
 
 // Returns the appropriate questions based on the passed in unit and test type
 const getAllExistingQuestionsByTestType = (unitType, testType, callback) => {
-    // Declare the existing question entry using MultQuestion model to represent 'Existing' database
-    let entry = MultQuestion.MultQuestion;
+    // Declare the existing question entry using MultChoiceQuestion model to represent 'Existing' database
+    let entry = MultChoiceQuestion;
 
     entry.where('gunnery_table').elemMatch({'unit_type': unitType, 'test_type': testType})
         .then(values => callback(null, values))
@@ -72,8 +77,8 @@ const getAllExistingQuestionsByTestType = (unitType, testType, callback) => {
 
 // Returns a sample size of the appropriate questions based on the passed in unit type, test type and applicable tables
 const getSampleExistingQuestionsByTables = (unitType, testType, applicableTables, numOfQuestions, callback) => {
-    // Declare the existing question entry using MultQuestion model to represent 'Existing' database
-    let entry = MultQuestion.MultQuestion;
+    // Declare the existing question entry using MultChoiceQuestion model to represent 'Existing' database
+    let entry = MultChoiceQuestion;
 
     entry.aggregate([{ $unwind: '$gunnery_table' }, 
         { $match: {'gunnery_table.unit_type': unitType, 'gunnery_table.test_type': testType, 'gunnery_table.table': { $in: applicableTables }}},
@@ -84,19 +89,19 @@ const getSampleExistingQuestionsByTables = (unitType, testType, applicableTables
 
 // Returns the appropriate document for the entry ID passed in
 const getExistingQuestionForUpdate = (id, questionType, callback) => {
-    // Declare the existing question entry using MultQuestion model to represent 'Existing' database
+    // Declare the existing question entry using MultChoiceQuestion model to represent 'Existing' database
     let entry;
 
     // Find out what type of question is being submitted and build appropriate document
     switch (questionType) {
     case 'Multiple Choice':
-        entry = MultQuestion.MultQuestion;
+        entry = MultChoiceQuestion;
         break;
     case 'True or False':
-        entry = TFQuestion.TFQuestion;
+        entry = TFQuestion;
         break;
     case 'Fill-in-the-Blank':
-        entry = FillBlankQuestion.FillBlankQuestion;
+        entry = FillBlankQuestion;
         break;
     default:
         callback (null, 'The \'Question Type\' entry is not a valid entry');
@@ -110,8 +115,8 @@ const getExistingQuestionForUpdate = (id, questionType, callback) => {
 
 // Deletes the entry based on the input Question ID
 const deleteExistingQuestion = (id, callback) => {
-    // Declare the existing question entry using MultQuestion model to represent 'Existing' database
-    let entry = MultQuestion.MultQuestion;
+    // Declare the existing question entry using MultChoiceQuestion model to represent 'Existing' database
+    let entry = MultChoiceQuestion;
 
     entry.findByIdAndRemove(id, (err, doc) => {
         callback(err, doc);
@@ -122,9 +127,9 @@ const deleteExistingQuestion = (id, callback) => {
 
 // Returns an array of topic categories (approved and pending) based on the input gunnery table and subtask
 const getTopicCategories = (unitType, table, subtask, callback) => {
-    // Declare the existing question entry using MultQuestion model to represent 'Existing' database
-    let existingEntry = MultQuestion.MultQuestion;
-    let pendingEntry = MultQuestion.PendingMultQuestion;
+    // Declare the existing question entry using MultChoiceQuestion model to represent 'Existing' database
+    let existingEntry = MultChoiceQuestion;
+    let pendingEntry = PendingMultChoiceQuestion;
 
     Promise.all([
         existingEntry.where('gunnery_table').elemMatch({'unit_type': unitType, 'table': table, 'subtask': subtask}).exec(),
@@ -138,8 +143,8 @@ const getTopicCategories = (unitType, table, subtask, callback) => {
 
 // Returns the number of questions per table and subtask based on unit and test type
 const getNumQuestionsPerSubtask = (unitType, testType, callback) => {
-    // Declare the existing question entry using MultQuestion model to represent 'Existing' database
-    let entry = MultQuestion.MultQuestion;
+    // Declare the existing question entry using MultChoiceQuestion model to represent 'Existing' database
+    let entry = MultChoiceQuestion;
     const batteryTables = [['I', 18], ['II', 18], ['III', 8], ['V', 3], ['VI', 8], ['VII', 13]];
     const battalionTables = [['I', 13], ['II', 22], ['III', 8], ['V', 5], ['VI', 7], ['VII', 12]];
 
@@ -196,8 +201,8 @@ const getNumQuestionsPerSubtask = (unitType, testType, callback) => {
 
 // Returns all the questions for a gunnery table and subtask based on unit type and test type
 const getAllQuestionsPerSubtask = (unitType, testType, table, subtask, callback) => {
-    // Declare the existing question entry using MultQuestion model to represent 'Existing' database
-    let entry = MultQuestion.MultQuestion;
+    // Declare the existing question entry using MultChoiceQuestion model to represent 'Existing' database
+    let entry = MultChoiceQuestion;
 
     entry.where('gunnery_table').elemMatch({'unit_type': unitType,
         'test_type': testType, 'table': table, 'subtask': subtask}).lean()

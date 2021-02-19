@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ObjectId = require('mongoose').Types.ObjectId;
 
-const documentBuilder = require('../../../src/document-builder');
+const documentBuilder = require('../../../src/question-document-builder/patriot');
 const dbInterface = require('../../../src/database-interface');
 
 /*------------------------CRUD Operations for 'Pending' Questions-----------------------*/
@@ -15,7 +15,7 @@ router.post('/submit', (req, res) => {
     // Find out what type of question is being submitted and build appropriate document
     switch (req.body.questionType) {
     case 'Multiple Choice':
-        newQuestion = documentBuilder.buildMultQuestionDocument('pending', req);
+        newQuestion = documentBuilder.buildMultChoiceQuestionDocument('pending', req);
         break;
     case 'True or False':
         newQuestion = documentBuilder.buildTFQuestionDocument('pending', req);
@@ -152,7 +152,7 @@ router.post('/approve', (req, res) => {
     // Find out what type of question is being submitted and build appropriate document
     switch (req.body.questionType) {
     case 'Multiple Choice':
-        approvedQuestion = documentBuilder.buildMultQuestionDocument('approved', req);
+        approvedQuestion = documentBuilder.buildMultChoiceQuestionDocument('approved', req);
         break;
     case 'True or False':
         approvedQuestion = documentBuilder.buildTFQuestionDocument('approved', req);
