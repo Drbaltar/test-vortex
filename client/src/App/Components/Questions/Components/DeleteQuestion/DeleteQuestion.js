@@ -25,7 +25,7 @@ class DeleteQuestion extends React.Component {
     };
 
     deleteQuestion = (questionData) => {        
-        Axios.delete('/api/questions/delete', { params: { _id: questionData._id } })
+        Axios.delete('/api/questions/patriot/delete', { params: { _id: questionData._id } })
             .then((response) => this.setState({submissionResponse: response, successAlert: true}))
             .catch((error) => this.setState({submissionResponse: error}));
     };

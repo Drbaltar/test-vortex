@@ -47,24 +47,24 @@ class ApproveQuestion extends React.Component {
     getAllPendingQuestions = () => {
         this.setState({loading: true});
 
-        Axios.get('/api/questions/pending')
+        Axios.get('/api/questions/patriot/pending')
             .then((response) => this.setState({allPendingQuestions: response.data, hasSearchRan: true, loading: false}));
     };
 
     approveNewQuestion = (questionData) => {
-        Axios.post('/api/questions/approve', questionData)
+        Axios.post('/api/questions/patriot/approve', questionData)
             .then((response) => this.setState({submissionResponse: response, successAlert: true}))
             .catch((response) => this.setState({submissionResponse: response}));
     };
 
     updatePendingQuestion = (questionData) => {
-        Axios.put('/api/questions/update-pending', questionData)
+        Axios.put('/api/questions/patriot/update-pending', questionData)
             .then((response) => this.setState({submissionResponse: response, successAlert: true}))
             .catch((response) => this.setState({submissionResponse: response}));
     }
 
     disapproveNewQuestion = (questionData) => {
-        Axios.post('/api/questions/delete-pending', questionData)
+        Axios.post('/api/questions/patriot/delete-pending', questionData)
             .then((response) => this.setState({submissionResponse: response, successAlert: true}))
             .catch((response) => this.setState({submissionResponse: response}));
     };

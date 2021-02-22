@@ -12,10 +12,10 @@ const Questions = () => {
 
     const sideBarMenu = [{
         title: 'Patriot Questions',
-        submenu: [{ title: 'Add (New)', link: 'add-patriot'},
-            { title: 'Approve (Pending)', link: 'approve-patriot'},
-            { title: 'Update (Existing)', link: 'update-patriot'},
-            { title: 'Delete (Existing)', link: 'delete-patriot'}]
+        submenu: [{ title: 'Add (New)', link: 'patriot/add'},
+            { title: 'Approve (Pending)', link: 'patriot/approve'},
+            { title: 'Update (Existing)', link: 'patriot/update'},
+            { title: 'Delete (Existing)', link: 'patriot/delete'}]
     }];
 
     return(
@@ -26,22 +26,22 @@ const Questions = () => {
                 </div>
                 
                 <Switch>
-                    <Route exact path={`${match.path}/add-patriot`}>
+                    <Route exact path={`${match.path}/patriot/add`}>
                         <div className="col sub-body">
                             <NewQuestion questionType="Patriot"/>
                         </div>
                     </Route>
-                    <Route exact path={`${match.path}/approve-patriot`}>
+                    <Route exact path={`${match.path}/patriot/approve`}>
                         <div className="col sub-body">
                             <ApproveQuestion questionType="Patriot"/>
                         </div>
                     </Route>
-                    <Route exact path={`${match.path}/update-patriot`}>
+                    <Route exact path={`${match.path}/patriot/update`}>
                         <div className="col sub-body">
                             <UpdateQuestion questionType="Patriot"/>
                         </div>
                     </Route>
-                    <Route exact path={`${match.path}/delete-patriot`}>
+                    <Route exact path={`${match.path}/patriot/delete`}>
                         <div className="col sub-body">
                             <DeleteQuestion questionType="Patriot"/>
                         </div>

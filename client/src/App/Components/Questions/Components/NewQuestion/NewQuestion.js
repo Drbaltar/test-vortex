@@ -17,7 +17,7 @@ class NewQuestion extends React.Component {
     }
 
     submitNewQuestion = (questionData) => {
-        Axios.post('/api/questions/submit', questionData)
+        Axios.post('/api/questions/patriot/submit', questionData)
             .then((response) => this.setState({submissionResponse: response, successAlert: true}))
             .catch((response) => this.setState({submissionResponse: response}));
     }
