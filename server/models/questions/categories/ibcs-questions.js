@@ -7,7 +7,7 @@ const ibcsQuestionCategories = {
             validator: function(v) {
                 return v.length > 0;
             },
-            message: 'The \'Gunnery Table\' information is missing'
+            message: 'The \'IBCS Test Type\' information is missing'
         }
     },
     topic: {
