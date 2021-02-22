@@ -7,6 +7,19 @@ const {
     PendingFillBlankQuestion
 } = require('../../models/questions/patriot');
 
+const getQuestionDocument = (status, req) => {
+    switch (req.body.questionType) {
+    case 'Multiple Choice':
+        return buildMultChoiceQuestionDocument(status, req);
+    case 'True or False':
+        return buildTFQuestionDocument(status, req);
+    case 'Fill-in-the-Blank':
+        return buildFillBlankQuestionDocument(status, req);
+    default:
+        throw new Error('The \'Question Type\' entry is not a valid entry!');
+    }
+};
+
 const buildMultChoiceQuestionDocument = (status, req) => {
     const data = req.body;
 
@@ -61,25 +74,32 @@ const getInputData = (data) => {
 };
 
 const getGunneryTableEntries = (gunneryTable) => {
-    return gunneryTable.map((entry) => {
-        return({
-            unit_type: entry.unitType,
-            test_type: entry.testType,
-            table: entry.table,
-            subtask: entry.subtask
+    try {
+        return gunneryTable.map((entry) => {
+            return({
+                unit_type: entry.unitType,
+                test_type: entry.testType,
+                table: entry.table,
+                subtask: entry.subtask
+            });
         });
-    });
+    } catch (error) {
+        throw new Error('The \'Gunnery Table\' field is invalid or missing!');
+    }
 };
 
 const getTopics = (topic) => {
-    return {
-        major_category: topic.majorCategory,
-        sub_category: topic.subCategory
-    };
+    try {
+        return {
+            major_category: topic.majorCategory,
+            sub_category: topic.subCategory
+        };
+    } catch (error) {
+        throw new Error('The \'Topic\' fields are invalid or missing!');
+    }
+
 };
 
 module.exports = {
-    buildMultChoiceQuestionDocument,
-    buildTFQuestionDocument,
-    buildFillBlankQuestionDocument
+    getQuestionDocument
 };
