@@ -52,6 +52,8 @@ class TopicCategoryDropdown extends React.Component {
                     {pendingList}
                 </div>
             );
+        } else {
+            return <div />;
         }
     }
 
