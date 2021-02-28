@@ -7,35 +7,32 @@ const {
 } = require('./templates/question-templates');
 
 const getQuestionModels = (category, subject) => {
-    const fillBlankModels = getFillBlankModels(category, subject);
-    const multChoiceModels = getMultChoiceModels(category, subject);
-    const tfModels = getTFModels(category, subject);
+    const FillBlankQuestion = getFillBlankModel(category, subject);
+    const MultChoiceQuestion = getMultChoiceModel(category, subject);
+    const TFQuestion = getTFModel(category, subject);
 
-    return { ...fillBlankModels, ...multChoiceModels, ...tfModels };
+    return { FillBlankQuestion, MultChoiceQuestion, TFQuestion };
 };
 
-const getFillBlankModels = (category, subject) => {
+const getFillBlankModel = (category, subject) => {
     const fillBlankQuestionSchema = new Schema({ ...fillBlankQuestion, ...category});
-    const FillBlankQuestion = model('FillBlankQuestion', fillBlankQuestionSchema, 'approved_questions_' + subject);
-    const PendingFillBlankQuestion = model('FillBlankQuestion', fillBlankQuestionSchema, 'pending_questions_' + subject);
+    const FillBlankQuestion = model('FillBlankQuestion', fillBlankQuestionSchema, subject + '_questions');
 
-    return { FillBlankQuestion, PendingFillBlankQuestion };
+    return FillBlankQuestion;
 };
 
-const getMultChoiceModels  = (category, subject) => {
+const getMultChoiceModel  = (category, subject) => {
     const multChoiceQuestionSchema = new Schema({ ...multChoiceQuestion, ...category});
-    const MultChoiceQuestion = model('MultChoiceQuestion', multChoiceQuestionSchema, 'approved_questions_' + subject);
-    const PendingMultChoiceQuestion = model('MultChoiceQuestion', multChoiceQuestionSchema, 'pending_questions_' + subject);
+    const MultChoiceQuestion = model('MultChoiceQuestion', multChoiceQuestionSchema, subject + '_questions');
 
-    return { MultChoiceQuestion, PendingMultChoiceQuestion };
+    return MultChoiceQuestion;
 };
 
-const getTFModels = (category, subject) => {
+const getTFModel = (category, subject) => {
     const tfQuestionSchema = new Schema({ ...tfQuestion, ...category});
-    const TFQuestion = model('TFQuestion', tfQuestionSchema, 'approved_questions_' + subject);
-    const PendingTFQuestion = model('TFQuestion', tfQuestionSchema, 'pending_questions_' + subject);
+    const TFQuestion = model('TFQuestion', tfQuestionSchema, subject + '_questions');
 
-    return { TFQuestion, PendingTFQuestion };
+    return TFQuestion;
 };
 
 module.exports = {
