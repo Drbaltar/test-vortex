@@ -52,19 +52,19 @@ class ApproveQuestion extends React.Component {
     };
 
     approveNewQuestion = (questionData) => {
-        Axios.post('/api/questions/patriot/approve', questionData)
+        Axios.put('/api/questions/patriot/approved', questionData)
             .then((response) => this.setState({submissionResponse: response, successAlert: true}))
             .catch((response) => this.setState({submissionResponse: response}));
     };
 
     updatePendingQuestion = (questionData) => {
-        Axios.put('/api/questions/patriot/update-pending', questionData)
+        Axios.put('/api/questions/patriot/pending', questionData)
             .then((response) => this.setState({submissionResponse: response, successAlert: true}))
             .catch((response) => this.setState({submissionResponse: response}));
     }
 
     disapproveNewQuestion = (questionData) => {
-        Axios.post('/api/questions/patriot/delete-pending', questionData)
+        Axios.delete('/api/questions/patriot/pending', { params: { _id: questionData._id }})
             .then((response) => this.setState({submissionResponse: response, successAlert: true}))
             .catch((response) => this.setState({submissionResponse: response}));
     };
