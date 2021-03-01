@@ -25,7 +25,7 @@ class updateQuestion extends React.Component {
     };
 
     updateQuestion = (questionData) => {
-        Axios.put('/api/questions/patriot/update', questionData)
+        Axios.put('/api/questions/patriot/approved', questionData)
             .then((response) => this.setState({submissionResponse: response, successAlert: true}))
             .catch((error) => this.setState({submissionResponse: error}));
     };
