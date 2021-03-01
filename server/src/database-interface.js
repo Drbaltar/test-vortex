@@ -1,79 +1,4 @@
-const { 
-    MultChoiceQuestion,
-    TFQuestion,
-    FillBlankQuestion, 
-    PendingMultChoiceQuestion,
-    PendingTFQuestion,
-    PendingFillBlankQuestion
-} = require('../models/questions/patriot');
-
-/*------------------------CRUD Operations for 'Pending' Database-----------------------*/
-
-// Returns the entire collection of pending questions
-const getAllPendingQuestions = (callback) => {
-    // Use the MultChoiceQuestion model to query for the pending questions, but the 
-    // result will include all 'True or False' and 'Fill-in-the-Blank' as well
-    PendingMultChoiceQuestion.find().exec((err, response) => {
-        callback(err, response);
-    });
-};
-
-// Returns the appropriate document for the entry ID and question type passed in
-const getPendingQuestion = (id, questionType, callback) => {
-    // Declare the pending question entry
-    let entry;
-
-    // Find out what type of question is being submitted and build appropriate document
-    switch (questionType) {
-    case 'Multiple Choice':
-        entry = PendingMultChoiceQuestion;
-        break;
-    case 'True or False':
-        entry = PendingTFQuestion;
-        break;
-    case 'Fill-in-the-Blank':
-        entry = PendingFillBlankQuestion;
-        break;
-    default:
-        callback (null, 'The \'Question Type\' entry is not a valid entry');
-        return;
-    }
-
-    entry.findById(id, (err, doc) => {
-        callback(err, doc);
-    });
-};
-
-// Deletes the pending question entry based on the passed in ID
-const deletePendingQuestion = (id, callback) => {
-    // Use the MultChoiceQuestion model to query for the pending questions, but the 
-    // result will include all 'True or False' and 'Fill-in-the-Blank' as well
-    PendingMultChoiceQuestion.findByIdAndDelete(id, (err, response) => {
-        callback(err, response);
-    });
-};
-
-/*------------------------CRUD Operations for 'Existing' Database-----------------------*/
-
-// Returns the appropriate document for the entry ID passed in
-const getExistingQuestion = (id, callback) => {
-    // Declare the existing question entry using MultChoiceQuestion model to represent 'Existing' database
-    let entry = MultChoiceQuestion;
-
-    entry.findById(id, (err, doc) => {
-        callback(err, doc);
-    });
-};
-
-// Returns the appropriate questions based on the passed in unit and test type
-const getAllExistingQuestionsByTestType = (unitType, testType, callback) => {
-    // Declare the existing question entry using MultChoiceQuestion model to represent 'Existing' database
-    let entry = MultChoiceQuestion;
-
-    entry.where('gunnery_table').elemMatch({'unit_type': unitType, 'test_type': testType})
-        .then(values => callback(null, values))
-        .catch(err => callback(err));
-};
+const { MultChoiceQuestion } = require('../models/questions/patriot');
 
 // Returns a sample size of the appropriate questions based on the passed in unit type, test type and applicable tables
 const getSampleExistingQuestionsByTables = (unitType, testType, applicableTables, numOfQuestions, callback) => {
@@ -87,53 +12,13 @@ const getSampleExistingQuestionsByTables = (unitType, testType, applicableTables
         .catch(err => callback(err));
 };
 
-// Returns the appropriate document for the entry ID passed in
-const getExistingQuestionForUpdate = (id, questionType, callback) => {
-    // Declare the existing question entry using MultChoiceQuestion model to represent 'Existing' database
-    let entry;
-
-    // Find out what type of question is being submitted and build appropriate document
-    switch (questionType) {
-    case 'Multiple Choice':
-        entry = MultChoiceQuestion;
-        break;
-    case 'True or False':
-        entry = TFQuestion;
-        break;
-    case 'Fill-in-the-Blank':
-        entry = FillBlankQuestion;
-        break;
-    default:
-        callback (null, 'The \'Question Type\' entry is not a valid entry');
-        return;
-    }
-
-    entry.findById(id, (err, doc) => {
-        callback(err, doc);
-    });
-};
-
-// Deletes the entry based on the input Question ID
-const deleteExistingQuestion = (id, callback) => {
-    // Declare the existing question entry using MultChoiceQuestion model to represent 'Existing' database
-    let entry = MultChoiceQuestion;
-
-    entry.findByIdAndRemove(id, (err, doc) => {
-        callback(err, doc);
-    });
-};
-
 /*------------------------Operations for Requesting Topic Categories-----------------------*/
 
 // Returns an array of topic categories (approved and pending) based on the input gunnery table and subtask
 const getTopicCategories = (unitType, table, subtask, callback) => {
-    // Declare the existing question entry using MultChoiceQuestion model to represent 'Existing' database
-    let existingEntry = MultChoiceQuestion;
-    let pendingEntry = PendingMultChoiceQuestion;
-
     Promise.all([
-        existingEntry.where('gunnery_table').elemMatch({'unit_type': unitType, 'table': table, 'subtask': subtask}).exec(),
-        pendingEntry.where('gunnery_table').elemMatch({'unit_type': unitType, 'table': table, 'subtask': subtask}).exec()
+        MultChoiceQuestion.find({ status: 'approved'}).where('gunnery_table').elemMatch({'unit_type': unitType, 'table': table, 'subtask': subtask}).exec(),
+        MultChoiceQuestion.find({ status: 'pending'}).where('gunnery_table').elemMatch({'unit_type': unitType, 'table': table, 'subtask': subtask}).exec()
     ])
         .then(queryResults => callback(null, queryResults))
         .catch(err => callback(err));
@@ -211,14 +96,7 @@ const getAllQuestionsPerSubtask = (unitType, testType, table, subtask, callback)
 };
 
 module.exports = {
-    getAllPendingQuestions,
-    getPendingQuestion,
-    deletePendingQuestion,
-    getExistingQuestion,
-    getAllExistingQuestionsByTestType,
     getSampleExistingQuestionsByTables,
-    getExistingQuestionForUpdate,
-    deleteExistingQuestion,
     getTopicCategories,
     getNumQuestionsPerSubtask,
     getAllQuestionsPerSubtask
