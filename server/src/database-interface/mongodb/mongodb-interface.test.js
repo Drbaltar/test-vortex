@@ -3,8 +3,6 @@ const mongoose = require('mongoose');
 const dbInterface = require('./mongodb-interface');
 
 const TestModel = mongoose.model('Test', new mongoose.Schema({ name: String, id: Number }));
-const TestSourceModel = mongoose.model('TestSource', new mongoose.Schema({ name: String, id: Number }));
-const TestTargetModel = mongoose.model('TestTarget', new mongoose.Schema({ name: String, id: Number }));
 
 const testData = { name: 'Kyle', id: 127333811 };
 
@@ -29,12 +27,14 @@ describe('mongodb-interface', () => {
         const testDocument2 = TestModel(testData);
         const testDocument3 = TestModel(testData);
         const testDocument4 = TestModel(uniqueData);
+        let idForSingleSearch;
 
         beforeAll(async () => {
             await testDocument1.save();
             await testDocument2.save();
             await testDocument3.save();
-            await testDocument4.save();
+            const { _id } = await testDocument4.save();
+            idForSingleSearch = _id;
         });
 
         it('returns a Query All with no parameters', async () => {
@@ -49,6 +49,11 @@ describe('mongodb-interface', () => {
 
         it('returns a single Query with parameters', async () => {
             const results = await dbInterface.queryOneWithParameters(TestModel, { name: 'Kayce' });
+            expect(results).toMatchObject(uniqueData);
+        });
+
+        it('returns a single Query by ID', async () => {
+            const results = await dbInterface.queryOneByID(TestModel, idForSingleSearch);
             expect(results).toMatchObject(uniqueData);
         });
 

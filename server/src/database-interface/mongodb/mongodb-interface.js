@@ -10,6 +10,10 @@ const queryOneWithParameters = (model, params) => {
     return model.findOne(params).lean().exec();
 };
 
+const queryOneByID = (model, id) => {
+    return model.findById(id).lean().exec();
+};
+
 const saveDocument = (document) => {
     return document.save();
 };
@@ -26,6 +30,7 @@ module.exports = {
     queryAll,
     queryAllWithParameters,
     queryOneWithParameters,
+    queryOneByID,
     saveDocument,
     updateDocument,
     deleteDocument
