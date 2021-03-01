@@ -2,7 +2,8 @@ const getBaseQuestionProperties = (questionType) => {
     return {
         question_type: getQuestionType(questionType),
         question_description: getQuestionDescription(),
-        correct_answer: getCorrectAnswer(questionType)
+        correct_answer: getCorrectAnswer(questionType),
+        status: getStatus()
     };
 };
 
@@ -33,6 +34,14 @@ const getCorrectAnswer = (questionType) => {
     }
 
     return correctAnswer;
+};
+
+const getStatus = () => {
+    return {
+        type: String,
+        required: 'The \'Status\' field is required',
+        enum: ['pending', 'approved']
+    };
 };
 
 const fillBlankQuestion = getBaseQuestionProperties('Fill-in-the-Blank');
