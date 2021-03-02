@@ -1,9 +1,9 @@
-const questionRouter = require('express').Router();
-
 const mongoose = require('mongoose');
 const dbInterface = require('../../../../src/database-interface/mongodb/mongodb-interface');
 
 const getQuestionRouter = (model, objectConverter, documentBuilder) => {
+    const questionRouter = require('express').Router();
+
     addRoutes(questionRouter, 'pending', model, objectConverter, documentBuilder);
     addRoutes(questionRouter, 'approved', model, objectConverter, documentBuilder);
     addIDRoutes(questionRouter, model);
@@ -17,17 +17,23 @@ const addRoutes = (router, status, model, objectConverter, documentBuilder) => {
             getQuestions(model, status, res);
         })
         .post((req, res) => {
-            const newQuestion = documentBuilder(status, req.body);
-            if (status === 'pending') {
+            if (status === 'approved') res.status(404).send();
+
+            try {
+                const newQuestion = documentBuilder(status, req.body);
                 addQuestion(newQuestion, res);
-            } else {
-                res.status(404).send();
+            } catch (error) {
+                handleError(error, res);
             }
         })
         .put((req, res) => {
-            const dataInDBSchema = objectConverter.convertToDBSchema(req.body);
-            status !== req.body.status ? dataInDBSchema.status = status : null;
-            updateQuestion(model, req.body._id, dataInDBSchema, res);
+            try {
+                const dataInDBSchema = objectConverter.convertToDBSchema(req.body);
+                status !== req.body.status ? dataInDBSchema.status = status : null;
+                updateQuestion(model, req.body._id, dataInDBSchema, res);
+            } catch (error) {
+                handleError(error, res);
+            }
         });
 };
 
@@ -84,6 +90,8 @@ const handleError = (error, res) => {
         res.status(400).send(error);
     } else if (error instanceof mongoose.Error.CastError) {
         res.status(400).send('The input question \'ID\' is not valid!');
+    } else if (error instanceof TypeError) { 
+        res.status(400).send('Your request did not have a valid body object!');
     } else {
         res.status(500).send('There was an internal server error!');
     }

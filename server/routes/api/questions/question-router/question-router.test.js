@@ -95,7 +95,7 @@ describe('question-router', () => {
                     });
             });
 
-            it('handles invalid requests', (done) => {
+            it('handles Validation Errors', (done) => {
                 dbInterface.saveDocument.mockRejectedValueOnce(new mongoose.Error.ValidationError());
 
                 request(app)
@@ -127,17 +127,13 @@ describe('question-router', () => {
                     });
             });
 
-            it('handles invalid requests', (done) => {
-                dbInterface.saveDocument.mockRejectedValueOnce(new mongoose.Error.ValidationError());
-
+            it('handles error for request with no body', (done) => {
                 request(app)
                     .post('/pending')
-                    .send(exampleObject)
+                    .send()
                     .expect(400)
                     .end((err, res) => {
-                        expect(documentBuilder).toHaveBeenCalledWith('pending', exampleObject);
-                        expect(res.body.name).toEqual('ValidationError');
-                        
+                        expect(res.text).toEqual('Your request did not have a valid body object!');
                         if (err) return done(err);
                         return done();
                     });
@@ -196,6 +192,18 @@ describe('question-router', () => {
                     .expect(400)
                     .end((err, res) => {
                         expect(res.body.name).toEqual('ValidationError');                        
+                        if (err) return done(err);
+                        return done();
+                    });
+            });
+
+            it('handles error for request with no body', (done) => {
+                request(app)
+                    .put('/pending')
+                    .send()
+                    .expect(400)
+                    .end((err, res) => {
+                        expect(res.text).toEqual('Your request did not have a valid body object!');
                         if (err) return done(err);
                         return done();
                     });
