@@ -1,5 +1,9 @@
-const router = require('express').Router();
+const questionRouter = require('../question-router/question-router');
 
-router.post('/submit', (req, res) => {
-    console.log('IBCS Submit Called');
-});
+const { MultChoiceQuestion } = require('../../../../models/questions/ibcs');
+const objectConverter = require('../../../../src/database-interface/questions/object-converter/ibcs-question');
+const documentBuilder = require('../../../../src/database-interface/questions/question-document-builder/ibcs/ibcs');
+
+const ibcsRouter = questionRouter(MultChoiceQuestion, objectConverter, documentBuilder);
+
+module.exports = ibcsRouter;
