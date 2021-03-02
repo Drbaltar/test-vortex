@@ -8,7 +8,7 @@ const SideBar = (props) => {
 
     const match = useRouteMatch();
     const filledMenu = menuList.map(entry => 
-        <div key={entry.title}>
+        <div className="pb-3" key={entry.title}>
             <div className="pl-2 sidelabel" style={{font: 'bold'}}>{entry.title}</div>
             {entry.submenu.map(entry => 
                 <NavLink key={entry.title} to={`${match.url}/${entry.link}`} className="nav-item nav-link pl-4" 
