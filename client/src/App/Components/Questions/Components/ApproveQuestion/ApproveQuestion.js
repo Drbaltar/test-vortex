@@ -64,7 +64,7 @@ class ApproveQuestion extends React.Component {
     }
 
     disapproveNewQuestion = (questionData) => {
-        Axios.delete('/api/questions/patriot/pending', { params: { _id: questionData._id }})
+        Axios.delete(`/api/questions/patriot/id/${questionData._id}`)
             .then((response) => this.setState({submissionResponse: response, successAlert: true}))
             .catch((response) => this.setState({submissionResponse: response}));
     };

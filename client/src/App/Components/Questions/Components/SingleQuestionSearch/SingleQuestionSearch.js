@@ -42,7 +42,7 @@ class SingleQuestionSearch extends React.Component {
     getSearchResults = () => {
         this.setState({searchResults: null, searchReturned: false, loading: true});
 
-        Axios.get('/api/questions/patriot/approved', { params: { _id: this.state.searchInput } })
+        Axios.get(`/api/questions/patriot/id/${this.state.searchInput}`)
             .then((response) => this.setState({searchResults: response.data, searchReturned: true, loading: false}))
             .catch((error) => {
                 this.setState({loading: false}, () => {this.props.updateSubmissionResponse(error);});
