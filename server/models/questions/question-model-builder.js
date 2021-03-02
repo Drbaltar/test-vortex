@@ -16,21 +16,21 @@ const getQuestionModels = (category, subject) => {
 
 const getFillBlankModel = (category, subject) => {
     const fillBlankQuestionSchema = new Schema({ ...fillBlankQuestion, ...category});
-    const FillBlankQuestion = model('FillBlankQuestion', fillBlankQuestionSchema, subject + '_questions');
+    const FillBlankQuestion = model('FillBlankQuestion_' + subject, fillBlankQuestionSchema, subject + '_questions');
 
     return FillBlankQuestion;
 };
 
 const getMultChoiceModel  = (category, subject) => {
     const multChoiceQuestionSchema = new Schema({ ...multChoiceQuestion, ...category});
-    const MultChoiceQuestion = model('MultChoiceQuestion', multChoiceQuestionSchema, subject + '_questions');
+    const MultChoiceQuestion = model('MultChoiceQuestion_' + subject, multChoiceQuestionSchema, subject + '_questions');
 
     return MultChoiceQuestion;
 };
 
 const getTFModel = (category, subject) => {
     const tfQuestionSchema = new Schema({ ...tfQuestion, ...category});
-    const TFQuestion = model('TFQuestion', tfQuestionSchema, subject + '_questions');
+    const TFQuestion = model('TFQuestion_' + subject, tfQuestionSchema, subject + '_questions');
 
     return TFQuestion;
 };
