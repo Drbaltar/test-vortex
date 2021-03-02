@@ -8,6 +8,7 @@ const dbInterface = require('../../../../src/database-interface/mongodb/mongodb-
 jest.mock('../../../../src/database-interface/mongodb/mongodb-interface', () => {
     return {
         queryAllWithParameters: jest.fn(),
+        queryOneByID: jest.fn(),
         saveDocument: jest.fn(),
         updateDocument: jest.fn(),
         deleteDocument: jest.fn()
@@ -62,7 +63,7 @@ describe('question-router', () => {
             });
 
             it('handles requests with query errors', (done) => {
-                dbInterface.queryAllWithParameters.mockRejectedValueOnce();
+                dbInterface.queryAllWithParameters.mockRejectedValueOnce({});
     
                 request(app)
                     .get('/pending')
@@ -205,52 +206,6 @@ describe('question-router', () => {
             });
         });
 
-        describe('DELETE request', () => {
-            it('handles valid delete requests', (done) => {
-                dbInterface.deleteDocument.mockResolvedValueOnce(exampleObjectDBSchema);
-
-                request(app)
-                    .delete('/pending')
-                    .query({ _id: 12345678 })
-                    .expect(200)
-                    .end((err, res) => {
-                        expect(dbInterface.deleteDocument).toHaveBeenCalledWith(model, '12345678');                        
-                        expect(res.text).toEqual('The question was successfully deleted!');
-                        if (err) return done(err);
-                        return done();
-                    });
-            });
-
-            it('handles invalid delete requests', (done) => {
-                dbInterface.deleteDocument.mockResolvedValueOnce();
-
-                request(app)
-                    .delete('/pending')
-                    .query({ _id: 12345678 })
-                    .expect(404)
-                    .end((err, res) => {
-                        expect(dbInterface.deleteDocument).toHaveBeenCalledWith(model, '12345678');                        
-                        expect(res.text).toEqual('The question with that ID was not found!');
-                        if (err) return done(err);
-                        return done();
-                    });
-            });
-
-            it('handles server errors', (done) => {
-                dbInterface.deleteDocument.mockRejectedValueOnce(new Error());
-
-                request(app)
-                    .delete('/pending')
-                    .send({ _id: 12345678 })
-                    .expect(500)
-                    .end((err, res) => {
-                        expect(res.text).toEqual('There was an internal server error!');
-                        if (err) return done(err);
-                        return done();
-                    });
-            });
-        });
-
         afterEach(() => {
             dbInterface.deleteDocument.mockClear();
             objectConverter.convertToDBSchema.mockClear();
@@ -274,7 +229,7 @@ describe('question-router', () => {
             });
 
             it('handles requests with query errors', (done) => {
-                dbInterface.queryAllWithParameters.mockRejectedValueOnce();
+                dbInterface.queryAllWithParameters.mockRejectedValueOnce({});
     
                 request(app)
                     .get('/approved')
@@ -385,55 +340,54 @@ describe('question-router', () => {
             });
         });
 
-        describe('DELETE request', () => {
-            it('handles valid delete requests', (done) => {
-                dbInterface.deleteDocument.mockResolvedValueOnce(exampleObjectDBSchema);
-
-                request(app)
-                    .delete('/approved')
-                    .query({ _id: 12345678 })
-                    .expect(200)
-                    .end((err, res) => {
-                        expect(dbInterface.deleteDocument).toHaveBeenCalledWith(model, '12345678');                        
-                        expect(res.text).toEqual('The question was successfully deleted!');
-                        if (err) return done(err);
-                        return done();
-                    });
-            });
-
-            it('handles invalid delete requests', (done) => {
-                dbInterface.deleteDocument.mockResolvedValueOnce();
-
-                request(app)
-                    .delete('/approved')
-                    .query({ _id: 12345678 })
-                    .expect(404)
-                    .end((err, res) => {
-                        expect(dbInterface.deleteDocument).toHaveBeenCalledWith(model, '12345678');                        
-                        expect(res.text).toEqual('The question with that ID was not found!');
-                        if (err) return done(err);
-                        return done();
-                    });
-            });
-
-            it('handles server errors', (done) => {
-                dbInterface.deleteDocument.mockRejectedValueOnce(new Error());
-
-                request(app)
-                    .delete('/approved')
-                    .send({ _id: 12345678 })
-                    .expect(500)
-                    .end((err, res) => {
-                        expect(res.text).toEqual('There was an internal server error!');
-                        if (err) return done(err);
-                        return done();
-                    });
-            });
-        });
-
         afterEach(() => {
             dbInterface.deleteDocument.mockClear();
             objectConverter.convertToDBSchema.mockClear();
+        });
+    });
+
+    describe('GET request for single question', () => {
+        it('handles requests with valid query results from database', (done) => {
+            dbInterface.queryOneByID.mockResolvedValueOnce(exampleObject);
+
+            request(app)
+                .get('/id/12345678')
+                .expect(200)
+                .end((err, res) => {
+                    if (err) return done(err);
+                    expect(dbInterface.queryOneByID).toHaveBeenCalledWith(model, '12345678');
+                    expect(res.body).toEqual(exampleObject);
+                    return done();
+                });
+        });
+    });
+
+    describe('DELETE request for single question', () => {
+        it('handles requests with valid query results from database', (done) => {
+            dbInterface.deleteDocument.mockResolvedValueOnce(exampleObject);
+
+            request(app)
+                .delete('/id/12345678')
+                .expect(200)
+                .end((err, res) => {
+                    if (err) return done(err);
+                    expect(dbInterface.deleteDocument).toHaveBeenCalledWith(model, '12345678');
+                    expect(res.text).toEqual('The question was successfully deleted!');
+                    return done();
+                });
+        });
+
+        it('handles requests with invalid IDs', (done) => {
+            dbInterface.deleteDocument.mockRejectedValueOnce(new mongoose.Error.CastError);
+
+            request(app)
+                .delete('/id/12345678')
+                .expect(400)
+                .end((err, res) => {
+                    if (err) return done(err);
+                    expect(res.text).toEqual('The input question \'ID\' is not valid!');
+                    return done();
+                });
         });
     });
 });

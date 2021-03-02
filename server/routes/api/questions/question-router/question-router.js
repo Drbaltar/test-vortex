@@ -4,13 +4,14 @@ const mongoose = require('mongoose');
 const dbInterface = require('../../../../src/database-interface/mongodb/mongodb-interface');
 
 const getQuestionRouter = (model, objectConverter, documentBuilder) => {
-    addRoute(questionRouter, 'pending', model, objectConverter, documentBuilder);
-    addRoute(questionRouter, 'approved', model, objectConverter, documentBuilder);
+    addRoutes(questionRouter, 'pending', model, objectConverter, documentBuilder);
+    addRoutes(questionRouter, 'approved', model, objectConverter, documentBuilder);
+    addIDRoutes(questionRouter, model);
 
     return questionRouter;
 };
 
-const addRoute = (router, status, model, objectConverter, documentBuilder) => {
+const addRoutes = (router, status, model, objectConverter, documentBuilder) => {
     router.route(`/${status}`)
         .get((req, res) => {
             getQuestions(model, status, res);
@@ -27,14 +28,27 @@ const addRoute = (router, status, model, objectConverter, documentBuilder) => {
             const dataInDBSchema = objectConverter.convertToDBSchema(req.body);
             status !== req.body.status ? dataInDBSchema.status = status : null;
             updateQuestion(model, req.body._id, dataInDBSchema, res);
+        });
+};
+
+const addIDRoutes = (router, model) => {
+    router.route('/id/:questionID')
+        .get((req, res) => {
+            getQuestion(model, req.params.questionID, res);
         })
         .delete((req, res) => {
-            deleteQuestion(model, req.query._id, res);
+            deleteQuestion(model, req.params.questionID, res);
         });
 };
 
 const getQuestions = (model, status, res) => {
     dbInterface.queryAllWithParameters(model, { status })
+        .then(queryResults => res.status(200).send(queryResults))
+        .catch(error => handleError(error, res));
+};
+
+const getQuestion = (model, id, res) => {
+    dbInterface.queryOneByID(model, id)
         .then(queryResults => res.status(200).send(queryResults))
         .catch(error => handleError(error, res));
 };
@@ -68,6 +82,8 @@ const handleDBChange = (action, result, res) => {
 const handleError = (error, res) => {
     if (error instanceof mongoose.Error.ValidationError) {
         res.status(400).send(error);
+    } else if (error instanceof mongoose.Error.CastError) {
+        res.status(400).send('The input question \'ID\' is not valid!');
     } else {
         res.status(500).send('There was an internal server error!');
     }
