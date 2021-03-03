@@ -16,6 +16,9 @@ const Questions = () => {
             { title: 'Approve (Pending)', link: 'patriot/approve'},
             { title: 'Update (Existing)', link: 'patriot/update'},
             { title: 'Delete (Existing)', link: 'patriot/delete'}]
+    }, {
+        title: 'IBCS Questions',
+        submenu: [{ title: 'Add (New)', link: 'ibcs/add'}]
     }];
 
     return(
@@ -44,6 +47,11 @@ const Questions = () => {
                     <Route exact path={`${match.path}/patriot/delete`}>
                         <div className="col sub-body">
                             <DeleteQuestion questionType="Patriot"/>
+                        </div>
+                    </Route>
+                    <Route exact path={`${match.path}/ibcs/add`}>
+                        <div className="col sub-body">
+                            <NewQuestion questionType="IBCS"/>
                         </div>
                     </Route>
                 </Switch>
