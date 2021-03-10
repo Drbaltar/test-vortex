@@ -10,7 +10,7 @@ import GunneryList from './Components/GunneryList';
 import TopicCategories from './Components/TopicCategories/TopicCategories';
 import './QuestionForm.css';
 
-class QuestionForm extends React.Component {
+class PatriotQuestionForm extends React.Component {
     constructor(props) {
         super(props);
 
@@ -297,4 +297,4 @@ class QuestionForm extends React.Component {
     }
 }
 
-export default QuestionForm;
+export default PatriotQuestionForm;
