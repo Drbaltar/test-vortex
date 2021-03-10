@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IBCSQuestionForm renders correctly 1`] = `
+<BodyCard
+  title="Add New IBCS Question"
+>
+  <BaseQuestionFields
+    answerA=""
+    answerB=""
+    answerC=""
+    correctAnswer=""
+    inputHandler={[Function]}
+    isAnswerAValid={null}
+    isAnswerBValid={null}
+    isAnswerCValid={null}
+    isCorrectAnswerValid={null}
+    isQuestionDescriptionValid={null}
+    isQuestionTypeValid={null}
+    questionDescription=""
+    questionType="Multiple Choice"
+  />
+</BodyCard>
+`;

@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BaseQuestionFields renders correctly 1`] = `
+<div>
+  <SelectBox
+    errorMessage="You must select the question type!"
+    id="questionType"
+    inputChange={[MockFunction]}
+    isValid={false}
+    label="Question Type"
+    options={
+      Array [
+        "Multiple Choice",
+        "Fill-in-the-Blank",
+        "True or False",
+      ]
+    }
+    value="Multiple Choice"
+  />
+  <TextArea
+    errorMessage="The question description must be at least 10 characters!"
+    id="questionDescription"
+    inputChange={[MockFunction]}
+    isValid={false}
+    label="Question Description"
+    rows="4"
+    type="text"
+    value="What is the acronym for the Antenna Mast Group?"
+  />
+  <TextField
+    errorMessage="The 'Correct Answer' field is required!"
+    id="correctAnswer"
+    inputChange={[MockFunction]}
+    isValid={false}
+    label="Correct Answer"
+    type="text"
+    value="AMG"
+  />
+  <TextField
+    errorMessage="The 'Answer A' field is required!"
+    id="answerA"
+    inputChange={[MockFunction]}
+    isValid={false}
+    key="answerA"
+    label="Answer A"
+    type="text"
+    value="EPP"
+  />
+  <TextField
+    errorMessage="The 'Answer B' field is required!"
+    id="answerB"
+    inputChange={[MockFunction]}
+    isValid={false}
+    key="answerB"
+    label="Answer B"
+    type="text"
+    value="ECS"
+  />
+  <TextField
+    errorMessage="The 'Answer C' field is required!"
+    id="answerC"
+    inputChange={[MockFunction]}
+    isValid={false}
+    key="answerC"
+    label="Answer C"
+    type="text"
+    value="BCP"
+  />
+</div>
+`;
