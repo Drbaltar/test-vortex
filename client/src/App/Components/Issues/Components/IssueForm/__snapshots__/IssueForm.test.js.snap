@@ -31,7 +31,7 @@ exports[`IssueForm renders correctly 1`] = `
       options={Array []}
       value=""
     />
-    <TextField
+    <TextArea
       errorMessage="The issue description must be at least 10 characters!"
       id="issueDescription"
       inputChange={[Function]}
