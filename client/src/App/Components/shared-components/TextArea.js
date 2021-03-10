@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TextField = (props) => {
+const TextArea = (props) => {
     // Assign the correct className to validTag based on whether the prop states the input value is valid
     // and create an optional error message if the field does not have a valid input
     let validTag;
@@ -28,4 +28,4 @@ const TextField = (props) => {
     );
 };
 
-export default TextField;
+export default TextArea;
