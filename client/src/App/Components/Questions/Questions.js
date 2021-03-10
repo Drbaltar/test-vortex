@@ -29,10 +29,8 @@ const Questions = () => {
                 </div>
                 
                 <Switch>
-                    <Route exact path={`${match.path}/patriot/add`}>
-                        <div className="col sub-body">
-                            <NewQuestion questionType="Patriot"/>
-                        </div>
+                    <Route exact path={`${match.path}/patriot/add`} key={window.location.pathname}>
+                        <NewQuestion questionType="Patriot"/>
                     </Route>
                     <Route exact path={`${match.path}/patriot/approve`}>
                         <div className="col sub-body">
@@ -49,10 +47,8 @@ const Questions = () => {
                             <DeleteQuestion questionType="Patriot"/>
                         </div>
                     </Route>
-                    <Route exact path={`${match.path}/ibcs/add`}>
-                        <div className="col sub-body">
-                            <NewQuestion questionType="IBCS"/>
-                        </div>
+                    <Route exact path={`${match.path}/ibcs/add`} key={window.location.pathname}>
+                        <NewQuestion questionType="IBCS"/>
                     </Route>
                 </Switch>
             </div>
