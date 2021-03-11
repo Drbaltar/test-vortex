@@ -1,9 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NewQuestion renders correctly 1`] = `
-<SubmissionBody>
-  <IBCSQuestionForm
-    title="Add New Question (undefined)"
-  />
+<SubmissionBody
+  submitMapping={
+    Object {
+      "submitButton": Object {
+        "requestFunction": [Function],
+        "requestURI": "/api/questions/patriot/pending",
+      },
+    }
+  }
+>
+  <PatriotQuestionForm
+    title="Add New Question (Patriot)"
+  >
+    <FormButtons
+      submit={true}
+    />
+  </PatriotQuestionForm>
 </SubmissionBody>
 `;
