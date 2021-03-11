@@ -4,20 +4,29 @@ exports[`IBCSQuestionForm renders correctly 1`] = `
 <BodyCard
   title="Add New IBCS Question"
 >
-  <BaseQuestionFields
-    answerA=""
-    answerB=""
-    answerC=""
-    correctAnswer=""
-    inputHandler={[Function]}
-    isAnswerAValid={null}
-    isAnswerBValid={null}
-    isAnswerCValid={null}
-    isCorrectAnswerValid={null}
-    isQuestionDescriptionValid={null}
-    isQuestionTypeValid={null}
-    questionDescription=""
-    questionType="Multiple Choice"
+  <div
+    id="issue-form-body"
+  >
+    <BaseQuestionFields
+      answerA=""
+      answerB=""
+      answerC=""
+      correctAnswer=""
+      inputHandler={[Function]}
+      isAnswerAValid={null}
+      isAnswerBValid={null}
+      isAnswerCValid={null}
+      isCorrectAnswerValid={null}
+      isQuestionDescriptionValid={null}
+      isQuestionTypeValid={null}
+      questionDescription=""
+      questionType="Multiple Choice"
+    />
+  </div>
+  <TestFooter
+    cancelButtonID="clearAllButton"
+    cancelButtonText="Clear All"
+    clickHandler={[Function]}
   />
 </BodyCard>
 `;

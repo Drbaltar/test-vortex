@@ -2,16 +2,20 @@ import React from 'react';
 
 import BodyCard from '../../../../shared-components/BodyCard/BodyCard';
 import BaseQuestionFields from '../BaseQuestionFields/BaseQuestionFields';
+import ErrorMessage from '../../../../shared-components/ErrorMessage';
 
 class IBCSQuestionForm extends React.Component {
     constructor (props) {
         super(props);
 
-        this.setBlankInitialState();
+        this.FormFooter = this.props.children;
+
+        this.initialState = this.getBlankInitialState();
+        this.state = this.initialState;
     }
 
-    setBlankInitialState = () => {
-        this.state = {
+    getBlankInitialState = () => {
+        return {
             questionType: 'Multiple Choice',
             questionDescription: '',
             correctAnswer: '',
@@ -43,9 +47,21 @@ class IBCSQuestionForm extends React.Component {
     }
 
     render() {
-        return <BodyCard title={this.props.title}>
-            {this.getBaseQuestionFields()}
-        </BodyCard>;
+        return (
+            <BodyCard title={this.props.title}>
+                {this.getFormBody()}
+                {this.getFormFooter()}
+            </BodyCard>
+        );
+    }
+
+    getFormBody = () => {
+        return (
+            <div id='issue-form-body'>
+                {this.getBaseQuestionFields()}
+                {this.props.errorMessage ? this.getErrorMessage() : null}
+            </div>
+        );
     }
 
     getBaseQuestionFields = () => {
@@ -58,6 +74,18 @@ class IBCSQuestionForm extends React.Component {
             answerC={this.state.answerC} isAnswerCValid={this.state.inputValidity.isAnswerCValid}/>;
     }
 
+    getErrorMessage = () => {
+        return <ErrorMessage message={this.props.errorMessage}/>;
+    }
+
+    getFormFooter = () => {
+        return React.cloneElement(this.FormFooter, {
+            clickHandler: (e) => this.handleClickEvent(e),
+            cancelButtonText: 'Clear All',
+            cancelButtonID: 'clearAllButton'
+        });
+    }
+
     handleInputChange = (event) => {
         const { target: { id, value }} = event;
 
@@ -66,6 +94,44 @@ class IBCSQuestionForm extends React.Component {
         } else {
             this.setState({ [id]: value });
         }
+    };
+
+    handleClickEvent = (event) => {
+        event.preventDefault();
+
+        if (event.target.id === 'clearAllButton') {
+            this.setState(this.initialState);
+            this.props.clearErrorMessage();
+        } else if (this.isAllInputValid()){
+            this.props.submit(event.target.id);
+        }
+
+    }
+
+    isAllInputValid = () => {
+        let inputValidity = this.getInputValidity();
+        this.setState({ inputValidity });
+
+        for (const entry in inputValidity) {
+            if (!inputValidity[entry]) {
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+    getInputValidity = () => {
+        return {
+            isQuestionTypeValid: this.state.questionType.length > 0 ? true : false,
+            isQuestionDescriptionValid: this.state.questionDescription.length > 9  ? true : false,
+            isCorrectAnswerValid: this.state.correctAnswer.length > 0 ? true : false,
+            isAnswerAValid: this.state.answerA.length > 0 ? true : false,
+            isAnswerBValid: this.state.answerB.length > 0 ? true : false,
+            isAnswerCValid: this.state.answerC.length > 0 ? true : false,
+            isMajorTopicValid: this.state.topic.majorCategory.length > 0 ? true : false,
+            isSubTopicValid: this.state.topic.subCategory.length > 0 ? true : false
+        };
     };
     
 }
