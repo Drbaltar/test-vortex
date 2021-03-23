@@ -22,6 +22,31 @@ exports[`IBCSQuestionForm renders correctly 1`] = `
       questionDescription=""
       questionType="Multiple Choice"
     />
+    <CheckBoxGroup
+      boxGroup={
+        Array [
+          Object {
+            "id": "tactics",
+            "label": "Tactics",
+            "value": false,
+          },
+          Object {
+            "id": "earlyWarning",
+            "label": "Early Warning",
+            "value": false,
+          },
+          Object {
+            "id": "weaponsControl",
+            "label": "Weapons Control",
+            "value": false,
+          },
+        ]
+      }
+      checkboxChange={[Function]}
+      errorMessage="At least one 'Test Type' must be selected!"
+      heading="Please select the tests for which this question is applicable:"
+      isValid={null}
+    />
   </div>
   <TestFooter
     cancelButtonID="clearAllButton"

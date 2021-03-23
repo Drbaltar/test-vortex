@@ -2,6 +2,7 @@ import React from 'react';
 
 import BodyCard from '../../../../shared-components/BodyCard/BodyCard';
 import BaseQuestionFields from '../BaseQuestionFields/BaseQuestionFields';
+import CheckBoxGroup from '../../../../shared-components/CheckBoxGroup';
 import ErrorMessage from '../../../../shared-components/ErrorMessage';
 
 class IBCSQuestionForm extends React.Component {
@@ -22,6 +23,7 @@ class IBCSQuestionForm extends React.Component {
             answerA: '',
             answerB: '',
             answerC: '',
+            testType: this.getInitialTestType(),
             topic: {
                 majorCategory: '',
                 subCategory: ''
@@ -46,6 +48,14 @@ class IBCSQuestionForm extends React.Component {
         };
     }
 
+    getInitialTestType = () =>  {
+        return {
+            tactics: false,
+            earlyWarning: false,
+            weaponsControl: false
+        };
+    }
+
     render() {
         return (
             <BodyCard title={this.props.title}>
@@ -59,6 +69,7 @@ class IBCSQuestionForm extends React.Component {
         return (
             <div id='issue-form-body'>
                 {this.getBaseQuestionFields()}
+                {this.getTestTypeField()}
                 {this.props.errorMessage ? this.getErrorMessage() : null}
             </div>
         );
@@ -72,6 +83,35 @@ class IBCSQuestionForm extends React.Component {
             answerA={this.state.answerA} isAnswerAValid={this.state.inputValidity.isAnswerAValid}
             answerB={this.state.answerB} isAnswerBValid={this.state.inputValidity.isAnswerBValid}
             answerC={this.state.answerC} isAnswerCValid={this.state.inputValidity.isAnswerCValid}/>;
+    }
+
+    getTestTypeField = () => {
+        return <CheckBoxGroup
+            heading='Please select the tests for which this question is applicable:'
+            boxGroup={this.getTestTypeParameters()}
+            checkboxChange={(e) => this.handleCheckboxChange(e)}
+            isValid={this.state.inputValidity.isTestTypeValid}
+            errorMessage="At least one 'Test Type' must be selected!"/>;
+    }
+
+    getTestTypeParameters = () => {
+        return [
+            {
+                id: 'tactics',
+                label: 'Tactics',
+                value: this.state.testType.tactics
+            },
+            {
+                id: 'earlyWarning',
+                label: 'Early Warning',
+                value: this.state.testType.earlyWarning
+            },
+            {
+                id: 'weaponsControl',
+                label: 'Weapons Control',
+                value: this.state.testType.weaponsControl
+            }
+        ];
     }
 
     getErrorMessage = () => {
@@ -101,11 +141,24 @@ class IBCSQuestionForm extends React.Component {
 
         if (event.target.id === 'clearAllButton') {
             this.setState(this.initialState);
+            this.setState({testType: this.getInitialTestType()});
             this.props.clearErrorMessage();
         } else if (this.isAllInputValid()){
             this.props.submit(event.target.id);
         }
+    }
 
+    handleCheckboxChange = (event) => {
+        const {target: {id, checked}} = event;
+
+        this.setState({testType: this.getUpdatedTestType(id, checked)});
+    };
+
+    getUpdatedTestType = (id, checked) => {
+        let testType = this.state.testType;
+        testType[id] = checked;
+        
+        return testType;
     }
 
     isAllInputValid = () => {
@@ -129,11 +182,11 @@ class IBCSQuestionForm extends React.Component {
             isAnswerAValid: this.state.answerA.length > 0 ? true : false,
             isAnswerBValid: this.state.answerB.length > 0 ? true : false,
             isAnswerCValid: this.state.answerC.length > 0 ? true : false,
+            isTestTypeValid: (this.state.testType.tactics || this.state.testType.earlyWarning || this.state.testType.weaponsControl),
             isMajorTopicValid: this.state.topic.majorCategory.length > 0 ? true : false,
             isSubTopicValid: this.state.topic.subCategory.length > 0 ? true : false
         };
     };
-    
 }
 
 export default IBCSQuestionForm;

@@ -20,8 +20,22 @@ const baseQuestionFieldValidity = {
     isAnswerCValid: null
 };
 
+const invalidBaseQuestionFieldValidity = {
+    isQuestionTypeValid: true,
+    isQuestionDescriptionValid: false,
+    isCorrectAnswerValid: false,
+    isAnswerAValid: false,
+    isAnswerBValid: false,
+    isAnswerCValid: false
+};
+
 const expectedInitialState = {
     ...baseQuestionFieldValues,
+    testType: {
+        tactics: false,
+        earlyWarning: false,
+        weaponsControl: false
+    },
     topic: {
         majorCategory: '',
         subCategory: ''
@@ -43,6 +57,11 @@ const stateWithValidMultChoiceFields = {
     answerA: 'Troy',
     answerB: 'Gavin',
     answerC: 'Mark',
+    testType: {
+        tactics: false,
+        earlyWarning: true,
+        weaponsControl: false
+    },
     topic: {
         majorCategory: 'Test',
         subCategory: 'Categories'
@@ -120,6 +139,62 @@ describe('IBCSQuestionForm', () => {
                 answerB: baseQuestionFieldValues.answerB,
                 answerC: baseQuestionFieldValues.answerC
             });
+        });
+    });
+
+    it('renders the CheckBoxGroup component', () => {
+        expect(wrapper.find('CheckBoxGroup').exists()).toBe(true);
+    });
+
+    it('passes the correct props to the CheckBoxGroup', () => {
+        expect(wrapper.find('CheckBoxGroup').props()).toEqual({
+            heading: 'Please select the tests for which this question is applicable:',
+            boxGroup: [
+                {
+                    id: 'tactics',
+                    label: 'Tactics',
+                    value: false
+                },
+                {
+                    id: 'earlyWarning',
+                    label: 'Early Warning',
+                    value: false
+                },
+                {
+                    id: 'weaponsControl',
+                    label: 'Weapons Control',
+                    value: false
+                }
+            ],
+            checkboxChange: expect.any(Function),
+            isValid: expectedInitialState.inputValidity.isTestTypeValid,
+            errorMessage: 'At least one \'Test Type\' must be selected!'
+        });
+    });
+
+    describe('when each test type checkbox has been selected', () => {
+        const checkboxChange = wrapper.find('CheckBoxGroup').prop('checkboxChange');
+        
+        it('changes the tactics variable in state', () => {
+            checkboxChange({ target: { id: 'tactics', checked: true }});
+
+            expect(wrapper.state().testType.tactics).toBe(true);
+        });
+
+        it('changes the earlyWarning variable in state', () => {
+            checkboxChange({ target: { id: 'earlyWarning', checked: true }});
+
+            expect(wrapper.state().testType.earlyWarning).toBe(true);
+        });
+
+        it('changes the weaponsControl variable in state', () => {
+            checkboxChange({ target: { id: 'weaponsControl', checked: true }});
+
+            expect(wrapper.state().testType.weaponsControl).toBe(true);
+        });
+
+        afterAll(() => {
+            wrapper.setState({ testType: expectedInitialState.testType });
         });
     });
 
@@ -208,6 +283,14 @@ describe('IBCSQuestionForm', () => {
 
             it('does not call the submit prop', () => {
                 expect(mockSubmit).not.toHaveBeenCalled();
+            });
+
+            it('passes the correct prop to the BaseQuestionFields component', () => {
+                expect(wrapper.find('BaseQuestionFields').props()).toMatchObject(invalidBaseQuestionFieldValidity);
+            });
+
+            it('passes the correct prop to the CheckBoxGroup', () => {
+                expect(wrapper.find('CheckBoxGroup').prop('isValid')).toBe(false);
             });
 
             afterAll(() => {
