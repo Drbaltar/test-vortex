@@ -47,6 +47,12 @@ describe('mongodb-interface', () => {
             expect(results.length).toBe(3);
         });
 
+        it('returns a Query All with select fields', async () => {
+            const results = await dbInterface.queryAllWithSelectFields(TestModel, 'name -_id');
+            expect(results.length).toBe(4);
+            expect(results[0].name).toEqual('Kyle');
+        });
+
         it('returns a single Query with parameters', async () => {
             const results = await dbInterface.queryOneWithParameters(TestModel, { name: 'Kayce' });
             expect(results).toMatchObject(uniqueData);

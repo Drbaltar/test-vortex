@@ -6,6 +6,10 @@ const queryAllWithParameters = (model, params) => {
     return model.find(params).lean().exec();
 };
 
+const queryAllWithSelectFields = (model, fields) => {
+    return model.find().select(fields).lean().exec();
+};
+
 const queryOneWithParameters = (model, params) => {
     return model.findOne(params).lean().exec();
 };
@@ -29,6 +33,7 @@ const deleteDocument = (model, id) => {
 module.exports = {
     queryAll,
     queryAllWithParameters,
+    queryAllWithSelectFields,
     queryOneWithParameters,
     queryOneByID,
     saveDocument,
