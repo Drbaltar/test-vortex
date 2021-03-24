@@ -4,6 +4,7 @@ import BodyCard from '../../../../shared-components/BodyCard/BodyCard';
 import BaseQuestionFields from '../BaseQuestionFields/BaseQuestionFields';
 import CheckBoxGroup from '../../../../shared-components/CheckBoxGroup';
 import ErrorMessage from '../../../../shared-components/ErrorMessage';
+import TopicCategories from '../Components/TopicCategories/TopicCategories';
 
 class IBCSQuestionForm extends React.Component {
     constructor (props) {
@@ -11,8 +12,7 @@ class IBCSQuestionForm extends React.Component {
 
         this.FormFooter = this.props.children;
 
-        this.initialState = this.getBlankInitialState();
-        this.state = this.initialState;
+        this.state = this.getBlankInitialState();
     }
 
     getBlankInitialState = () => {
@@ -70,6 +70,7 @@ class IBCSQuestionForm extends React.Component {
             <div id='issue-form-body'>
                 {this.getBaseQuestionFields()}
                 {this.getTestTypeField()}
+                {this.getTopicCategoryFields()}
                 {this.props.errorMessage ? this.getErrorMessage() : null}
             </div>
         );
@@ -114,6 +115,16 @@ class IBCSQuestionForm extends React.Component {
         ];
     }
 
+    getTopicCategoryFields = () => {
+        return <TopicCategories topic={this.state.topic}
+            existingTopicCategories={this.state.existingTopicCategories}
+            isMajorTopicValid={this.state.inputValidity.isMajorTopicValid}
+            isSubTopicValid={this.state.inputValidity.isSubTopicValid}
+            isTopicLoading={this.state.isTopicLoading}
+            inputChange={(event) => this.handleTopicInputChange(event)}
+            topicChange={(category, value) => this.handleTopicButtonChange(category, value)}/>;
+    }
+
     getErrorMessage = () => {
         return <ErrorMessage message={this.props.errorMessage}/>;
     }
@@ -136,23 +147,39 @@ class IBCSQuestionForm extends React.Component {
         }
     };
 
-    handleClickEvent = (event) => {
-        event.preventDefault();
-
-        if (event.target.id === 'clearAllButton') {
-            this.setState(this.initialState);
-            this.setState({testType: this.getInitialTestType()});
-            this.props.clearErrorMessage();
-        } else if (this.isAllInputValid()){
-            this.props.submit(event.target.id);
-        }
-    }
-
     handleCheckboxChange = (event) => {
         const {target: {id, checked}} = event;
 
         this.setState({testType: this.getUpdatedTestType(id, checked)});
     };
+
+    handleTopicInputChange = (event) => {
+        const { target: { id, value }} = event;
+
+        let topic = this.state.topic;
+        topic[id] = value;
+
+        this.setState({ topic });
+    };
+
+    handleTopicButtonChange = (category, value) => {
+        if ( category === 'majorCategory') {
+            this.setState({topic: {[category]: value, subCategory: ''}});
+        } else if ( category === 'subCategory') {
+            this.setState({topic: {majorCategory: this.state.topic.majorCategory, [category]: value,}});
+        }
+    };
+
+    handleClickEvent = (event) => {
+        event.preventDefault();
+
+        if (event.target.id === 'clearAllButton') {
+            this.setState(this.getBlankInitialState());
+            this.props.clearErrorMessage();
+        } else if (this.isAllInputValid()){
+            this.props.submit(event.target.id, this.getSubmissionData());
+        }
+    }
 
     getUpdatedTestType = (id, checked) => {
         let testType = this.state.testType;
@@ -165,13 +192,7 @@ class IBCSQuestionForm extends React.Component {
         let inputValidity = this.getInputValidity();
         this.setState({ inputValidity });
 
-        for (const entry in inputValidity) {
-            if (!inputValidity[entry]) {
-                return false;
-            }
-        }
-
-        return true;
+        return Object.values(inputValidity).includes(false) ? false : true;
     };
 
     getInputValidity = () => {
@@ -179,13 +200,59 @@ class IBCSQuestionForm extends React.Component {
             isQuestionTypeValid: this.state.questionType.length > 0 ? true : false,
             isQuestionDescriptionValid: this.state.questionDescription.length > 9  ? true : false,
             isCorrectAnswerValid: this.state.correctAnswer.length > 0 ? true : false,
-            isAnswerAValid: this.state.answerA.length > 0 ? true : false,
-            isAnswerBValid: this.state.answerB.length > 0 ? true : false,
-            isAnswerCValid: this.state.answerC.length > 0 ? true : false,
+            ...this.getAlternateAnswerValidity(),
             isTestTypeValid: (this.state.testType.tactics || this.state.testType.earlyWarning || this.state.testType.weaponsControl),
             isMajorTopicValid: this.state.topic.majorCategory.length > 0 ? true : false,
             isSubTopicValid: this.state.topic.subCategory.length > 0 ? true : false
         };
+    };
+
+    getAlternateAnswerValidity = () => {
+        if (this.state.questionType === 'Multiple Choice') {
+            return {
+                isAnswerAValid: this.state.answerA.length > 0 ? true : false,
+                isAnswerBValid: this.state.answerB.length > 0 ? true : false,
+                isAnswerCValid: this.state.answerC.length > 0 ? true : false,
+            };
+        } else {
+            return {
+                isAnswerAValid: null,
+                isAnswerBValid: null,
+                isAnswerCValid: null
+            };
+        }
+
+    }
+
+    getSubmissionData = () => {
+        let data = {
+            questionType: this.state.questionType,
+            questionDescription: this.state.questionDescription,
+            correctAnswer: this.state.correctAnswer,
+            testType: this.getTestTypeArray(),
+            topic: this.state.topic
+        };
+
+        if (this.state.questionType === 'Multiple Choice') {
+            data.answerA = this.state.answerA;
+            data.answerB = this.state.answerB;
+            data.answerC = this.state.answerC;
+        }
+
+        return data;
+    }
+
+    getTestTypeArray = () => {
+        let testTypeArray = [];
+
+        if (this.state.testType.tactics)
+            testTypeArray.push('Tactics');
+        if (this.state.testType.earlyWarning)
+            testTypeArray.push('Early Warning');
+        if (this.state.testType.weaponsControl)
+            testTypeArray.push('Weapons Control');
+
+        return testTypeArray;
     };
 }
 

@@ -51,16 +51,31 @@ const expectedInitialState = {
 };
 
 const stateWithValidMultChoiceFields = {
-    questionType: 'True or False',
+    questionType: 'Multiple Choice',
     questionDescription: 'What is my name?',
     correctAnswer: 'Kyle',
     answerA: 'Troy',
     answerB: 'Gavin',
     answerC: 'Mark',
     testType: {
-        tactics: false,
+        tactics: true,
         earlyWarning: true,
-        weaponsControl: false
+        weaponsControl: true
+    },
+    topic: {
+        majorCategory: 'Test',
+        subCategory: 'Categories'
+    }
+};
+
+const stateWithValidTFFields = {
+    questionType: 'True or False',
+    questionDescription: 'Kyle is my name.',
+    correctAnswer: 'True',
+    testType: {
+        tactics: true,
+        earlyWarning: true,
+        weaponsControl: true
     },
     topic: {
         majorCategory: 'Test',
@@ -198,6 +213,69 @@ describe('IBCSQuestionForm', () => {
         });
     });
 
+    it('renders the TopicCategories component', () => {
+        expect(wrapper.find('TopicCategories').exists()).toBe(true);
+    });
+
+    it('passes the correct props to the TopicCategories component', () => {
+        expect(wrapper.find('TopicCategories').props()).toEqual({
+            topic: expectedInitialState.topic,
+            existingTopicCategories: expectedInitialState.existingTopicCategories,
+            isMajorTopicValid: expectedInitialState.inputValidity.isMajorTopicValid,
+            isSubTopicValid: expectedInitialState.inputValidity.isSubTopicValid,
+            isTopicLoading: expectedInitialState.isTopicLoading,
+            inputChange: expect.any(Function),
+            topicChange: expect.any(Function)
+        });
+    });
+
+    describe('when the topic category fields are change in the text field', () => {
+        const handleTopicChange = wrapper.find('TopicCategories').prop('inputChange');
+
+        it('changes the state for the major topic', () => {
+            handleTopicChange({target: { id: 'majorCategory', value: 'Input Test'}});
+
+            expect(wrapper.state().topic.majorCategory).toBe('Input Test');
+        });
+
+        it('changes the state for the sub topic', () => {
+            handleTopicChange({target: { id: 'subCategory', value: 'Input Test2'}});
+
+            expect(wrapper.state().topic.subCategory).toBe('Input Test2');
+        });
+
+        afterAll(() => {
+            wrapper.setState({topic: expectedInitialState.topic});
+        });
+    });
+
+    describe('when the topic category fields are selected from the dropdown', () => {
+        const handleTopicChange = wrapper.find('TopicCategories').prop('topicChange');
+
+        it('changes the state for the major topic', () => {
+            handleTopicChange('majorCategory', 'Test Value');
+            
+            expect(wrapper.state().topic.majorCategory).toBe('Test Value');
+        });
+
+        it('changes the state for the sub topic', () => {
+            handleTopicChange('subCategory', 'Test Value2');
+            
+            expect(wrapper.state().topic.subCategory).toBe('Test Value2');
+        });
+
+        it('clears the state of the sub topic when major topis re-selected', () => {
+            handleTopicChange('majorCategory', 'Test Value3');
+            
+            expect(wrapper.state().topic.subCategory).toBe('');
+        });
+
+        afterAll(() => {
+            wrapper.setState(expectedInitialState);
+        });
+    });
+    
+
     it('passes the footer component to the BodyCard component', () => {
         expect(wrapper.find('BodyCard').childAt(1).name()).toEqual('TestFooter');
     });
@@ -241,7 +319,7 @@ describe('IBCSQuestionForm', () => {
             });
         });
 
-        describe('when any other button is clicked and all fields are valid', () => {
+        describe('when any other button is clicked and all multiple choice fields are valid', () => {
             beforeAll(() => {
                 wrapper.setState(stateWithValidMultChoiceFields);
                 const clickhandler = wrapper.find('TestFooter').prop('clickHandler');
@@ -256,8 +334,55 @@ describe('IBCSQuestionForm', () => {
                 expect(mockPreventDefault).toHaveBeenCalled();
             });
 
-            it('calls the submit prop with the button id', () => {
-                expect(mockSubmit).toHaveBeenCalledWith('submitButton');
+            it('calls the submit prop with the button id and data', () => {
+                expect(mockSubmit).toHaveBeenCalledWith('submitButton', {
+                    questionType: 'Multiple Choice',
+                    questionDescription: 'What is my name?',
+                    correctAnswer: 'Kyle',
+                    answerA: 'Troy',
+                    answerB: 'Gavin',
+                    answerC: 'Mark',
+                    testType: ['Tactics', 'Early Warning', 'Weapons Control'],
+                    topic: {
+                        majorCategory: 'Test',
+                        subCategory: 'Categories'
+                    }
+                });
+            });
+
+            afterAll(() => {
+                mockPreventDefault.mockClear();
+                mockSubmit.mockClear();
+                wrapper.setState(expectedInitialState);
+            });
+        });
+
+        describe('when any other button is clicked and all non-multiple choice fields are valid', () => {
+            beforeAll(() => {
+                wrapper.setState(stateWithValidTFFields);
+                const clickhandler = wrapper.find('TestFooter').prop('clickHandler');
+
+                clickhandler({
+                    target: { id: 'submitButton'},
+                    preventDefault: mockPreventDefault
+                });
+            });
+
+            it('prevents default behavior', () => {
+                expect(mockPreventDefault).toHaveBeenCalled();
+            });
+
+            it('calls the submit prop with the button id and data', () => {
+                expect(mockSubmit).toHaveBeenCalledWith('submitButton', {
+                    questionType: 'True or False',
+                    questionDescription: 'Kyle is my name.',
+                    correctAnswer: 'True',
+                    testType: ['Tactics', 'Early Warning', 'Weapons Control'],
+                    topic: {
+                        majorCategory: 'Test',
+                        subCategory: 'Categories'
+                    }
+                });
             });
 
             afterAll(() => {

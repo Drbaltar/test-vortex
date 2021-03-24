@@ -47,6 +47,20 @@ exports[`IBCSQuestionForm renders correctly 1`] = `
       heading="Please select the tests for which this question is applicable:"
       isValid={null}
     />
+    <TopicCategories
+      existingTopicCategories={null}
+      inputChange={[Function]}
+      isMajorTopicValid={null}
+      isSubTopicValid={null}
+      isTopicLoading={false}
+      topic={
+        Object {
+          "majorCategory": "",
+          "subCategory": "",
+        }
+      }
+      topicChange={[Function]}
+    />
   </div>
   <TestFooter
     cancelButtonID="clearAllButton"
