@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { cloneElement } from 'react';
 
 import BodyCard from '../../../../shared-components/BodyCard/BodyCard';
 import BaseQuestionFields from '../BaseQuestionFields/BaseQuestionFields';
@@ -130,7 +130,7 @@ class IBCSQuestionForm extends React.Component {
     }
 
     getFormFooter = () => {
-        return React.cloneElement(this.FormFooter, {
+        return cloneElement(this.FormFooter, {
             clickHandler: (e) => this.handleClickEvent(e),
             cancelButtonText: 'Clear All',
             cancelButtonID: 'clearAllButton'
@@ -192,27 +192,27 @@ class IBCSQuestionForm extends React.Component {
         let inputValidity = this.getInputValidity();
         this.setState({ inputValidity });
 
-        return Object.values(inputValidity).includes(false) ? false : true;
+        return !Object.values(inputValidity).includes(false);
     };
 
     getInputValidity = () => {
         return {
-            isQuestionTypeValid: this.state.questionType.length > 0 ? true : false,
-            isQuestionDescriptionValid: this.state.questionDescription.length > 9  ? true : false,
-            isCorrectAnswerValid: this.state.correctAnswer.length > 0 ? true : false,
+            isQuestionTypeValid: this.state.questionType.length > 0,
+            isQuestionDescriptionValid: this.state.questionDescription.length > 9,
+            isCorrectAnswerValid: this.state.correctAnswer.length > 0,
             ...this.getAlternateAnswerValidity(),
             isTestTypeValid: (this.state.testType.tactics || this.state.testType.earlyWarning || this.state.testType.weaponsControl),
-            isMajorTopicValid: this.state.topic.majorCategory.length > 0 ? true : false,
-            isSubTopicValid: this.state.topic.subCategory.length > 0 ? true : false
+            isMajorTopicValid: this.state.topic.majorCategory.length > 0,
+            isSubTopicValid: this.state.topic.subCategory.length > 0
         };
     };
 
     getAlternateAnswerValidity = () => {
         if (this.state.questionType === 'Multiple Choice') {
             return {
-                isAnswerAValid: this.state.answerA.length > 0 ? true : false,
-                isAnswerBValid: this.state.answerB.length > 0 ? true : false,
-                isAnswerCValid: this.state.answerC.length > 0 ? true : false,
+                isAnswerAValid: this.state.answerA.length > 0,
+                isAnswerBValid: this.state.answerB.length > 0,
+                isAnswerCValid: this.state.answerC.length > 0,
             };
         } else {
             return {
