@@ -6,8 +6,7 @@ import PatriotQuestionForm from '../QuestionForm/QuestionForm';
 import IBCSQuestionForm from '../QuestionForm/IBCSQuestionForm/IBCSQuestionForm';
 import FormButtons from '../../../shared-components/FormButtons';
 
-const NewQuestion = (props) => {
-    const { questionType } = props;
+const NewQuestion = ({ questionType }) => {
     const QuestionForm = getApplicableQuestionForm(questionType);
 
     return (
