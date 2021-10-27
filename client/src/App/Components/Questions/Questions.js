@@ -33,9 +33,7 @@ const Questions = () => {
                         <NewQuestion questionType="Patriot"/>
                     </Route>
                     <Route exact path={`${match.path}/patriot/approve`}>
-                        <div className="col sub-body">
-                            <ApproveQuestion questionType="Patriot"/>
-                        </div>
+                        <ApproveQuestion questionType="Patriot"/>
                     </Route>
                     <Route exact path={`${match.path}/patriot/update`}>
                         <div className="col sub-body">
